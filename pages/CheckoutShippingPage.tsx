@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PageView, CartItem, UserInfo } from '../types';
 
 interface CheckoutShippingPageProps {
@@ -9,6 +9,7 @@ interface CheckoutShippingPageProps {
 }
 
 const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userInfo, setUserInfo, onNavigate }) => {
+  const [errors, setErrors] = useState<{ email?: string }>({});
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.0825; // 8.25%
   const total = subtotal + tax;
@@ -16,6 +17,21 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({ ...prev, [name]: value }));
+    if (name === 'email' && errors.email) {
+      setErrors(prev => ({ ...prev, email: undefined }));
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleContinue = () => {
+    if (!userInfo.email || !validateEmail(userInfo.email)) {
+      setErrors({ email: 'Please enter a valid email address.' });
+      return;
+    }
+    onNavigate('checkout-payment');
   };
 
   return (
@@ -50,7 +66,15 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
                         <h3 className="text-lg font-bold text-[#0e141b] dark:text-white">Contact Info</h3>
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium text-[#507395] dark:text-gray-400">Email Address</label>
-                            <input name="email" value={userInfo.email} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="email@example.com" type="email"/>
+                            <input 
+                                name="email" 
+                                value={userInfo.email} 
+                                onChange={handleChange} 
+                                className={`w-full rounded-lg bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all ${errors.email ? 'border border-red-500 focus:border-red-500' : 'border border-[#d1dbe6] dark:border-gray-700 focus:border-primary'}`} 
+                                placeholder="email@example.com" 
+                                type="email"
+                            />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
                     </div>
                     <div className="space-y-4">
@@ -96,7 +120,7 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
                 </section>
                 <div className="flex items-center gap-4 pt-4 border-t border-[#e8edf3] dark:border-gray-800">
                     <button 
-                        onClick={() => onNavigate('checkout-payment')}
+                        onClick={handleContinue}
                         className="flex-1 bg-primary text-white text-base font-bold h-14 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center gap-2"
                     >
                         Continue to Delivery

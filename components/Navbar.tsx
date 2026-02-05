@@ -5,9 +5,11 @@ interface NavbarProps {
   cartCount: number;
   onNavigate: (page: PageView) => void;
   currentPage: PageView;
+  onSearch: (query: string) => void;
+  searchQuery: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onSearch, searchQuery }) => {
   return (
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between whitespace-nowrap">
@@ -53,6 +55,8 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage }) =
               className="w-full bg-gray-100 dark:bg-gray-800 border-none rounded-full pl-10 pr-4 py-2 text-sm focus:ring-1 focus:ring-primary transition-all placeholder:text-gray-500" 
               placeholder="Search products..." 
               type="text"
+              value={searchQuery}
+              onChange={(e) => onSearch(e.target.value)}
             />
           </label>
           <div className="flex gap-4">

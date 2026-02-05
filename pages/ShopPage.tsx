@@ -6,6 +6,7 @@ interface ShopPageProps {
   onProductClick: (product: Product) => void;
   addToCart: (product: Product) => void;
   category?: 'all' | 'skincare' | 'makeup';
+  searchQuery?: string;
 }
 
 const allProducts: Product[] = [
@@ -76,11 +77,8 @@ const allProducts: Product[] = [
     name: 'Second Skin Serum Foundation',
     description: 'Medium coverage with a dewy finish.',
     price: 45.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3', // Placeholder, reusing existing but imagine it's foundation
-    category: 'Face', // Note: Using fallback image logic in real app, here we reuse a placeholder or similar. 
-    // Let's use a different skincare image that looks like a bottle for now as placeholder for foundation if needed, 
-    // or just reuse one of the serum bottles as they look similar to foundation bottles.
-    // Reusing Serum image for demo purpose but keeping unique ID.
+    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3',
+    category: 'Face',
   },
   {
     id: 'm3',
@@ -108,19 +106,43 @@ const getProductType = (category: string) => {
     return 'other';
 }
 
-const ShopPage: React.FC<ShopPageProps> = ({ onNavigate, onProductClick, addToCart, category = 'all' }) => {
+const ShopPage: React.FC<ShopPageProps> = ({ onNavigate, onProductClick, addToCart, category = 'all', searchQuery = '' }) => {
   
   const displayedProducts = useMemo(() => {
-    if (category === 'all') return allProducts;
-    return allProducts.filter(p => getProductType(p.category) === category);
-  }, [category]);
+    let products = allProducts;
+    
+    // Filter by Category
+    if (category !== 'all') {
+      products = products.filter(p => getProductType(p.category) === category);
+    }
 
-  const pageTitle = category === 'all' ? 'All Products' : category === 'skincare' ? 'Skincare Essentials' : 'Makeup Collection';
-  const pageDescription = category === 'all' 
-    ? "Explore our full range of clean, effective beauty products." 
-    : category === 'skincare' 
-        ? "Harnessing nature's finest ingredients to reveal your most radiant skin."
-        : "Enhance your natural beauty with our skin-loving color cosmetics.";
+    // Filter by Search Query
+    if (searchQuery.trim()) {
+      const lowerQuery = searchQuery.toLowerCase();
+      products = products.filter(p => 
+        p.name.toLowerCase().includes(lowerQuery) || 
+        p.description.toLowerCase().includes(lowerQuery) ||
+        p.category.toLowerCase().includes(lowerQuery)
+      );
+    }
+    
+    return products;
+  }, [category, searchQuery]);
+
+  let pageTitle = '';
+  let pageDescription = '';
+
+  if (searchQuery) {
+    pageTitle = `Results for "${searchQuery}"`;
+    pageDescription = `Showing results for your search.`;
+  } else {
+    pageTitle = category === 'all' ? 'All Products' : category === 'skincare' ? 'Skincare Essentials' : 'Makeup Collection';
+    pageDescription = category === 'all' 
+      ? "Explore our full range of clean, effective beauty products." 
+      : category === 'skincare' 
+          ? "Harnessing nature's finest ingredients to reveal your most radiant skin."
+          : "Enhance your natural beauty with our skin-loving color cosmetics.";
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
@@ -201,55 +223,63 @@ const ShopPage: React.FC<ShopPageProps> = ({ onNavigate, onProductClick, addToCa
 
         {/* Product Grid */}
         <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
-            {displayedProducts.map(product => (
-              <div key={product.id} className="group product-card cursor-pointer" onClick={() => onProductClick(product)}>
-                <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4">
-                  {/* Using object-cover directly on img, assuming all mocked images are good */}
-                  {/* Re-using images from mock if specific one missing */}
-                  <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
-                  
-                  <button 
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      addToCart(product);
-                    }}
-                    className="quick-buy-btn opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 py-3 rounded-lg text-sm font-bold shadow-lg transition-all duration-300 hover:bg-primary hover:text-white flex items-center justify-center gap-2"
-                  >
-                    <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
-                    Quick Buy
-                  </button>
-                  {product.isBestSeller && (
-                    <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Best Seller</div>
-                  )}
-                  {product.isNew && (
-                    <div className="absolute top-4 left-4 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">New</div>
-                  )}
+          {displayedProducts.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+              {displayedProducts.map(product => (
+                <div key={product.id} className="group product-card cursor-pointer" onClick={() => onProductClick(product)}>
+                  <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4">
+                    <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
+                    
+                    <button 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                      className="quick-buy-btn opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 py-3 rounded-lg text-sm font-bold shadow-lg transition-all duration-300 hover:bg-primary hover:text-white flex items-center justify-center gap-2"
+                    >
+                      <span className="material-symbols-outlined text-sm">add_shopping_cart</span>
+                      Quick Buy
+                    </button>
+                    {product.isBestSeller && (
+                      <div className="absolute top-4 left-4 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Best Seller</div>
+                    )}
+                    {product.isNew && (
+                      <div className="absolute top-4 left-4 bg-slate-900 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">New</div>
+                    )}
+                  </div>
+                  <p className="text-xs font-bold text-primary mb-1 uppercase tracking-widest">{product.category}</p>
+                  <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors text-gray-900 dark:text-white">{product.name}</h3>
+                  <p className="text-slate-500 dark:text-slate-400 text-sm mb-2 line-clamp-1">{product.description}</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-black text-slate-900 dark:text-white">${product.price.toFixed(2)}</p>
+                    {product.originalPrice && (
+                      <p className="text-sm text-slate-400 line-through">${product.originalPrice.toFixed(2)}</p>
+                    )}
+                  </div>
                 </div>
-                <p className="text-xs font-bold text-primary mb-1 uppercase tracking-widest">{product.category}</p>
-                <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors text-gray-900 dark:text-white">{product.name}</h3>
-                <p className="text-slate-500 dark:text-slate-400 text-sm mb-2 line-clamp-1">{product.description}</p>
-                <div className="flex items-center gap-2">
-                  <p className="font-black text-slate-900 dark:text-white">${product.price.toFixed(2)}</p>
-                  {product.originalPrice && (
-                    <p className="text-sm text-slate-400 line-through">${product.originalPrice.toFixed(2)}</p>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <span className="material-symbols-outlined text-4xl text-slate-300 mb-4">search_off</span>
+              <p className="text-xl font-bold text-slate-900 dark:text-white mb-2">No products found</p>
+              <p className="text-slate-500">Try adjusting your search or filters to find what you're looking for.</p>
+            </div>
+          )}
           
-          {/* Pagination */}
-          <div className="mt-16 flex items-center justify-center gap-2">
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">
-              <span className="material-symbols-outlined">chevron_left</span>
-            </button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">2</button>
-            <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">
-              <span className="material-symbols-outlined">chevron_right</span>
-            </button>
-          </div>
+          {/* Pagination - Only show if we have products */}
+          {displayedProducts.length > 0 && (
+            <div className="mt-16 flex items-center justify-center gap-2">
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">
+                <span className="material-symbols-outlined">chevron_left</span>
+              </button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">2</button>
+              <button className="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:border-primary hover:text-primary transition-all">
+                <span className="material-symbols-outlined">chevron_right</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

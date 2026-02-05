@@ -14,6 +14,7 @@ import { PageView, CartItem, Product, UserInfo } from './types';
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageView>('home');
+  const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [userInfo, setUserInfo] = useState<UserInfo>({
@@ -56,6 +57,25 @@ const App: React.FC = () => {
     window.scrollTo(0, 0);
   }, [currentPage]);
 
+  const handleNavigate = (page: PageView) => {
+    setSearchQuery('');
+    setCurrentPage(page);
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    if (query.trim() !== '') {
+        // If searching, switch to the main shop page to show results
+        // We do this to ensure we are searching across all products or within the shop context
+        if (currentPage !== 'shop' && currentPage !== 'skincare' && currentPage !== 'makeup') {
+            setCurrentPage('shop');
+        } else if (currentPage === 'skincare' || currentPage === 'makeup') {
+             // Optional: If you want global search even when on category pages, uncomment next line
+             setCurrentPage('shop');
+        }
+    }
+  };
+
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id);
@@ -88,27 +108,27 @@ const App: React.FC = () => {
 
   const navigateToProduct = (product: Product) => {
     setSelectedProduct(product);
-    setCurrentPage('product');
+    handleNavigate('product');
   };
 
   const renderPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onNavigate={setCurrentPage} onProductClick={navigateToProduct} addToCart={addToCart} />;
+        return <HomePage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} />;
       case 'shop':
-        return <ShopPage onNavigate={setCurrentPage} onProductClick={navigateToProduct} addToCart={addToCart} category="all" />;
+        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="all" searchQuery={searchQuery} />;
       case 'skincare':
-        return <ShopPage onNavigate={setCurrentPage} onProductClick={navigateToProduct} addToCart={addToCart} category="skincare" />;
+        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="skincare" searchQuery={searchQuery} />;
       case 'makeup':
-        return <ShopPage onNavigate={setCurrentPage} onProductClick={navigateToProduct} addToCart={addToCart} category="makeup" />;
+        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="makeup" searchQuery={searchQuery} />;
       case 'about':
-        return <AboutPage onNavigate={setCurrentPage} />;
+        return <AboutPage onNavigate={handleNavigate} />;
       case 'profile':
-        return <ProfilePage userInfo={userInfo} setUserInfo={setUserInfo} onNavigate={setCurrentPage} />;
+        return <ProfilePage userInfo={userInfo} setUserInfo={setUserInfo} onNavigate={handleNavigate} />;
       case 'product':
         return <ProductPage 
           product={selectedProduct} 
-          onNavigate={setCurrentPage} 
+          onNavigate={handleNavigate} 
           addToCart={addToCart} 
         />;
       case 'cart':
@@ -116,25 +136,25 @@ const App: React.FC = () => {
           cart={cart} 
           updateQuantity={updateQuantity} 
           removeFromCart={removeFromCart} 
-          onNavigate={setCurrentPage} 
+          onNavigate={handleNavigate} 
         />;
       case 'checkout-shipping':
         return <CheckoutShippingPage 
           cart={cart} 
           userInfo={userInfo}
           setUserInfo={setUserInfo}
-          onNavigate={setCurrentPage} 
+          onNavigate={handleNavigate} 
         />;
       case 'checkout-payment':
         return <CheckoutPaymentPage 
           cart={cart} 
           userInfo={userInfo}
-          onNavigate={setCurrentPage} 
+          onNavigate={handleNavigate} 
         />;
       case 'success':
-        return <OrderSuccessPage userInfo={userInfo} onNavigate={setCurrentPage} />;
+        return <OrderSuccessPage userInfo={userInfo} onNavigate={handleNavigate} />;
       default:
-        return <HomePage onNavigate={setCurrentPage} onProductClick={navigateToProduct} addToCart={addToCart} />;
+        return <HomePage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} />;
     }
   };
 
@@ -144,14 +164,14 @@ const App: React.FC = () => {
 
   return (
     <div className={`relative min-h-screen flex flex-col ${currentPage === 'product' ? 'font-newsreader' : 'font-display'}`}>
-      {!isCheckout && <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} onNavigate={setCurrentPage} currentPage={currentPage} />}
+      {!isCheckout && <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} onNavigate={handleNavigate} currentPage={currentPage} onSearch={handleSearch} searchQuery={searchQuery} />}
       <main className="flex-1">
         {/* The key ensures the animation plays when the page changes */}
         <div key={currentPage} className="animate-page">
           {renderPage()}
         </div>
       </main>
-      {!isCheckout && <Footer onNavigate={setCurrentPage} />}
+      {!isCheckout && <Footer onNavigate={handleNavigate} />}
     </div>
   );
 };

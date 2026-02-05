@@ -33,10 +33,27 @@ const mockOrders = [
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ userInfo, setUserInfo, onNavigate }) => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
+  const [errors, setErrors] = useState<{ email?: string }>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({ ...prev, [name]: value }));
+    if (name === 'email' && errors.email) {
+      setErrors(prev => ({ ...prev, email: undefined }));
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSaveDetails = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateEmail(userInfo.email)) {
+      setErrors(prev => ({ ...prev, email: 'Please enter a valid email address.' }));
+      return;
+    }
+    // Logic to save details would go here
   };
 
   const renderContent = () => {
@@ -149,7 +166,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userInfo, setUserInfo, onNavi
         return (
             <div className="space-y-6 animate-fadeIn">
                 <h2 className="text-2xl font-serif font-bold text-gray-900 dark:text-white">Account Details</h2>
-                <form className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-6 space-y-4">
+                <form onSubmit={handleSaveDetails} className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-6 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">First Name</label>
@@ -161,7 +178,13 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userInfo, setUserInfo, onNavi
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Email Address</label>
-                            <input name="email" value={userInfo.email} onChange={handleChange} className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:border-primary" />
+                            <input 
+                                name="email" 
+                                value={userInfo.email} 
+                                onChange={handleChange} 
+                                className={`w-full bg-gray-50 dark:bg-gray-800 border rounded-lg px-4 py-3 text-gray-900 dark:text-white outline-none focus:border-primary ${errors.email ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'}`} 
+                            />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Phone Number</label>
@@ -169,7 +192,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ userInfo, setUserInfo, onNavi
                         </div>
                     </div>
                     <div className="pt-4">
-                         <button className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">Save Changes</button>
+                         <button type="submit" className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-6 py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">Save Changes</button>
                     </div>
                 </form>
             </div>
