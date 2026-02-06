@@ -5,9 +5,11 @@ interface ProductPageProps {
   product: Product | null;
   onNavigate: (page: PageView) => void;
   addToCart: (product: Product, quantity: number) => void;
+  wishlist: string[];
+  toggleWishlist: (id: string) => void;
 }
 
-const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCart }) => {
+const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCart, wishlist, toggleWishlist }) => {
   const [quantity, setQuantity] = useState(1);
 
   if (!product) {
@@ -19,6 +21,8 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
   const handleAddToCart = () => {
     addToCart(product, quantity);
   };
+
+  const isWishlisted = wishlist.includes(product.id);
 
   // Hardcoded images for gallery simulation
   const images = [
@@ -87,6 +91,12 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
                     <button onClick={handleAddToCart} className="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2">
                         <span className="material-symbols-outlined text-xl">shopping_cart</span>
                         Add to Bag
+                    </button>
+                    <button 
+                        onClick={() => toggleWishlist(product.id)}
+                        className={`p-4 rounded-xl border border-[#f3efe7] dark:border-[#3a3221] transition-colors flex items-center justify-center ${isWishlisted ? 'text-primary border-primary bg-primary/5' : 'text-[#1b170e] dark:text-white hover:bg-[#f3efe7] dark:hover:bg-[#3a3221]'}`}
+                    >
+                         <span className={`material-symbols-outlined text-xl ${isWishlisted ? 'fill-icon' : ''}`}>favorite</span>
                     </button>
                 </div>
                 <button className="w-full border border-[#f3efe7] dark:border-[#3a3221] py-3 rounded-xl hover:bg-[#f3efe7] dark:hover:bg-[#3a3221] text-[#1b170e] dark:text-white transition-colors font-medium">

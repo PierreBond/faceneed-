@@ -90,6 +90,52 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
         </div>
       </section>
 
+      {/* Location */}
+      <section className="py-24 px-6 lg:px-10 max-w-[1280px] mx-auto border-t border-gray-100 dark:border-gray-800">
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div className="order-2 md:order-1 h-[500px] rounded-2xl bg-gray-100 dark:bg-gray-800 overflow-hidden relative group">
+                 <div 
+                    className="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" 
+                    style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuD_ndNtzKNopBXrBqewayISjSa2cr3XhNmqK3T6sB-MA6pFeBfb3Pgljs2R_KH_yhBGncAUrdlblfL8fj2p2UYynK0d3fdw6uIAC-xWqvFTJbgcvqVlPE0a54yL0feHnK0kpgg1xZxUXBUM9T1DBUC-91gGcRCkmbueU-8JC1Oi8DrLwxih37NF5gC5A5fFpNR8VUlyLsAvnewyum0Y-rXm1oyuXiS2F3nPHBPjvaELmdhIrlENmmdTvFVuNr7G3vw9aLnm9ItVHa4")' }}
+                 ></div>
+                 <div className="absolute inset-0 bg-black/10"></div>
+            </div>
+            <div className="order-1 md:order-2">
+                <span className="text-primary font-bold tracking-widest text-xs uppercase mb-4 block">Our Home</span>
+                <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-8">Visit our Flagship Store</h2>
+                <div className="space-y-6 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                    <p>
+                        Come experience Faceneed in real life. Test our textures, smell our natural botanicals, and get a personalized skin consultation from our experts.
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-8 pt-8 border-t border-gray-100 dark:border-gray-800">
+                        <div>
+                            <h4 className="font-bold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-widest flex items-center gap-2">
+                                <span className="material-symbols-outlined text-primary text-sm">location_on</span> Address
+                            </h4>
+                            <p className="text-base">123 Beauty Lane</p>
+                            <p className="text-base">Glow District</p>
+                            <p className="text-base">New York, NY 10001</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-widest flex items-center gap-2">
+                                <span className="material-symbols-outlined text-primary text-sm">schedule</span> Opening Hours
+                            </h4>
+                            <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Mon - Fri:</span> <span>10am - 8pm</span></p>
+                            <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Sat:</span> <span>11am - 7pm</span></p>
+                            <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Sun:</span> <span>12pm - 6pm</span></p>
+                        </div>
+                    </div>
+                    <div className="pt-6">
+                        <button className="inline-flex items-center gap-2 text-primary font-bold hover:underline">
+                            <span className="material-symbols-outlined">map</span>
+                            Get Directions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-24 text-center px-6">
         <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-6">Ready to find your glow?</h2>

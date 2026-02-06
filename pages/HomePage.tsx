@@ -5,51 +5,10 @@ interface HomePageProps {
   onNavigate: (page: PageView) => void;
   onProductClick: (product: Product) => void;
   addToCart: (product: Product) => void;
+  products: Product[];
+  wishlist?: string[];
+  toggleWishlist?: (id: string) => void;
 }
-
-// Reusing product data for display
-const products: Product[] = [
-  {
-    id: '1',
-    name: 'Hydrating Serum',
-    description: 'Intense 24h Moisture',
-    price: 42.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLl0G7eJsEBfZgXQ9-byifxkqUfBxojVvYtHoSAFypbLRZMpkW0IKD6PM2TDva4bnm2vvwgGNDifLgghmk76nU7dlXsZw3AvMPWNvX6H8gNM0IX69p5n14Lme4uDPuSePZ3wit1B5tivwafxsYCHy2Br5sMhW1QQjTAjqdnPj-AnDfZSrgetZfXfLJzun2EgXMvKulqDjWZYx_fpVNCP8D6_V1n78ZsGAjtEjiKgxgl8YtGg-4QksmMyNvS1r846HWckCksiHg4Pw',
-    category: 'Serum',
-    rating: 4.8,
-    reviews: 342
-  },
-  {
-    id: '2',
-    name: 'Radiance Cream',
-    description: 'Illuminating Face Care',
-    price: 58.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBY9P9Vvd56ou_YPoVuaD-0mveo4sNcJpkvxi0suacNHcxNqaTfSZWl0p1DPYvsLj4wA2a-asOii0OsDrDlY4JQZ8w6D955kYZfqTG3Z-rQGt-iIKOz9RNblXCQ9nre1v0NTbyrW2dKmRmSCyGtPUts1P-gh40sTAE94u8-H6bRSH88mZ6hmGVJqG28vurSFQQdjCWKO2rT3TnD1xJD_gDbSq3IZxunlpwBlWXBSI4FL7Fs8pUPs2dofAvdcxV_kjUHUaX_Qr5KCuA',
-    category: 'Cream',
-    rating: 4.9,
-    reviews: 128
-  },
-  {
-    id: '3',
-    name: 'Velvet Lip Tint',
-    description: 'Matte finish long-wear',
-    price: 24.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA2VYiq1oS976pecnT8VgQtDhfXIGU_c7KzEoUgv6BWTWmIwYRBcM5W3i-X1sbu_XKMfRhRON5CovnLcO6uDEeYlEs74dlGtrGkwihlBlF7x2wMpsX3dqzWwFRmLFgwgs1UfyRz_FMQf_aXkP1-tZTYjZpMWU0O7pNKmqRXJPrN73qEtLq5X8lMu-u38IFaVXd3muZrd4pUQMZqlDRSCvhnSYgEI0zvyVICgqSvXBwBoSnG78by9PUbKf26h5MqcDM4ALF0hRwbLtk',
-    category: 'Lip',
-    rating: 4.7,
-    reviews: 856
-  },
-  {
-    id: '4',
-    name: 'Glow Oil',
-    description: 'Overnight Repair Serum',
-    price: 45.00,
-    image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDOVQmYVCR90RGzCGMmHpo0UXP7S3INDW9oySSiAWDjM7sTSdXrFSOSiF_iRdzIahwhN4bLSc0nByKpdQAN-N73vQ-1OctIrDYRzxBUuEVdFhoy-7j0UTm0vR1RbtVW2jkn6rGZKtMIXvZzYrRq4zR5kYg82xBZkD1HiVPlWyPw6JmyWNu9Q5GBgWBdXk_Rd-OJ-KIf4vQxixgEMWlTJgCA-JEzPKyVVmKlHZcg3OCVdDdcEgNA5szBp-F6jixBTUL_girFb_snsYE',
-    category: 'Oil',
-    rating: 5.0,
-    reviews: 92
-  },
-];
 
 const categories = [
     { name: 'Serums', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLl0G7eJsEBfZgXQ9-byifxkqUfBxojVvYtHoSAFypbLRZMpkW0IKD6PM2TDva4bnm2vvwgGNDifLgghmk76nU7dlXsZw3AvMPWNvX6H8gNM0IX69p5n14Lme4uDPuSePZ3wit1B5tivwafxsYCHy2Br5sMhW1QQjTAjqdnPj-AnDfZSrgetZfXfLJzun2EgXMvKulqDjWZYx_fpVNCP8D6_V1n78ZsGAjtEjiKgxgl8YtGg-4QksmMyNvS1r846HWckCksiHg4Pw' },
@@ -64,7 +23,13 @@ const testimonials = [
   { text: "My skin has never felt so hydrated. The Glow Oil is absolute magic in a bottle.", author: "Sarah M.", location: "London, UK" },
 ];
 
-const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, addToCart }) => {
+const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, addToCart, products, wishlist = [], toggleWishlist }) => {
+  // Use products passed from props to display Best Sellers
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
+  
+  // If no explicitly marked best sellers, just take first 4 for display
+  const displayProducts = bestSellers.length > 0 ? bestSellers : products.slice(0, 4);
+
   return (
     <>
       {/* Hero Section */}
@@ -197,7 +162,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, addToCa
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {products.map((product) => (
+          {displayProducts.map((product) => (
             <div key={product.id} className="group flex flex-col gap-5 cursor-pointer" onClick={() => onProductClick(product)}>
               <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-gray-100 dark:bg-gray-800">
                 <div 
@@ -206,7 +171,19 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, addToCa
                 ></div>
                 {/* Badges */}
                 <div className="absolute top-0 left-0 p-4 w-full flex justify-between items-start">
-                    {product.id === '1' && <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-[10px] font-bold px-3 py-1 uppercase tracking-widest text-gray-900 dark:text-white">Best Seller</span>}
+                    {product.isBestSeller && <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-[10px] font-bold px-3 py-1 uppercase tracking-widest text-gray-900 dark:text-white">Best Seller</span>}
+                    {/* Wishlist Button - Only show if props provided */}
+                    {toggleWishlist && (
+                        <button 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                toggleWishlist(product.id);
+                            }}
+                            className="p-2 rounded-full bg-white/80 dark:bg-black/50 hover:bg-white dark:hover:bg-black transition-colors"
+                        >
+                            <span className={`material-symbols-outlined text-lg ${wishlist.includes(product.id) ? 'fill-icon text-primary' : 'text-gray-600 dark:text-gray-300'}`}>favorite</span>
+                        </button>
+                    )}
                 </div>
                 {/* Quick Add Button */}
                 <button 

@@ -10,6 +10,7 @@ export interface Product {
   reviews?: number;
   isNew?: boolean;
   isBestSeller?: boolean;
+  inStock?: boolean; // Added for admin management
 }
 
 export interface CartItem extends Product {
@@ -23,8 +24,10 @@ export type PageView =
   | 'makeup'
   | 'about'
   | 'profile'
+  | 'admin'
   | 'product' 
   | 'cart' 
+  | 'wishlist'
   | 'checkout-shipping' 
   | 'checkout-payment' 
   | 'success';
@@ -38,4 +41,15 @@ export interface UserInfo {
   state: string;
   zip: string;
   phone: string;
+}
+
+export type OrderStatus = 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled';
+
+export interface Order {
+  id: string;
+  date: string;
+  status: OrderStatus;
+  total: number;
+  items: string[]; // Image URLs for preview
+  customerName: string; // Added for admin view
 }

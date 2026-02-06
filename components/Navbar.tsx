@@ -7,9 +7,10 @@ interface NavbarProps {
   currentPage: PageView;
   onSearch: (query: string) => void;
   searchQuery: string;
+  wishlistCount?: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onSearch, searchQuery }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onSearch, searchQuery, wishlistCount = 0 }) => {
   return (
     <header className="sticky top-0 z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 transition-colors duration-300">
       <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between whitespace-nowrap">
@@ -60,8 +61,19 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
             />
           </label>
           <div className="flex gap-4">
+             <button 
+              className="flex items-center justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative text-gray-900 dark:text-white"
+              onClick={() => onNavigate('wishlist')}
+            >
+              <span className={`material-symbols-outlined ${currentPage === 'wishlist' ? 'fill-icon text-primary' : ''}`}>favorite</span>
+              {wishlistCount > 0 && (
+                <span className="absolute top-0 right-0 bg-primary text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
+                  {wishlistCount}
+                </span>
+              )}
+            </button>
             <button 
-              className="flex items-center justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative"
+              className="flex items-center justify-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors relative text-gray-900 dark:text-white"
               onClick={() => onNavigate('cart')}
             >
               <span className="material-symbols-outlined">shopping_bag</span>
