@@ -10,289 +10,213 @@ interface HomePageProps {
   toggleWishlist?: (id: string) => void;
 }
 
-const categories = [
-    { name: 'Serums', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBLl0G7eJsEBfZgXQ9-byifxkqUfBxojVvYtHoSAFypbLRZMpkW0IKD6PM2TDva4bnm2vvwgGNDifLgghmk76nU7dlXsZw3AvMPWNvX6H8gNM0IX69p5n14Lme4uDPuSePZ3wit1B5tivwafxsYCHy2Br5sMhW1QQjTAjqdnPj-AnDfZSrgetZfXfLJzun2EgXMvKulqDjWZYx_fpVNCP8D6_V1n78ZsGAjtEjiKgxgl8YtGg-4QksmMyNvS1r846HWckCksiHg4Pw' },
-    { name: 'Moisturizers', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBY9P9Vvd56ou_YPoVuaD-0mveo4sNcJpkvxi0suacNHcxNqaTfSZWl0p1DPYvsLj4wA2a-asOii0OsDrDlY4JQZ8w6D955kYZfqTG3Z-rQGt-iIKOz9RNblXCQ9nre1v0NTbyrW2dKmRmSCyGtPUts1P-gh40sTAE94u8-H6bRSH88mZ6hmGVJqG28vurSFQQdjCWKO2rT3TnD1xJD_gDbSq3IZxunlpwBlWXBSI4FL7Fs8pUPs2dofAvdcxV_kjUHUaX_Qr5KCuA' },
-    { name: 'Sun Care', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAchRdyKkv02pUAScnNtjiay_ORc4zYUeOjK7hqYUydk0pUh98w9BfuL6XDITJD7f8TxK985Y81A9veKpb1uJlxIZ_LEJBO5wmbTkcZ94bxa0senYR6JvomxTgGlqijy_bM2EmrwehRT3Re2SfV0s4EtKHo7sJg81UWtW45GiJLFSVoEnapuXxWHeIA7nd2SZefyVjJ1w95nzqU1s8HgOwh5Jk3NuXya0GiojkCsEjBq2ZlA9H6VLAlMHeMC6ig8DafDJZXgE7vhxk' },
-    { name: 'Treatments', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuATekgycab1Z3UZoQiZbAUWWah96cFtQeYtChiFEd8ZLf8cBjRWLqEpsusx83azCsL_7nrma99p2PvbnukHls7LdOGP-OwktBe6d9DbTS_CMuR_9W_Xd8cjiyg1PUsWxwnUBcnB4eUGU02R5ic2AcxDXTJ5syc6SnlhtBGRohHmNkOAwYOmBzyd_xo8VoeC7R6aa2Cuxeb6FpNsXi-FOQnOHZ866kwZ9kipXW6jK1Dn60N_in063x7mb_x74kIapQnLlJJ-F53ZuhM' },
-];
-
-const testimonials = [
-  { text: "This serum completely changed my texture. I can't live without it now.", author: "Jessica K.", location: "New York, NY" },
-  { text: "Finally a clean beauty brand that actually delivers results. The packaging is gorgeous too!", author: "Amanda L.", location: "Austin, TX" },
-  { text: "My skin has never felt so hydrated. The Glow Oil is absolute magic in a bottle.", author: "Sarah M.", location: "London, UK" },
-];
-
-const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, addToCart, products, wishlist = [], toggleWishlist }) => {
-  // Use products passed from props to display Best Sellers
-  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 4);
-  
-  // If no explicitly marked best sellers, just take first 4 for display
-  const displayProducts = bestSellers.length > 0 ? bestSellers : products.slice(0, 4);
+const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, products, wishlist = [], toggleWishlist }) => {
+  // Select specific assets for the bento grid
+  const heroProduct = products.find(p => p.id === 's2') || products[1];
+  const bestSellers = products.filter(p => p.isBestSeller).slice(0, 2);
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="relative w-full h-[90vh] min-h-[650px] flex items-center justify-center lg:justify-start">
-        <div className="absolute inset-0 overflow-hidden">
-          <div 
-            className="w-full h-full bg-center bg-cover animate-[fadeIn_1.5s_ease-out] scale-105" 
-            style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAYjyAKqambmXPaTIZls7A-knP5OLyy6BqLiuuURgxBJjIkcZuQBNh6xf5y-r5U1UlJ_NMSUNO-q4bNctXOIlN0nfWvspUZP1nprQaAOQt6vt3unDax7Qhb09jtfDjhbDDFnka3RXLIg_kv86sgrJ89tNzSJmPx6mIVVHGIbIx4YMYJ982r7BfLogasbgoPnXOJ_6AqTyzRw3u7ZomCzyp3NMLzcJnFOZPIljvu6G8l8j0Ncftd1XwHZoPjl-_dEeN-U7sbHxLUqoA")' }}
-          >
-          </div>
-          <div className="absolute inset-0 bg-black/10 dark:bg-black/40"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white/20 via-transparent to-transparent dark:from-background-dark/80"></div>
-        </div>
-        
-        <div className="relative max-w-[1280px] w-full mx-auto px-6 lg:px-10 flex flex-col items-center lg:items-start text-center lg:text-left pt-20">
-          <div className="max-w-4xl">
-            <div className="animate-slideUp delay-100 inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/20 backdrop-blur-md border border-white/30 mb-8 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span>
-              <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-gray-900 dark:text-white">New Collection Available</span>
-            </div>
-            <h1 className="animate-slideUp delay-200 text-gray-900 dark:text-white text-6xl md:text-8xl lg:text-9xl font-serif font-light leading-[0.9] mb-8 tracking-tighter">
-              Skincare that <br/>
-              <span className="italic text-primary font-serif font-normal">understands</span> you.
-            </h1>
-            <p className="animate-slideUp delay-300 text-gray-800 dark:text-gray-200 text-lg md:text-xl max-w-lg mb-12 leading-relaxed font-light mx-auto lg:mx-0 tracking-wide">
-              Clinically proven, naturally sourced. Reveal your best skin with our award-winning formulas designed for modern life.
-            </p>
-            <div className="animate-slideUp delay-400 flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-              <button onClick={() => onNavigate('shop')} className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs transition-all transform hover:scale-105 shadow-xl shadow-primary/30">
-                Shop Best Sellers
-              </button>
-              <button className="bg-white/80 dark:bg-black/30 backdrop-blur-md border border-white/50 dark:border-white/20 text-gray-900 dark:text-white px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-white dark:hover:bg-white/10 transition-all">
-                Take Skin Quiz
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+    <div className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto space-y-8 md:space-y-12">
+      
+      {/* SECTION 1: Antigravity Hero */}
+      <section className="relative rounded-4xl md:rounded-5xl overflow-hidden bg-[#F3F1EF] dark:bg-[#1A1A1A] ambient-shadow min-h-[85vh] flex items-center">
+         {/* Background Subtle Gradient */}
+         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-primary/5 pointer-events-none"></div>
 
-      {/* Marquee Banner */}
-      <div className="animate-slideUp delay-500 bg-primary text-white py-4 overflow-hidden whitespace-nowrap border-y border-white/10 relative z-10">
-        <div className="flex animate-scroll hover:paused w-max">
-          {[...Array(10)].map((_, i) => (
-            <div key={i} className="flex items-center gap-12 mx-6">
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Free Shipping on orders over $50</span>
-              <span className="material-symbols-outlined text-[10px]">star</span>
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Organic Ingredients</span>
-              <span className="material-symbols-outlined text-[10px]">star</span>
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase">Cruelty Free</span>
-              <span className="material-symbols-outlined text-[10px]">star</span>
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase">30-Day Money Back Guarantee</span>
-              <span className="material-symbols-outlined text-[10px]">star</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Categories */}
-      <section className="py-24 bg-white dark:bg-background-dark">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-          <h2 className="text-center text-4xl md:text-5xl font-serif font-light text-gray-900 dark:text-white mb-16 tracking-tight">Shop by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {categories.map((cat, idx) => (
-                <div key={idx} className="group cursor-pointer flex flex-col items-center gap-6" onClick={() => onNavigate('shop')}>
-                    <div className="w-full aspect-square rounded-full overflow-hidden border border-gray-100 dark:border-gray-800 relative">
-                        <div 
-                            className="w-full h-full bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-110"
-                            style={{ backgroundImage: `url('${cat.image}')` }}
-                        ></div>
-                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
-                    </div>
-                    <span className="font-medium text-xl font-serif italic text-gray-900 dark:text-white group-hover:text-primary transition-colors flex items-center gap-2">
-                        {cat.name}
-                        <span className="material-symbols-outlined text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all">arrow_forward</span>
-                    </span>
+         <div className="w-full h-full grid lg:grid-cols-2 gap-12 items-center p-8 md:p-16 relative z-10">
+            {/* Typography */}
+            <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 order-2 lg:order-1">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-black/5 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-sm animate-slideUp">
+                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                   <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gray-600 dark:text-gray-300">The 2026 Collection</span>
                 </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                
+                <h1 className="animate-slideUp delay-100 font-serif font-medium text-6xl md:text-8xl lg:text-9xl leading-[0.9] text-gray-900 dark:text-white tracking-tighter">
+                   Elevate <br/>
+                   <span className="italic font-light text-primary">Your Ritual.</span>
+                </h1>
 
-      {/* Spotlight Feature */}
-      <section className="bg-[#fcf8f2] dark:bg-[#1a1510] py-0">
-        <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2">
-            <div className="relative h-[600px] lg:h-auto overflow-hidden group">
-                <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                    style={{ backgroundImage: `url('https://lh3.googleusercontent.com/aida-public/AB6AXuAAa_N4wJRrF1aCsH9jIdYwix99Zn19HJq4zyOznoRBrpm1NH_JuZM54ZdBn6HrLRYo8xyt2ctnQXjKukKrOOVx89UYcxLdBrsPDY6yJds6W7Mju_OhvT41cWeVBkmQJRFVcYHsiBWkV0OcGbPRJ11oyRI4pIti10qyHF_yc01eMu4LL6Md2eFFMjurtpmxUcGWSItC484kquaP-jG4Q0gMMG-w0lZCM_diRPTuCgqMtLkvqKJBXS-CeV1ZmJj6vgspGM5o7sFBuWw')` }}
-                ></div>
-            </div>
-            <div className="flex items-center justify-center p-12 lg:p-24">
-                <div className="max-w-md">
-                    <span className="animate-slideUp block text-primary font-bold tracking-[0.2em] text-[10px] uppercase mb-6">The Holy Grail</span>
-                    <h2 className="animate-slideUp delay-100 text-5xl lg:text-7xl font-serif font-light text-gray-900 dark:text-white mb-8 leading-none">Vitamin C <span className="italic block">Brightening Serum</span></h2>
-                    <p className="animate-slideUp delay-200 text-gray-600 dark:text-gray-400 text-lg mb-10 leading-relaxed font-light">
-                        Our award-winning formula combines 15% pure Vitamin C with Ferulic Acid to visibly brighten skin, fade dark spots, and protect against environmental damage.
-                    </p>
-                    <div className="animate-slideUp delay-300 space-y-4 mb-12">
-                        <div className="flex items-center gap-4">
-                            <span className="material-symbols-outlined text-primary font-light">check_circle</span>
-                            <span className="text-gray-800 dark:text-gray-200 font-medium">Visibly brightens in 2 weeks</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <span className="material-symbols-outlined text-primary font-light">check_circle</span>
-                            <span className="text-gray-800 dark:text-gray-200 font-medium">Protects against pollution</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <span className="material-symbols-outlined text-primary font-light">check_circle</span>
-                            <span className="text-gray-800 dark:text-gray-200 font-medium">Safe for sensitive skin</span>
-                        </div>
-                    </div>
-                    <button onClick={() => onNavigate('shop')} className="animate-slideUp delay-400 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:opacity-90 transition-opacity shadow-lg">
-                        Shop Now • $48.00
+                <p className="animate-slideUp delay-200 text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-md font-light leading-relaxed">
+                   Experience the intersection of clinical precision and botanical soul. Skincare designed for the modern minimalist.
+                </p>
+
+                <div className="animate-slideUp delay-300 pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                    <button 
+                        onClick={() => onNavigate('shop')}
+                        className="btn-squish bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs"
+                    >
+                        Shop The Collection
+                    </button>
+                    <button 
+                        onClick={() => onNavigate('about')}
+                        className="btn-squish border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gray-50 dark:hover:bg-white/5"
+                    >
+                        Our Philosophy
                     </button>
                 </div>
             </div>
-        </div>
+
+            {/* Antigravity Asset */}
+            <div className="relative h-[50vh] lg:h-full w-full flex items-center justify-center order-1 lg:order-2">
+                 {/* Decorative Circle */}
+                 <div className="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full border border-gray-900/5 dark:border-white/5 animate-[spin_60s_linear_infinite]"></div>
+                 <div className="absolute w-[280px] h-[280px] md:w-[480px] md:h-[480px] rounded-full border border-gray-900/5 dark:border-white/5 animate-[spin_40s_linear_infinite_reverse]"></div>
+                 
+                 {/* Floating Image */}
+                 <img 
+                    src={heroProduct.image} 
+                    alt="Hero Product" 
+                    className="relative z-10 w-auto h-[80%] max-h-[600px] object-contain drop-shadow-2xl animate-float"
+                    style={{ filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.15))' }}
+                 />
+            </div>
+         </div>
       </section>
 
-      {/* Best Sellers Grid */}
-      <section className="max-w-[1280px] mx-auto px-6 lg:px-10 py-32">
-        <div className="flex items-end justify-between mb-16">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-serif font-light text-gray-900 dark:text-white mb-4">Best Sellers</h2>
-            <p className="text-gray-500 dark:text-gray-400 font-light text-lg">Our most-loved daily essentials.</p>
+      {/* SECTION 2: Bento Grid 2.0 */}
+      <section className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-3 gap-4 md:gap-6 min-h-[1200px] md:min-h-[900px]">
+          
+          {/* Card 1: Feature Product (Large) */}
+          <div 
+            onClick={() => onProductClick(heroProduct)}
+            className="group md:col-span-2 md:row-span-2 rounded-4xl bg-white dark:bg-[#1E1E1E] ambient-shadow relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5"
+          >
+              <div 
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 opacity-90"
+                style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAa_N4wJRrF1aCsH9jIdYwix99Zn19HJq4zyOznoRBrpm1NH_JuZM54ZdBn6HrLRYo8xyt2ctnQXjKukKrOOVx89UYcxLdBrsPDY6yJds6W7Mju_OhvT41cWeVBkmQJRFVcYHsiBWkV0OcGbPRJ11oyRI4pIti10qyHF_yc01eMu4LL6Md2eFFMjurtpmxUcGWSItC484kquaP-jG4Q0gMMG-w0lZCM_diRPTuCgqMtLkvqKJBXS-CeV1ZmJj6vgspGM5o7sFBuWw")' }}
+              ></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+              <div className="absolute bottom-0 left-0 p-10 text-white">
+                  <div className="bg-white/20 backdrop-blur-md inline-block px-3 py-1 rounded-full mb-4 border border-white/20">
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Iconic</span>
+                  </div>
+                  <h3 className="text-4xl font-serif mb-2">{heroProduct.name}</h3>
+                  <p className="text-white/80 font-light max-w-sm text-sm line-clamp-2 mb-6">{heroProduct.description}</p>
+                  <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">
+                      Shop Now <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                  </button>
+              </div>
           </div>
-          <button onClick={() => onNavigate('shop')} className="text-primary font-bold text-sm uppercase tracking-widest flex items-center gap-2 group">
-            View all products
-            <span className="material-symbols-outlined transition-transform group-hover:translate-x-1 text-sm">arrow_forward</span>
-          </button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12">
-          {displayProducts.map((product) => (
-            <div key={product.id} className="group flex flex-col gap-5 cursor-pointer" onClick={() => onProductClick(product)}>
-              <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-gray-100 dark:bg-gray-800">
-                <div 
-                  className="w-full h-full bg-center bg-cover transition-transform duration-1000 group-hover:scale-105" 
-                  style={{ backgroundImage: `url("${product.image}")` }}
-                ></div>
-                {/* Badges */}
-                <div className="absolute top-0 left-0 p-4 w-full flex justify-between items-start">
-                    {product.isBestSeller && <span className="bg-white/90 dark:bg-black/80 backdrop-blur text-[10px] font-bold px-3 py-1 uppercase tracking-widest text-gray-900 dark:text-white">Best Seller</span>}
-                    {/* Wishlist Button - Only show if props provided */}
-                    {toggleWishlist && (
-                        <button 
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                toggleWishlist(product.id);
-                            }}
-                            className="p-2 rounded-full bg-white/80 dark:bg-black/50 hover:bg-white dark:hover:bg-black transition-colors"
-                        >
-                            <span className={`material-symbols-outlined text-lg ${wishlist.includes(product.id) ? 'fill-icon text-primary' : 'text-gray-600 dark:text-gray-300'}`}>favorite</span>
-                        </button>
-                    )}
+
+          {/* Card 2: Skincare Category */}
+          <div 
+            onClick={() => onNavigate('skincare')}
+            className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#F0EEEB] dark:bg-[#252525] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+          >
+             <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
+                <span className="material-symbols-outlined text-9xl">water_drop</span>
+             </div>
+             <div className="absolute inset-0 flex flex-col justify-between p-8">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Category</span>
+                <div className="flex justify-between items-end">
+                    <h3 className="text-2xl font-serif text-gray-900 dark:text-white">Skincare</h3>
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-black flex items-center justify-center">
+                        <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                    </div>
                 </div>
-                {/* Quick Add Button */}
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart(product);
-                  }}
-                  className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-background-dark/95 py-3 rounded-full font-bold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary hover:text-white text-gray-900 dark:text-white shadow-lg text-xs uppercase tracking-widest"
-                >
-                  Quick Add
-                </button>
+             </div>
+          </div>
+
+          {/* Card 3: Makeup Category */}
+          <div 
+            onClick={() => onNavigate('makeup')}
+            className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#EBE6E4] dark:bg-[#2A2A2A] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+          >
+             <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
+                <span className="material-symbols-outlined text-9xl">brush</span>
+             </div>
+             <div className="absolute inset-0 flex flex-col justify-between p-8">
+                <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Category</span>
+                <div className="flex justify-between items-end">
+                    <h3 className="text-2xl font-serif text-gray-900 dark:text-white">Makeup</h3>
+                    <div className="w-8 h-8 rounded-full bg-white dark:bg-black flex items-center justify-center">
+                        <span className="material-symbols-outlined text-sm">arrow_outward</span>
+                    </div>
+                </div>
+             </div>
+          </div>
+
+          {/* Card 4: Best Seller List (Vertical) */}
+          <div className="md:col-span-1 md:row-span-2 rounded-4xl bg-white dark:bg-[#1E1E1E] border border-black/5 dark:border-white/5 p-8 flex flex-col">
+              <div className="flex items-center justify-between mb-8">
+                  <h3 className="text-xl font-serif text-gray-900 dark:text-white">Trending</h3>
+                  <button onClick={() => onNavigate('shop')} className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-primary">View All</button>
+              </div>
+              <div className="flex-1 flex flex-col gap-6">
+                  {bestSellers.map((product) => (
+                      <div key={product.id} className="group flex gap-4 cursor-pointer" onClick={() => onProductClick(product)}>
+                          <div className="w-16 h-20 rounded-xl bg-gray-100 dark:bg-gray-800 overflow-hidden shrink-0">
+                              <img src={product.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={product.name}/>
+                          </div>
+                          <div className="flex flex-col justify-center">
+                              <p className="text-sm font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">{product.name}</p>
+                              <p className="text-xs text-gray-500 mb-2">{product.category}</p>
+                              <p className="text-xs font-bold text-gray-900 dark:text-white">${product.price}</p>
+                          </div>
+                      </div>
+                  ))}
+                  
+                  {/* Mini CTA Card inside list */}
+                  <div className="mt-auto bg-primary/5 rounded-2xl p-4 text-center">
+                      <p className="text-xs font-bold text-primary mb-2">Free Shipping on $50+</p>
+                      <div className="h-1 w-full bg-primary/10 rounded-full overflow-hidden">
+                          <div className="h-full bg-primary w-2/3"></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          {/* Card 5: Brand Value (Cruelty Free) */}
+          <div className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#FDFBF7] dark:bg-[#222] border border-black/5 dark:border-white/5 p-8 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 transition-colors">
+              <div className="w-12 h-12 rounded-full bg-white dark:bg-black shadow-sm flex items-center justify-center text-primary mb-2 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined">cruelty_free</span>
               </div>
               <div>
-                <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-lg font-medium font-serif text-gray-900 dark:text-white group-hover:text-primary transition-colors">{product.name}</h3>
-                    <p className="text-primary font-bold">${product.price.toFixed(2)}</p>
-                </div>
-                <p className="text-gray-500 dark:text-gray-400 text-sm mb-3 line-clamp-1 font-light">{product.description}</p>
-                <div className="flex items-center gap-1">
-                    <div className="flex text-yellow-400 text-sm">
-                        {[...Array(5)].map((_, i) => (
-                             <span key={i} className={`material-symbols-outlined text-[14px] ${i < Math.floor(product.rating || 5) ? 'fill-icon' : ''}`}>star</span>
-                        ))}
-                    </div>
-                    <span className="text-xs text-gray-400 ml-1 font-medium">({product.reviews})</span>
-                </div>
+                  <h4 className="font-serif text-lg text-gray-900 dark:text-white">Cruelty Free</h4>
+                  <p className="text-xs text-gray-500 mt-1">Certified Ethical</p>
               </div>
-            </div>
-          ))}
-        </div>
+          </div>
+
+          {/* Card 6: Brand Value (Organic) */}
+          <div className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#FDFBF7] dark:bg-[#222] border border-black/5 dark:border-white/5 p-8 flex flex-col items-center justify-center text-center gap-4 hover:border-primary/20 transition-colors">
+              <div className="w-12 h-12 rounded-full bg-white dark:bg-black shadow-sm flex items-center justify-center text-primary mb-2 group-hover:scale-110 transition-transform">
+                  <span className="material-symbols-outlined">eco</span>
+              </div>
+              <div>
+                  <h4 className="font-serif text-lg text-gray-900 dark:text-white">Organic</h4>
+                  <p className="text-xs text-gray-500 mt-1">100% Plant Based</p>
+              </div>
+          </div>
+
+           {/* Card 7: Newsletter (Wide) */}
+           <div className="md:col-span-2 md:row-span-1 rounded-4xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+               {/* Decorative Blur */}
+               <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary rounded-full blur-[80px] opacity-30"></div>
+               
+               <div className="relative z-10 text-center md:text-left">
+                   <h3 className="text-3xl font-serif mb-2">The Glow Club</h3>
+                   <p className="text-white/70 dark:text-black/70 text-sm max-w-xs font-light">Join 50,000+ minimalists. Get 15% off your first ritual.</p>
+               </div>
+               <div className="relative z-10 w-full md:w-auto flex-1 max-w-sm">
+                   <div className="flex gap-2 bg-white/10 dark:bg-black/5 p-1.5 rounded-full border border-white/10 dark:border-black/10 backdrop-blur-sm">
+                       <input 
+                          type="email" 
+                          placeholder="Email Address" 
+                          className="bg-transparent border-none text-white dark:text-black placeholder:text-white/50 dark:placeholder:text-black/50 text-sm flex-1 px-4 focus:ring-0"
+                        />
+                       <button className="bg-white dark:bg-black text-black dark:text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:scale-105 transition-transform">Join</button>
+                   </div>
+               </div>
+           </div>
+
       </section>
 
-      {/* Brand Standards Section */}
-      <section className="bg-white dark:bg-background-dark py-24 border-t border-gray-100 dark:border-gray-800">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-            <div className="flex flex-col items-center text-center group">
-              <div className="size-16 rounded-full border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/5 transition-colors">
-                <span className="material-symbols-outlined text-primary text-3xl font-light">verified</span>
-              </div>
-              <h3 className="text-lg font-serif font-bold mb-2 text-gray-900 dark:text-white">Dermatologist Tested</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-light">Safe for sensitive skin types.</p>
-            </div>
-            <div className="flex flex-col items-center text-center group">
-              <div className="size-16 rounded-full border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/5 transition-colors">
-                <span className="material-symbols-outlined text-primary text-3xl font-light">eco</span>
-              </div>
-              <h3 className="text-lg font-serif font-bold mb-2 text-gray-900 dark:text-white">Sustainably Sourced</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-light">Ingredients that honor the earth.</p>
-            </div>
-            <div className="flex flex-col items-center text-center group">
-              <div className="size-16 rounded-full border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/5 transition-colors">
-                <span className="material-symbols-outlined text-primary text-3xl font-light">cruelty_free</span>
-              </div>
-              <h3 className="text-lg font-serif font-bold mb-2 text-gray-900 dark:text-white">Cruelty Free</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-light">Never tested on animals, ever.</p>
-            </div>
-            <div className="flex flex-col items-center text-center group">
-              <div className="size-16 rounded-full border border-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/5 transition-colors">
-                <span className="material-symbols-outlined text-primary text-3xl font-light">recycling</span>
-              </div>
-              <h3 className="text-lg font-serif font-bold mb-2 text-gray-900 dark:text-white">Recyclable</h3>
-              <p className="text-gray-500 dark:text-gray-400 text-sm font-light">Packaging made from glass & PCR.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="bg-background-light dark:bg-[#151515] py-32">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 text-center">
-            <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-20 italic">Loved by Thousands</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {testimonials.map((t, i) => (
-                    <div key={i} className="bg-white dark:bg-[#222] p-10 rounded-sm shadow-sm border border-gray-100 dark:border-gray-800 text-left flex flex-col h-full hover:shadow-md transition-shadow">
-                        <div className="flex text-primary mb-8 gap-1"><span className="material-symbols-outlined fill-icon text-sm">star</span><span className="material-symbols-outlined fill-icon text-sm">star</span><span className="material-symbols-outlined fill-icon text-sm">star</span><span className="material-symbols-outlined fill-icon text-sm">star</span><span className="material-symbols-outlined fill-icon text-sm">star</span></div>
-                        <p className="text-gray-800 dark:text-gray-200 text-xl font-serif leading-relaxed mb-8 flex-1 italic">"{t.text}"</p>
-                        <div>
-                            <p className="font-bold text-gray-900 dark:text-white uppercase tracking-widest text-xs mb-1">{t.author}</p>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest">{t.location}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className="max-w-[1280px] mx-auto px-6 lg:px-10 py-24">
-        <div className="bg-primary rounded-2xl p-12 md:p-24 text-center relative overflow-hidden shadow-2xl shadow-primary/20">
-          <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl translate-x-[-50%] translate-y-[-50%]"></div>
-            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full mix-blend-overlay filter blur-3xl translate-x-[50%] translate-y-[50%]"></div>
-          </div>
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="animate-slideUp text-white text-4xl md:text-6xl font-serif mb-8 italic">Join the Glow Circle</h2>
-            <p className="animate-slideUp delay-100 text-white/90 text-lg mb-10 font-light leading-relaxed">Sign up for our newsletter to receive 15% off your first order, exclusive access to new launches, and expert skincare tips.</p>
-            <form className="animate-slideUp delay-200 flex flex-col sm:flex-row gap-4 w-full" onSubmit={(e) => e.preventDefault()}>
-              <input 
-                className="flex-1 px-8 py-4 rounded-full border-2 border-white/20 bg-white/10 text-white placeholder:text-white/70 focus:outline-none focus:bg-white focus:text-primary focus:border-white transition-all backdrop-blur-sm font-light" 
-                placeholder="Enter your email address" 
-                type="email"
-              />
-              <button className="bg-white text-primary px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition-colors shadow-lg uppercase tracking-widest text-xs" type="submit">Subscribe</button>
-            </form>
-          </div>
-        </div>
-      </section>
-    </>
+      {/* Footer Minimalist Note */}
+      <div className="text-center py-12">
+          <span className="material-symbols-outlined text-gray-300 dark:text-gray-700 text-3xl mb-4">spa</span>
+          <p className="text-xs text-gray-400 uppercase tracking-[0.3em]">Faceneed © 2026</p>
+      </div>
+    </div>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { PageView, Product } from '../types';
 
 interface WishlistPageProps {
@@ -30,8 +30,12 @@ const WishlistPage: React.FC<WishlistPageProps> = ({
       {wishlistItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {wishlistItems.map(product => (
-            <div key={product.id} className="group flex flex-col gap-4 cursor-pointer" onClick={() => onProductClick(product)}>
-              <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+            <div 
+              key={product.id} 
+              className="group flex flex-col gap-4 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01]" 
+              onClick={() => onProductClick(product)}
+            >
+              <div className="relative aspect-[3/4] overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800 shadow-sm transition-all duration-500 group-hover:shadow-2xl">
                 <div 
                   className="w-full h-full bg-center bg-cover transition-transform duration-1000 group-hover:scale-105" 
                   style={{ backgroundImage: `url("${product.image}")` }}

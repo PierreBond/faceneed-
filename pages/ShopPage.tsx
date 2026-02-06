@@ -148,8 +148,12 @@ const ShopPage: React.FC<ShopPageProps> = ({
           {displayedProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
               {displayedProducts.map(product => (
-                <div key={product.id} className="group product-card cursor-pointer" onClick={() => onProductClick(product)}>
-                  <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4">
+                <div 
+                  key={product.id} 
+                  className="group product-card cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01]" 
+                  onClick={() => onProductClick(product)}
+                >
+                  <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4 shadow-sm transition-all duration-500 group-hover:shadow-2xl">
                     <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
                     
                     {/* Wishlist Button */}

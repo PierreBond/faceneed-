@@ -14,24 +14,28 @@
                 extend: {
                     colors: {
                         "primary": "var(--color-primary)",
-                        "background-light": "#f8f6f6",
-                        "background-dark": "#221016",
+                        "background-light": "#FAFAF9", 
+                        "background-dark": "#121212",
                     },
                     fontFamily: {
                         "display": ["Manrope", "sans-serif"],
                         "serif": ["Cormorant Garamond", "serif"],
                         "newsreader": ["Newsreader", "serif"],
                     },
+                    borderRadius: {
+                        "4xl": "2rem", // 32px
+                        "5xl": "2.5rem", // 40px
+                    }
                 },
             },
         }
     </script>
     <style>
         :root {
-            --color-primary: #ee2b6c; /* Default pink */
+            --color-primary: #ee2b6c; 
         }
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
         }
         .fill-icon {
             font-variation-settings: 'FILL' 1;
@@ -39,53 +43,59 @@
         body {
             font-family: 'Manrope', sans-serif;
         }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        
+        /* 2026 Luxury Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
         }
-        .animate-scroll {
-            animation: scroll 30s linear infinite;
-        }
-        .animate-scroll:hover {
-            animation-play-state: paused;
+        .animate-float {
+            animation: float 8s ease-in-out infinite;
         }
         
-        /* Premium Text Animations */
+        /* Micro-interactions */
+        .btn-squish {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        }
+        .btn-squish:active {
+            transform: scale(0.96);
+        }
+        
+        /* Glassmorphism & Borders */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .dark .glass-panel {
+            background: rgba(18, 18, 18, 0.7);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Ambient Shadows */
+        .ambient-shadow {
+            box-shadow: 0 40px 60px -15px rgba(0,0,0,0.03);
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Text Animations */
         @keyframes slideUp {
-            0% { opacity: 0; transform: translateY(40px); }
+            0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
         .animate-slideUp {
             opacity: 0;
             animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-        
-        /* Page Transition */
-        @keyframes pageEnter {
-            0% { opacity: 0; transform: scale(0.98) translateY(10px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-        .animate-page {
-            animation: pageEnter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        /* Generic Fade In (Legacy support) */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-
-        /* Animation Delays */
         .delay-100 { animation-delay: 100ms; }
         .delay-200 { animation-delay: 200ms; }
         .delay-300 { animation-delay: 300ms; }
-        .delay-400 { animation-delay: 400ms; }
-        .delay-500 { animation-delay: 500ms; }
-        .delay-600 { animation-delay: 600ms; }
-        .delay-700 { animation-delay: 700ms; }
     </style>
 <script type="importmap">
 {
@@ -97,7 +107,7 @@
 }
 </script>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 transition-colors duration-500 selection:bg-primary/20 selection:text-primary">
     <div id="root"></div>
 </body>
 </html>
