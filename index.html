@@ -53,6 +53,18 @@
         .animate-float {
             animation: float 8s ease-in-out infinite;
         }
+
+        /* Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 40s linear infinite;
+        }
+        .hover-pause:hover .animate-marquee {
+            animation-play-state: paused;
+        }
         
         /* Micro-interactions */
         .btn-squish {

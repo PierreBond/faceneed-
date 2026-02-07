@@ -15,6 +15,15 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
   const heroProduct = products.find(p => p.id === 's2') || products[1];
   const bestSellers = products.filter(p => p.isBestSeller).slice(0, 2);
 
+  const marqueeItems = [
+    { serif: "Clean", sans: "Formulas" },
+    { serif: "Potent", sans: "Actives" },
+    { serif: "Sustainable", sans: "Luxury" },
+    { serif: "Sensory", sans: "Rituals" },
+    { serif: "Clinical", sans: "Results" },
+    { serif: "Cruelty", sans: "Free" }
+  ];
+
   return (
     <div className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto space-y-8 md:space-y-12">
       
@@ -210,6 +219,28 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
            </div>
 
       </section>
+
+      {/* SECTION 1.5: Minimalist Infinite Marquee */}
+      <div className="relative border-y border-gray-900/5 dark:border-white/5 bg-transparent py-4 -mx-4 md:-mx-8 overflow-hidden hover-pause z-20">
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
+          
+          <div className="flex w-max animate-marquee">
+              {[...Array(6)].map((_, i) => (
+                  <div key={i} className="flex items-center shrink-0">
+                      {[...marqueeItems].map((item, j) => (
+                          <div key={j} className="flex items-center px-6 md:px-10">
+                              <div className="flex items-baseline gap-2 text-gray-900 dark:text-white">
+                                  <span className="font-serif italic text-lg text-gray-500 dark:text-gray-400">{item.serif}</span>
+                                  <span className="font-display font-bold uppercase tracking-[0.15em] text-xs">{item.sans}</span>
+                              </div>
+                              <span className="ml-12 md:ml-20 w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700"></span>
+                          </div>
+                      ))}
+                  </div>
+              ))}
+          </div>
+      </div>
 
       {/* Footer Minimalist Note */}
       <div className="text-center py-12">
