@@ -70,11 +70,11 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
 
           {/* Center Logo */}
           <div 
-            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 cursor-pointer group btn-squish ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-opacity duration-200`}
+            className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 cursor-pointer group ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-500`}
             onClick={() => onNavigate('home')}
           >
-            <span className={`material-symbols-outlined text-primary transition-all duration-500 ${scrolled ? 'text-2xl' : 'text-2xl md:text-3xl'}`}>spa</span>
-            <h2 className={`font-serif font-semibold tracking-tight text-gray-900 dark:text-white transition-all duration-500 ${scrolled ? 'text-xl' : 'text-2xl md:text-3xl'}`}>
+            <span className={`material-symbols-outlined text-primary transition-all duration-500 ${scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>spa</span>
+            <h2 className={`font-serif font-semibold tracking-tight text-gray-900 dark:text-white transition-all duration-500 ${scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
               Faceneed
             </h2>
           </div>
@@ -92,7 +92,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
               />
             </div>
 
-            {/* Mobile Search Icon (optional, usually handled in menu or separate page, but here navigates to shop) */}
+            {/* Mobile Search Icon */}
             <button 
               className="md:hidden p-2 text-gray-900 dark:text-white"
               onClick={() => onNavigate('shop')}
@@ -101,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
             </button>
 
             <div className="flex items-center gap-1">
-              {/* Wishlist - Hidden on small mobile to save space, visible in menu */}
+              {/* Wishlist */}
               <button 
                 className="btn-squish p-2 md:p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors relative text-gray-900 dark:text-white hidden sm:flex"
                 onClick={() => onNavigate('wishlist')}
@@ -126,7 +126,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
                 )}
               </button>
               
-              {/* Profile - Hidden on small mobile, visible in menu */}
+              {/* Profile */}
               <button 
                   className="btn-squish p-2 md:p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white hidden sm:flex"
                   onClick={() => onNavigate('profile')}
