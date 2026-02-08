@@ -40,11 +40,20 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
   return (
     <>
       {/* Gold Standard Luxury Announcement Bar */}
-      <div className="fixed top-0 left-0 right-0 z-[51] h-[30px] bg-[#1c1c1c] text-[#f4f4f0] flex items-center justify-center px-4 transition-colors duration-500">
-         <p className="font-display text-[10px] font-bold tracking-[0.2em] uppercase flex items-center gap-2 text-center">
-            Free Shipping on Orders Over $75 + More
-            <span className="material-symbols-outlined text-[12px] leading-none">arrow_forward</span>
-         </p>
+      <div className="fixed top-0 left-0 right-0 z-[51] h-[30px] bg-[#1c1c1c] text-[#f4f4f0] flex items-center overflow-hidden transition-colors duration-500">
+         <div className="flex w-max animate-marquee hover-pause">
+            {[...Array(10)].map((_, i) => (
+               <div key={i} className="flex items-center mx-6">
+                  <p className="font-display text-[10px] font-bold tracking-[0.2em] uppercase flex items-center gap-2 whitespace-nowrap">
+                     Free Shipping on Orders Over $75 + More
+                     <span className="material-symbols-outlined text-[12px] leading-none">arrow_forward</span>
+                  </p>
+               </div>
+            ))}
+         </div>
+         {/* Edge Fades */}
+         <div className="absolute top-0 left-0 w-8 h-full bg-gradient-to-r from-[#1c1c1c] to-transparent pointer-events-none"></div>
+         <div className="absolute top-0 right-0 w-8 h-full bg-gradient-to-l from-[#1c1c1c] to-transparent pointer-events-none"></div>
       </div>
 
       <header 

@@ -82,11 +82,19 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
               </div>
               <button 
                 onClick={() => onNavigate('checkout-shipping')}
-                className="w-full bg-primary text-[#211a11] py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 mb-4"
+                className="w-full bg-primary text-[#211a11] py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 mb-3"
               >
                 <span>Proceed to Checkout</span>
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
+              
+              <button 
+                onClick={() => onNavigate('shop')}
+                className="w-full text-[#97794e] dark:text-[#c4a67a] text-sm font-semibold hover:text-[#1b150e] dark:hover:text-[#f8f7f6] transition-colors py-2 mb-4"
+              >
+                Shop Some More
+              </button>
+
               <div className="flex flex-col gap-4 mt-6">
                 <div className="flex items-center gap-3 text-sm text-[#97794e] dark:text-[#c4a67a]">
                   <span className="material-symbols-outlined text-primary">verified_user</span>
