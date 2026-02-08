@@ -59,7 +59,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
           </div>
 
           {/* Summary Sidebar */}
-          <aside className="w-full lg:w-96 sticky top-28">
+          <aside className="w-full lg:w-96 sticky top-32">
             <div className="bg-white dark:bg-[#2a2217] p-8 rounded-2xl shadow-sm border border-[#f3eee7] dark:border-[#3a2f21]">
               <h3 className="text-2xl font-bold mb-6 text-[#1b150e] dark:text-[#f8f7f6]">Order Summary</h3>
               <div className="space-y-4 mb-6 border-b border-[#f3eee7] dark:border-[#3a2f21] pb-6">

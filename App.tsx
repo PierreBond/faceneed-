@@ -366,7 +366,7 @@ const App: React.FC = () => {
   return (
     <div className={`relative min-h-screen flex flex-col ${currentPage === 'product' ? 'font-newsreader' : 'font-display'}`}>
       {!isCheckout && <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} onNavigate={handleNavigate} currentPage={currentPage} onSearch={handleSearch} searchQuery={searchQuery} wishlistCount={wishlist.length} />}
-      <main className={`flex-1 ${!isCheckout && !isImmersiveHeader ? 'pt-24 md:pt-28' : ''}`}>
+      <main className={`flex-1 ${!isCheckout && !isImmersiveHeader ? 'pt-32 md:pt-36' : ''}`}>
         <div key={currentPage} className="animate-page">
           {renderPage()}
         </div>

@@ -25,7 +25,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
   ];
 
   return (
-    <div className="pt-24 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto space-y-8 md:space-y-12">
+    <div className="pt-28 md:pt-36 pb-12 px-4 md:px-8 max-w-[1600px] mx-auto space-y-8 md:space-y-12">
       
       {/* SECTION 1: Antigravity Hero */}
       <section className="relative rounded-4xl md:rounded-5xl overflow-hidden bg-[#F3F1EF] dark:bg-[#1A1A1A] ambient-shadow min-h-[85vh] flex items-center">

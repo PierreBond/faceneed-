@@ -95,7 +95,7 @@ const ShopPage: React.FC<ShopPageProps> = ({
       <div className="flex flex-col lg:flex-row gap-10">
         {/* Sidebar Filters */}
         <aside className="w-full lg:w-64 flex-shrink-0">
-          <div className="sticky top-24 space-y-8">
+          <div className="sticky top-32 space-y-8">
             <div>
               <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 dark:text-white mb-4">Filters</h3>
               {/* Filter Group: Category (Dynamic based on page) */}
