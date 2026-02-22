@@ -44,13 +44,13 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
           <div className="col-span-2">
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 uppercase text-xs tracking-widest">Our Store</h4>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">123 Beauty Lane, Glow District</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">New York, NY 10001</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">204 Accra Central, Law School District</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Accra, GA 23323</p>
             <p className="text-sm text-gray-500 dark:text-gray-400">hello@faceneed.com</p>
           </div>
         </div>
         <div className="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-col md:flex-row justify-between gap-6">
-          <p className="text-xs text-gray-400">© 2024 Faceneed Cosmetics. All rights reserved.</p>
+          <p className="text-xs text-gray-400">© 2026 Faceneed Cosmetics. All rights reserved.</p>
           <div className="flex gap-8 text-xs text-gray-400">
             <a className="hover:text-primary" href="#">Privacy Policy</a>
             <a className="hover:text-primary" href="#">Terms of Service</a>

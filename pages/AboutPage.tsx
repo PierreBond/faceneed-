@@ -112,15 +112,15 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                             <h4 className="font-bold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-widest flex items-center gap-2">
                                 <span className="material-symbols-outlined text-primary text-sm">location_on</span> Address
                             </h4>
-                            <p className="text-base">123 Beauty Lane</p>
-                            <p className="text-base">Glow District</p>
-                            <p className="text-base">New York, NY 10001</p>
+                            <p className="text-base">204 Accra Central</p>
+                            <p className="text-base">Law School District</p>
+                            <p className="text-base">Accra, GA 23323</p>
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-900 dark:text-white mb-4 uppercase text-xs tracking-widest flex items-center gap-2">
                                 <span className="material-symbols-outlined text-primary text-sm">schedule</span> Opening Hours
                             </h4>
-                            <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Mon - Fri:</span> <span>10am - 8pm</span></p>
+                            <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Mon - Fri:</span> <span>8am - 8pm</span></p>
                             <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Sat:</span> <span>11am - 7pm</span></p>
                             <p className="text-base flex justify-between max-w-[200px]"><span className="text-gray-500">Sun:</span> <span>12pm - 6pm</span></p>
                         </div>

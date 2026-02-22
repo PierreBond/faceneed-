@@ -35,8 +35,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
          <div className="w-full h-full grid lg:grid-cols-2 gap-12 items-center p-8 md:p-16 relative z-10">
             {/* Typography */}
             <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 order-2 lg:order-1">
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-black/5 dark:border-white/10 bg-white/50 dark:bg-black/20 backdrop-blur-sm animate-slideUp">
-                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-transparent dark:border-transparent bg-transparent dark:bg-black/20 backdrop-blur-sm animate-slideUp">
                    <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gray-600 dark:text-gray-300">The 2026 Collection</span>
                 </div>
                 
