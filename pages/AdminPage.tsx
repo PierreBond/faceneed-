@@ -114,7 +114,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
                             />
                         </div>
                         
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Price ($)</label>
                                 <input 
@@ -210,11 +210,11 @@ const AdminPage: React.FC<AdminPageProps> = ({
                             </label>
                         </div>
 
-                        <div className="flex gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
-                            <button type="submit" className="bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors">
+                        <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <button type="submit" className="w-full sm:w-auto bg-primary text-white px-6 py-3 rounded-lg font-bold hover:bg-primary/90 transition-colors">
                                 {isNew ? 'Create Product' : 'Save Changes'}
                             </button>
-                            <button type="button" onClick={() => setEditingProduct(null)} className="bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                            <button type="button" onClick={() => setEditingProduct(null)} className="w-full sm:w-auto bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-white px-6 py-3 rounded-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                                 Cancel
                             </button>
                         </div>

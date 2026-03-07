@@ -82,23 +82,23 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
       </section>
 
       {/* SECTION 2: Bento Grid 2.0 */}
-      <section className="grid grid-cols-1 md:grid-cols-4 grid-rows-auto md:grid-rows-3 gap-4 md:gap-6 min-h-[1200px] md:min-h-[900px]">
+      <section className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 min-h-0 md:min-h-[900px]">
           
           {/* Card 1: Feature Product (Large) */}
           <div 
             onClick={() => onProductClick(heroProduct)}
-            className="group md:col-span-2 md:row-span-2 rounded-4xl bg-white dark:bg-[#1E1E1E] ambient-shadow relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5"
+            className="group md:col-span-2 md:row-span-2 min-h-[400px] md:min-h-0 rounded-4xl bg-white dark:bg-[#1E1E1E] ambient-shadow relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5"
           >
               <div 
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105 opacity-90"
                 style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuAAa_N4wJRrF1aCsH9jIdYwix99Zn19HJq4zyOznoRBrpm1NH_JuZM54ZdBn6HrLRYo8xyt2ctnQXjKukKrOOVx89UYcxLdBrsPDY6yJds6W7Mju_OhvT41cWeVBkmQJRFVcYHsiBWkV0OcGbPRJ11oyRI4pIti10qyHF_yc01eMu4LL6Md2eFFMjurtpmxUcGWSItC484kquaP-jG4Q0gMMG-w0lZCM_diRPTuCgqMtLkvqKJBXS-CeV1ZmJj6vgspGM5o7sFBuWw")' }}
               ></div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              <div className="absolute bottom-0 left-0 p-10 text-white">
+              <div className="absolute bottom-0 left-0 p-8 md:p-10 text-white">
                   <div className="bg-white/20 backdrop-blur-md inline-block px-3 py-1 rounded-full mb-4 border border-white/20">
                       <span className="text-[10px] font-bold uppercase tracking-widest">Iconic</span>
                   </div>
-                  <h3 className="text-4xl font-serif mb-2">{heroProduct.name}</h3>
+                  <h3 className="text-3xl md:text-4xl font-serif mb-2">{heroProduct.name}</h3>
                   <p className="text-white/80 font-light max-w-sm text-sm line-clamp-2 mb-6">{heroProduct.description}</p>
                   <button className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">
                       Shop Now <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -109,15 +109,15 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
           {/* Card 2: Skincare Category */}
           <div 
             onClick={() => onNavigate('skincare')}
-            className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#F0EEEB] dark:bg-[#252525] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#F0EEEB] dark:bg-[#252525] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
           >
              <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
-                <span className="material-symbols-outlined text-9xl">water_drop</span>
+                <span className="material-symbols-outlined text-8xl md:text-9xl">water_drop</span>
              </div>
-             <div className="absolute inset-0 flex flex-col justify-between p-8">
+             <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Category</span>
                 <div className="flex justify-between items-end">
-                    <h3 className="text-2xl font-serif text-gray-900 dark:text-white">Skincare</h3>
+                    <h3 className="text-xl md:text-2xl font-serif text-gray-900 dark:text-white">Skincare</h3>
                     <div className="w-8 h-8 rounded-full bg-white dark:bg-black flex items-center justify-center">
                         <span className="material-symbols-outlined text-sm">arrow_outward</span>
                     </div>
@@ -128,15 +128,15 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
           {/* Card 3: Makeup Category */}
           <div 
             onClick={() => onNavigate('makeup')}
-            className="group md:col-span-1 md:row-span-1 rounded-4xl bg-[#EBE6E4] dark:bg-[#2A2A2A] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#EBE6E4] dark:bg-[#2A2A2A] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
           >
              <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
-                <span className="material-symbols-outlined text-9xl">brush</span>
+                <span className="material-symbols-outlined text-8xl md:text-9xl">brush</span>
              </div>
-             <div className="absolute inset-0 flex flex-col justify-between p-8">
+             <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gray-500">Category</span>
                 <div className="flex justify-between items-end">
-                    <h3 className="text-2xl font-serif text-gray-900 dark:text-white">Makeup</h3>
+                    <h3 className="text-xl md:text-2xl font-serif text-gray-900 dark:text-white">Makeup</h3>
                     <div className="w-8 h-8 rounded-full bg-white dark:bg-black flex items-center justify-center">
                         <span className="material-symbols-outlined text-sm">arrow_outward</span>
                     </div>

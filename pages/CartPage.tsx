@@ -28,10 +28,10 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
           <div className="flex-1 w-full space-y-8">
             {cart.map(item => (
               <div key={item.id} className="flex flex-col border-b border-[#f3eee7] dark:border-[#3a2f21] pb-8">
-                <div className="flex items-center gap-6 justify-between">
-                  <div className="flex items-center gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 justify-between">
+                  <div className="flex items-center gap-4 sm:gap-6">
                     <div 
-                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 md:size-32 bg-[#f3eee7]" 
+                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 md:size-32 bg-[#f3eee7] shrink-0" 
                         style={{ backgroundImage: `url("${item.image}")` }}
                     ></div>
                     <div className="flex flex-col gap-1">
@@ -40,7 +40,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
                       <p className="text-lg font-medium mt-2 text-[#1b150e] dark:text-[#f8f7f6]">${item.price.toFixed(2)}</p>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-4">
+                  <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-4">
                     <div className="shrink-0">
                       <div className="flex items-center gap-3 bg-[#f3eee7] dark:bg-[#3a2f21] px-3 py-1.5 rounded-full">
                         <button onClick={() => updateQuantity(item.id, -1)} className="text-lg font-bold flex h-6 w-6 items-center justify-center rounded-full hover:text-primary transition-colors text-[#1b150e] dark:text-[#f8f7f6]">-</button>

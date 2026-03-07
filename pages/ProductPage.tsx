@@ -82,22 +82,24 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
                 </p>
             </div>
             <div className="pt-4 space-y-6">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center border border-[#f3efe7] dark:border-[#3a3221] rounded-xl px-4 py-3 gap-6">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                    <div className="flex items-center justify-between sm:justify-center border border-[#f3efe7] dark:border-[#3a3221] rounded-xl px-4 py-3 gap-6">
                         <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="hover:text-primary"><span className="material-symbols-outlined">remove</span></button>
                         <span className="font-bold w-4 text-center text-gray-900 dark:text-white">{quantity}</span>
                         <button onClick={() => setQuantity(quantity + 1)} className="hover:text-primary"><span className="material-symbols-outlined">add</span></button>
                     </div>
-                    <button onClick={handleAddToCart} className="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2">
-                        <span className="material-symbols-outlined text-xl">shopping_cart</span>
-                        Add to Bag
-                    </button>
-                    <button 
-                        onClick={() => toggleWishlist(product.id)}
-                        className={`p-4 rounded-xl border border-[#f3efe7] dark:border-[#3a3221] transition-colors flex items-center justify-center ${isWishlisted ? 'text-primary border-primary bg-primary/5' : 'text-[#1b170e] dark:text-white hover:bg-[#f3efe7] dark:hover:bg-[#3a3221]'}`}
-                    >
-                         <span className={`material-symbols-outlined text-xl ${isWishlisted ? 'fill-icon' : ''}`}>favorite</span>
-                    </button>
+                    <div className="flex gap-4 flex-1">
+                        <button onClick={handleAddToCart} className="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                            <span className="material-symbols-outlined text-xl">shopping_cart</span>
+                            Add to Bag
+                        </button>
+                        <button 
+                            onClick={() => toggleWishlist(product.id)}
+                            className={`p-4 rounded-xl border border-[#f3efe7] dark:border-[#3a3221] transition-colors flex items-center justify-center ${isWishlisted ? 'text-primary border-primary bg-primary/5' : 'text-[#1b170e] dark:text-white hover:bg-[#f3efe7] dark:hover:bg-[#3a3221]'}`}
+                        >
+                             <span className={`material-symbols-outlined text-xl ${isWishlisted ? 'fill-icon' : ''}`}>favorite</span>
+                        </button>
+                    </div>
                 </div>
                 <button className="w-full border border-[#f3efe7] dark:border-[#3a3221] py-3 rounded-xl hover:bg-[#f3efe7] dark:hover:bg-[#3a3221] text-[#1b170e] dark:text-white transition-colors font-medium">
                     Buy Now

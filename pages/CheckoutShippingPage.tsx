@@ -118,15 +118,15 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
                         </div>
                     </div>
                 </section>
-                <div className="flex items-center gap-4 pt-4 border-t border-[#e8edf3] dark:border-gray-800">
+                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-[#e8edf3] dark:border-gray-800">
                     <button 
                         onClick={handleContinue}
-                        className="flex-1 bg-primary text-white text-base font-bold h-14 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center gap-2"
+                        className="w-full sm:flex-1 bg-primary text-white text-base font-bold h-14 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center gap-2"
                     >
                         Continue to Delivery
                         <span className="material-symbols-outlined">arrow_forward</span>
                     </button>
-                    <button onClick={() => onNavigate('cart')} className="px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14">
+                    <button onClick={() => onNavigate('cart')} className="w-full sm:w-auto px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14">
                         Return to Cart
                     </button>
                 </div>
