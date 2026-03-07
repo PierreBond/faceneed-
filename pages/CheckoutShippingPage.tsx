@@ -35,7 +35,7 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
   };
 
   return (
-    <div className="flex-1 px-4 lg:px-40 py-8 lg:py-12 bg-background-light dark:bg-background-dark font-display text-[#0e141b] dark:text-gray-100">
+    <div className="flex-1 px-4 md:px-8 lg:px-12 py-8 lg:py-12 bg-background-light dark:bg-background-dark font-display text-[#0e141b] dark:text-gray-100">
       <div className="max-w-[1200px] mx-auto">
         {/* Progress */}
         <div className="mb-12">
@@ -57,9 +57,9 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
             </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
             {/* Form */}
-            <div className="lg:col-span-7 flex flex-col gap-10">
+            <div className="md:col-span-7 flex flex-col gap-10">
                 <section>
                     <h1 className="text-[#0e141b] dark:text-white text-3xl font-black mb-8">Shipping Information</h1>
                     <div className="space-y-4 mb-8">
@@ -133,7 +133,7 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
             </div>
 
             {/* Summary */}
-            <div className="lg:col-span-5 sticky top-24">
+            <div className="md:col-span-5 sticky top-24">
                 <div className="bg-white dark:bg-gray-900 rounded-xl p-8 border border-[#e8edf3] dark:border-gray-800 shadow-sm">
                     <h2 className="text-xl font-black mb-8 text-[#0e141b] dark:text-white">Order Summary</h2>
                     <div className="space-y-6 mb-8">

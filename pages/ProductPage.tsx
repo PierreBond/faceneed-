@@ -43,9 +43,9 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
         <span className="text-[#1b170e] dark:text-[#f8f7f6]">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
         {/* Gallery */}
-        <div className="lg:col-span-7 flex flex-col-reverse md:flex-row gap-4">
+        <div className="md:col-span-7 flex flex-col-reverse md:flex-row gap-4">
           <div className="flex md:flex-col gap-4 overflow-x-auto md:overflow-x-visible">
             {images.map((img, idx) => (
                 <div 
@@ -63,7 +63,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
         </div>
 
         {/* Details */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="md:col-span-5 space-y-8">
             <div>
                 <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-[#1b170e] dark:text-[#f8f7f6]">{product.name}</h2>
                 <div className="flex items-center gap-4 mt-4">

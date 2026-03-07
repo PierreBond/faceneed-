@@ -15,7 +15,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
   const total = subtotal + shipping + delivery;
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4 md:px-10 lg:px-40 py-12 font-newsreader">
+    <div className="max-w-[1200px] mx-auto px-4 md:px-8 lg:px-12 py-12 font-newsreader">
       <h1 className="text-[#1b150e] dark:text-[#f8f7f6] text-4xl font-bold leading-tight tracking-[-0.033em] mb-10">Your Shopping Bag</h1>
       
       {cart.length === 0 ? (
@@ -24,7 +24,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
           <button onClick={() => onNavigate('shop')} className="bg-primary text-[#211a11] px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all">Start Shopping</button>
         </div>
       ) : (
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
+        <div className="flex flex-col md:flex-row gap-12 items-start">
           <div className="flex-1 w-full space-y-8">
             {cart.map(item => (
               <div key={item.id} className="flex flex-col border-b border-[#f3eee7] dark:border-[#3a2f21] pb-8">
@@ -59,7 +59,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
           </div>
 
           {/* Summary Sidebar */}
-          <aside className="w-full lg:w-96 sticky top-32">
+          <aside className="w-full md:w-80 lg:w-96 sticky top-32">
             <div className="bg-white dark:bg-[#2a2217] p-8 rounded-2xl shadow-sm border border-[#f3eee7] dark:border-[#3a2f21]">
               <h3 className="text-2xl font-bold mb-6 text-[#1b150e] dark:text-[#f8f7f6]">Order Summary</h3>
               <div className="space-y-4 mb-6 border-b border-[#f3eee7] dark:border-[#3a2f21] pb-6">
