@@ -36,7 +36,7 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
 
   return (
     <div className="flex-1 px-4 md:px-8 lg:px-12 py-8 lg:py-12 bg-background-light dark:bg-background-dark font-display text-[#0e141b] dark:text-gray-100">
-      <div className="max-w-[1200px] mx-auto">
+      <div className="max-w-[1440px] mx-auto">
         {/* Progress */}
         <div className="mb-12">
             <div className="flex flex-col gap-3 max-w-[600px]">

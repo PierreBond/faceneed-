@@ -14,7 +14,7 @@ const CheckoutPaymentPage: React.FC<CheckoutPaymentPageProps> = ({ cart, userInf
 
   return (
     <div className="flex flex-1 justify-center py-8 font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
-      <div className="flex flex-col md:flex-row max-w-[1200px] flex-1 gap-12 px-6">
+      <div className="flex flex-col md:flex-row max-w-[1440px] flex-1 gap-12 px-6">
         <div className="flex-1 flex flex-col">
           <div className="flex flex-wrap gap-2 mb-6">
             <button onClick={() => onNavigate('cart')} className="text-primary text-sm font-medium">Information</button>

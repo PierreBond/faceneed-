@@ -21,7 +21,7 @@ const WishlistPage: React.FC<WishlistPageProps> = ({
   const wishlistItems = products.filter(p => wishlist.includes(p.id));
 
   return (
-    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-12 animate-fadeIn min-h-[60vh]">
+    <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12 py-12 animate-fadeIn min-h-[60vh]">
       <div className="flex flex-col items-center mb-12">
         <h1 className="text-4xl md:text-5xl font-serif text-gray-900 dark:text-white mb-4">Your Wishlist</h1>
         <p className="text-gray-500 dark:text-gray-400">Save your favorites for later.</p>

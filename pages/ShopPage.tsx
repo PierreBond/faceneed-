@@ -67,7 +67,7 @@ const ShopPage: React.FC<ShopPageProps> = ({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-fadeIn">
+    <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12 py-8 animate-fadeIn">
       {/* Breadcrumbs & Title */}
       <div className="mb-8">
         <nav className="flex text-sm text-slate-500 mb-4 gap-2">
@@ -146,7 +146,7 @@ const ShopPage: React.FC<ShopPageProps> = ({
         {/* Product Grid */}
         <div className="flex-1">
           {displayedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10">
               {displayedProducts.map(product => (
                 <div 
                   key={product.id} 

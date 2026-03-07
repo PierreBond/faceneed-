@@ -34,7 +34,7 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
   const [activeImage, setActiveImage] = useState(images[0]);
 
   return (
-    <div className="max-w-[1200px] mx-auto px-6 py-8 font-newsreader">
+    <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-12 py-8 font-newsreader">
       <nav className="flex items-center gap-2 text-sm text-[#977f4e] mb-12">
         <button onClick={() => onNavigate('home')} className="hover:underline">Home</button>
         <span className="material-symbols-outlined text-xs">chevron_right</span>
