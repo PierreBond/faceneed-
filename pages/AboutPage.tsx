@@ -26,7 +26,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* Mission */}
-      <section className="py-24 px-6 lg:px-10 max-w-[1280px] mx-auto">
+      <section className="py-24 px-6 md:px-12 lg:px-20 w-full">
         <div className="grid md:grid-cols-2 gap-16 items-center">
             <div>
                 <span className="text-primary font-bold tracking-widest text-xs uppercase mb-4 block">Our Mission</span>
@@ -56,7 +56,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
 
       {/* Values */}
       <section className="bg-primary/5 dark:bg-primary/10 py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+        <div className="w-full px-6 md:px-12 lg:px-20">
             <h2 className="text-3xl font-serif text-center text-gray-900 dark:text-white mb-16">The Faceneed Standard</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div className="bg-white dark:bg-background-dark p-8 rounded-2xl shadow-sm">
@@ -91,7 +91,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* Location */}
-      <section className="py-24 px-6 lg:px-10 max-w-[1280px] mx-auto border-t border-gray-100 dark:border-gray-800">
+      <section className="py-24 px-6 md:px-12 lg:px-20 w-full border-t border-gray-100 dark:border-gray-800">
         <div className="grid md:grid-cols-2 gap-16 items-center">
             <div className="order-2 md:order-1 h-[500px] rounded-2xl bg-gray-100 dark:bg-gray-800 overflow-hidden relative group">
                  <div 

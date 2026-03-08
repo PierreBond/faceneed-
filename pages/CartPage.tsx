@@ -15,7 +15,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
   const total = subtotal + shipping + delivery;
 
   return (
-    <div className="max-w-[1440px] mx-auto px-4 md:px-8 lg:px-12 py-12 font-newsreader">
+    <div className="w-full px-6 md:px-12 lg:px-20 py-12 font-newsreader">
       <h1 className="text-[#1b150e] dark:text-[#f8f7f6] text-4xl font-bold leading-tight tracking-[-0.033em] mb-10">Your Shopping Bag</h1>
       
       {cart.length === 0 ? (

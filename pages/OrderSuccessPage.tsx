@@ -8,7 +8,7 @@ interface OrderSuccessPageProps {
 
 const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ userInfo, onNavigate }) => {
   return (
-    <div className="flex flex-1 justify-center py-12 px-4 font-display bg-background-light dark:bg-background-dark">
+    <div className="flex flex-1 justify-center py-12 px-6 md:px-12 lg:px-20 font-display bg-background-light dark:bg-background-dark">
       <div className="max-w-[640px] w-full flex flex-col items-center text-center">
         {/* Success Icon */}
         <div className="mb-8 flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 border border-primary/20">

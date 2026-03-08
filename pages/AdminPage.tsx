@@ -402,7 +402,7 @@ const AdminPage: React.FC<AdminPageProps> = ({
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-4 md:px-8 lg:px-12 py-12 min-h-[60vh]">
+    <div className="w-full px-6 md:px-12 lg:px-20 py-12 min-h-[60vh]">
         <div className="flex flex-col lg:flex-row gap-12">
             {/* Admin Sidebar */}
             <aside className="w-full lg:w-64 flex-shrink-0">
