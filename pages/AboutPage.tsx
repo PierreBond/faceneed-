@@ -137,7 +137,7 @@ const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       </section>
 
       {/* CTA */}
-      <section className="py-24 text-center px-6">
+      <section className="py-24 text-center px-6 md:px-12 lg:px-20">
         <h2 className="text-4xl font-serif text-gray-900 dark:text-white mb-6">Ready to find your glow?</h2>
         <p className="text-xl text-gray-600 dark:text-gray-400 mb-10">Start your journey with our best-selling essentials.</p>
         <button onClick={() => onNavigate('shop')} className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-bold transition-all shadow-lg transform hover:scale-105">
