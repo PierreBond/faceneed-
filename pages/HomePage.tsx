@@ -220,7 +220,7 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
       </section>
 
       {/* SECTION 1.5: Minimalist Infinite Marquee */}
-      <div className="relative border-y border-gray-900/5 dark:border-white/5 bg-transparent py-4 -mx-4 md:-mx-8 overflow-hidden hover-pause z-20">
+      <div className="relative border-y border-gray-900/5 dark:border-white/5 bg-transparent py-4 -mx-6 md:-mx-12 lg:-mx-20 overflow-hidden hover-pause z-20">
           <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
           

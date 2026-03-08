@@ -61,7 +61,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
           scrolled ? 'glass-panel py-3' : 'bg-transparent py-4 md:py-6'
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-4 md:px-6 lg:px-10 flex items-center justify-between h-full">
+        <div className="w-full px-6 md:px-12 lg:px-20 flex items-center justify-between h-full">
           
           {/* Mobile Menu Button */}
           <button 

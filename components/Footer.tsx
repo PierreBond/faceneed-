@@ -8,7 +8,7 @@ interface FooterProps {
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
   return (
     <footer className="bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800 py-16">
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10">
+      <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => onNavigate('home')}>
