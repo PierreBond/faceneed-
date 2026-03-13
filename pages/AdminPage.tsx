@@ -14,15 +14,15 @@ interface AdminPageProps {
 
 type AdminTab = 'dashboard' | 'products' | 'orders';
 
-const AdminPage: React.FC<AdminPageProps> = ({ 
-  products, 
-  orders, 
-  onUpdateProduct, 
-  onAddProduct, 
-  onDeleteProduct, 
-  onUpdateOrderStatus, 
+import { useProductStore, useOrderStore } from '../store';
+
+const AdminPage: React.FC<{
+  onNavigate: (path: string) => void;
+}> = ({ 
   onNavigate 
 }) => {
+  const { products, addProduct: onAddProduct, updateProduct: onUpdateProduct, deleteProduct: onDeleteProduct } = useProductStore();
+  const { orders, updateOrderStatus: onUpdateOrderStatus } = useOrderStore();
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
   const [editingProduct, setEditingProduct] = useState<Partial<Product> | null>(null);
 

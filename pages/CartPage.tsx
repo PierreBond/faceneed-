@@ -1,15 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CartItem } from '../types';
+import { useCartStore } from '../store';
 
-interface CartPageProps {
-  cart: CartItem[];
-  updateQuantity: (id: string, delta: number) => void;
-  removeFromCart: (id: string) => void;
+const CartPage: React.FC<{
   onNavigate: (path: string) => void;
-}
-
-const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCart, onNavigate }) => {
+}> = ({ onNavigate }) => {
+  const { cart, updateQuantity, removeItem: removeFromCart } = useCartStore();
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const shipping = 0; // Free
   const delivery = 8.46;

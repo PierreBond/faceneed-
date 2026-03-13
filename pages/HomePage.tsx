@@ -1,17 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '../types';
+import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
-interface HomePageProps {
+const HomePage: React.FC<{
   onNavigate: (path: string) => void;
   onProductClick: (product: Product) => void;
-  addToCart: (product: Product) => void;
-  products: Product[];
-  wishlist?: string[];
-  toggleWishlist?: (id: string) => void;
-}
-
-const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, products, wishlist = [], toggleWishlist }) => {
+}> = ({ onNavigate, onProductClick }) => {
+  const { products } = useProductStore();
+  const { wishlist, toggleWishlist } = useWishlistStore();
+  const { addItem: addToCart } = useCartStore();
   // Select specific assets for the bento grid
   const heroProduct = products.find(p => p.id === 's2') || products[1];
   const bestSellers = products.filter(p => p.isBestSeller).slice(0, 2);

@@ -20,16 +20,17 @@ const getProductType = (category: string) => {
     return 'other';
 }
 
-const ShopPage: React.FC<ShopPageProps> = ({ 
+import { useProductStore, useWishlistStore, useCartStore } from '../store';
+
+const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | 'category' | 'searchQuery'>> = ({ 
     onNavigate, 
     onProductClick, 
-    addToCart, 
     category = 'all', 
     searchQuery = '', 
-    products, 
-    wishlist, 
-    toggleWishlist 
 }) => {
+  const { products } = useProductStore();
+  const { wishlist, toggleWishlist } = useWishlistStore();
+  const { addItem: addToCart } = useCartStore();
   
   const displayedProducts = useMemo(() => {
     let filtered = products;
@@ -179,7 +180,7 @@ const ShopPage: React.FC<ShopPageProps> = ({
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          addToCart(product);
+                          addToCart(product, 1);
                         }}
                         className="quick-buy-btn opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 py-3 rounded-lg text-sm font-bold shadow-lg transition-all duration-300 hover:bg-primary hover:text-white flex items-center justify-center gap-2"
                       >

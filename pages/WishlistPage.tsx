@@ -11,14 +11,15 @@ interface WishlistPageProps {
   onProductClick: (product: Product) => void;
 }
 
-const WishlistPage: React.FC<WishlistPageProps> = ({ 
-  wishlist, 
-  products, 
-  toggleWishlist, 
-  addToCart, 
+import { useProductStore, useWishlistStore, useCartStore } from '../store';
+
+const WishlistPage: React.FC<Pick<WishlistPageProps, 'onNavigate' | 'onProductClick'>> = ({ 
   onNavigate,
   onProductClick
 }) => {
+  const { products } = useProductStore();
+  const { wishlist, toggleWishlist } = useWishlistStore();
+  const { addItem: addToCart } = useCartStore();
   const wishlistItems = useMemo(() => products.filter(p => wishlist.includes(p.id)), [products, wishlist]);
 
   return (
@@ -58,7 +59,7 @@ const WishlistPage: React.FC<WishlistPageProps> = ({
                  <button 
                   onClick={(e) => {
                     e.stopPropagation();
-                    addToCart(product);
+                    addToCart(product, 1);
                   }}
                   className="absolute bottom-4 left-4 right-4 bg-white/95 dark:bg-background-dark/95 py-3 rounded-full font-bold opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center justify-center gap-2 hover:bg-primary hover:text-white text-gray-900 dark:text-white shadow-lg text-xs uppercase tracking-widest"
                 >

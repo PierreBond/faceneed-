@@ -1,22 +1,24 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Product } from '../types';
+import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
-interface ProductPageProps {
-  product: Product | null;
+const ProductPage: React.FC<{
+  product?: Product | null;
   onNavigate: (path: string) => void;
-  addToCart: (product: Product, quantity: number) => void;
-  wishlist: string[];
-  toggleWishlist: (id: string) => void;
-}
-
-const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCart, wishlist, toggleWishlist }) => {
+}> = ({ product: propProduct = null, onNavigate }) => {
+  const { id } = useParams<{ id: string }>();
+  const { products } = useProductStore();
+  const { toggleWishlist, wishlist } = useWishlistStore();
+  const { addItem: addToCart } = useCartStore();
   const [quantity, setQuantity] = useState(1);
-
   const navigate = useNavigate();
 
+  // Prefer the prop if available (for fast transition), otherwise find by ID
+  const product = propProduct || products.find(p => p.id === id);
+
   if (!product) {
-    // Fallback if accessed directly without state, just go back to shop
+    // Fallback if accessed directly without state and not found in store
     setTimeout(() => navigate('/shop'), 0);
     return null;
   }

@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { PageView, UserInfo, Order } from '../types';
-
-interface ProfilePageProps {
-  userInfo: UserInfo;
-  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
-  onNavigate: (page: PageView) => void;
-  orders: Order[];
-}
+import { useUserStore, useOrderStore } from '../store';
 
 type Tab = 'dashboard' | 'orders' | 'addresses' | 'details';
 
-const ProfilePage: React.FC<ProfilePageProps> = ({ userInfo, setUserInfo, onNavigate, orders }) => {
+const ProfilePage: React.FC<{
+  onNavigate: (path: string) => void;
+}> = ({ onNavigate }) => {
+  const { userInfo, setUserInfo } = useUserStore();
+  const { orders } = useOrderStore();
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [errors, setErrors] = useState<{ email?: string }>({});
 

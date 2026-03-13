@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { UserInfo } from '../types';
+import { useUserStore } from '../store';
 
-interface OrderSuccessPageProps {
-  userInfo: UserInfo;
+const OrderSuccessPage: React.FC<{
   onNavigate: (path: string) => void;
-}
-
-const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ userInfo, onNavigate }) => {
+}> = ({ onNavigate }) => {
+  const { userInfo } = useUserStore();
   return (
     <div className="flex flex-1 justify-center py-12 px-6 md:px-12 lg:px-20 font-display bg-background-light dark:bg-background-dark">
       <div className="max-w-[640px] w-full flex flex-col items-center text-center">

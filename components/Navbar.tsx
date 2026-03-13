@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useCartStore, useWishlistStore } from '../store';
 
 interface NavbarProps {
-  cartCount: number;
-  onNavigate: (path: string) => void;
-  currentPage: string;
   onSearch: (query: string) => void;
   searchQuery: string;
-  wishlistCount?: number;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onSearch, searchQuery, wishlistCount = 0 }) => {
+const Navbar: React.FC<NavbarProps> = ({ onSearch, searchQuery }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPage = location.pathname;
+
+  const cart = useCartStore((state) => state.cart);
+  const wishlist = useWishlistStore((state) => state.wishlist);
+  
+  const cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const wishlistCount = wishlist.length;
 
   useEffect(() => {
     const handleScroll = () => {

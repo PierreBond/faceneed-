@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CartItem, UserInfo } from '../types';
+import { useCartStore, useUserStore } from '../store';
 
-interface CheckoutShippingPageProps {
-  cart: CartItem[];
-  userInfo: UserInfo;
-  setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
+const CheckoutShippingPage: React.FC<{
   onNavigate: (path: string) => void;
-}
-
-const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userInfo, setUserInfo, onNavigate }) => {
+}> = ({ onNavigate }) => {
+  const { cart } = useCartStore();
+  const { userInfo, setUserInfo } = useUserStore();
   const [errors, setErrors] = useState<{ email?: string }>({});
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.0825; // 8.25%
