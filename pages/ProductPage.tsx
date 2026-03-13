@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { PageView, Product } from '../types';
+import { Link, useNavigate } from 'react-router-dom';
+import { Product } from '../types';
 
 interface ProductPageProps {
   product: Product | null;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
   addToCart: (product: Product, quantity: number) => void;
   wishlist: string[];
   toggleWishlist: (id: string) => void;
@@ -12,9 +13,11 @@ interface ProductPageProps {
 const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCart, wishlist, toggleWishlist }) => {
   const [quantity, setQuantity] = useState(1);
 
+  const navigate = useNavigate();
+
   if (!product) {
-    // Fallback if accessed directly without state, just go back to home or show default
-    onNavigate('shop');
+    // Fallback if accessed directly without state, just go back to shop
+    setTimeout(() => navigate('/shop'), 0);
     return null;
   }
 
@@ -36,9 +39,9 @@ const ProductPage: React.FC<ProductPageProps> = ({ product, onNavigate, addToCar
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-8 font-newsreader">
       <nav className="flex items-center gap-2 text-sm text-[#977f4e] mb-12">
-        <button onClick={() => onNavigate('home')} className="hover:underline">Home</button>
+        <Link to="/" className="hover:underline">Home</Link>
         <span className="material-symbols-outlined text-xs">chevron_right</span>
-        <button onClick={() => onNavigate('shop')} className="hover:underline">{product.category}</button>
+        <Link to="/shop" className="hover:underline">{product.category}</Link>
         <span className="material-symbols-outlined text-xs">chevron_right</span>
         <span className="text-[#1b170e] dark:text-[#f8f7f6]">{product.name}</span>
       </nav>

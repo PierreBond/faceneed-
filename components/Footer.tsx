@@ -1,20 +1,16 @@
 import React from 'react';
-import { PageView } from '../types';
+import { Link } from 'react-router-dom';
 
-interface FooterProps {
-  onNavigate: (page: PageView) => void;
-}
-
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800 py-16">
       <div className="w-full px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-10">
           <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-6 cursor-pointer" onClick={() => onNavigate('home')}>
+            <Link to="/" className="flex items-center gap-2 mb-6 cursor-pointer">
               <span className="material-symbols-outlined text-primary text-2xl">spa</span>
               <h2 className="text-xl font-serif font-bold tracking-tight text-gray-900 dark:text-white">Faceneed</h2>
-            </div>
+            </Link>
             <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-8">
               The ultimate destination for modern, clean skincare. Our mission is to enhance your natural beauty with pure, effective ingredients.
             </p>
@@ -27,10 +23,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div>
             <h4 className="font-bold text-gray-900 dark:text-white mb-6 uppercase text-xs tracking-widest">Shop</h4>
             <ul className="flex flex-col gap-4 text-sm text-gray-500 dark:text-gray-400">
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-primary text-left">All Products</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-primary text-left">Best Sellers</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-primary text-left">New Arrivals</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-primary text-left">Gift Cards</button></li>
+              <li><Link to="/shop" className="hover:text-primary text-left">All Products</Link></li>
+              <li><Link to="/shop" className="hover:text-primary text-left">Best Sellers</Link></li>
+              <li><Link to="/shop" className="hover:text-primary text-left">New Arrivals</Link></li>
+              <li><Link to="/shop" className="hover:text-primary text-left">Gift Cards</Link></li>
             </ul>
           </div>
           <div>

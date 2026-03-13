@@ -1,8 +1,9 @@
 import React from 'react';
-import { PageView, Product } from '../types';
+import { Link } from 'react-router-dom';
+import { Product } from '../types';
 
 interface HomePageProps {
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
   onProductClick: (product: Product) => void;
   addToCart: (product: Product) => void;
   products: Product[];
@@ -49,18 +50,18 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
                 </p>
 
                 <div className="animate-slideUp delay-300 pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <button 
-                        onClick={() => onNavigate('shop')}
-                        className="btn-squish bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs"
+                    <Link 
+                        to="/shop"
+                        className="btn-squish bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs inline-block text-center"
                     >
                         Shop The Collection
-                    </button>
-                    <button 
-                        onClick={() => onNavigate('about')}
-                        className="btn-squish border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gray-50 dark:hover:bg-white/5"
+                    </Link>
+                    <Link 
+                        to="/about"
+                        className="btn-squish border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gray-50 dark:hover:bg-white/5 inline-block text-center"
                     >
                         Our Philosophy
-                    </button>
+                    </Link>
                 </div>
             </div>
 
@@ -107,9 +108,9 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
           </div>
 
           {/* Card 2: Skincare Category */}
-          <div 
-            onClick={() => onNavigate('skincare')}
-            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#F0EEEB] dark:bg-[#252525] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+          <Link 
+            to="/skincare"
+            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#F0EEEB] dark:bg-[#252525] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish block"
           >
              <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
                 <span className="material-symbols-outlined text-8xl md:text-9xl">water_drop</span>
@@ -123,12 +124,12 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
                     </div>
                 </div>
              </div>
-          </div>
+          </Link>
 
           {/* Card 3: Makeup Category */}
-          <div 
-            onClick={() => onNavigate('makeup')}
-            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#EBE6E4] dark:bg-[#2A2A2A] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish"
+          <Link 
+            to="/makeup"
+            className="group md:col-span-1 md:row-span-1 min-h-[200px] md:min-h-0 rounded-4xl bg-[#EBE6E4] dark:bg-[#2A2A2A] relative overflow-hidden cursor-pointer border border-black/5 dark:border-white/5 btn-squish block"
           >
              <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-40 transition-opacity">
                 <span className="material-symbols-outlined text-8xl md:text-9xl">brush</span>
@@ -142,13 +143,13 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
                     </div>
                 </div>
              </div>
-          </div>
+          </Link>
 
           {/* Card 4: Best Seller List (Vertical) */}
           <div className="md:col-span-1 md:row-span-2 rounded-4xl bg-white dark:bg-[#1E1E1E] border border-black/5 dark:border-white/5 p-8 flex flex-col">
               <div className="flex items-center justify-between mb-8">
                   <h3 className="text-xl font-serif text-gray-900 dark:text-white">Trending</h3>
-                  <button onClick={() => onNavigate('shop')} className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-primary">View All</button>
+                  <Link to="/shop" className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-primary">View All</Link>
               </div>
               <div className="flex-1 flex flex-col gap-6">
                   {bestSellers.map((product) => (
@@ -251,3 +252,4 @@ const HomePage: React.FC<HomePageProps> = ({ onNavigate, onProductClick, product
 };
 
 export default HomePage;
+;

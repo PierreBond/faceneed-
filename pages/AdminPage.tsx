@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { PageView, Product, Order, OrderStatus } from '../types';
+import { Link } from 'react-router-dom';
+import { Product, Order, OrderStatus } from '../types';
 
 interface AdminPageProps {
   products: Product[];
@@ -8,7 +9,7 @@ interface AdminPageProps {
   onAddProduct: (product: Product) => void;
   onDeleteProduct: (id: string) => void;
   onUpdateOrderStatus: (id: string, status: OrderStatus) => void;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 type AdminTab = 'dashboard' | 'products' | 'orders';
@@ -434,13 +435,13 @@ const AdminPage: React.FC<AdminPageProps> = ({
                     </button>
                     
                     <div className="border-t border-gray-100 dark:border-gray-800 my-2 pt-2">
-                        <button 
-                            onClick={() => onNavigate('profile')}
+                        <Link 
+                            to="/profile"
                             className="w-full text-left px-4 py-3 rounded-lg font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-3"
                         >
                             <span className="material-symbols-outlined text-xl">arrow_back</span>
                             Back to Profile
-                        </button>
+                        </Link>
                     </div>
                 </nav>
             </aside>

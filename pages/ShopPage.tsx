@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
-import { PageView, Product } from '../types';
+import { Link } from 'react-router-dom';
+import { Product } from '../types';
 
 interface ShopPageProps {
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
   onProductClick: (product: Product) => void;
   addToCart: (product: Product) => void;
   category?: 'all' | 'skincare' | 'makeup';
@@ -71,7 +72,7 @@ const ShopPage: React.FC<ShopPageProps> = ({
       {/* Breadcrumbs & Title */}
       <div className="mb-8">
         <nav className="flex text-sm text-slate-500 mb-4 gap-2">
-          <button onClick={() => onNavigate('home')} className="hover:text-primary">Home</button>
+          <Link to="/" className="hover:text-primary">Home</Link>
           <span>/</span>
           <span className="text-slate-900 dark:text-white font-medium capitalize">{category === 'all' ? 'Shop' : category}</span>
         </nav>

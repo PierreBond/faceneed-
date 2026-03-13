@@ -1,10 +1,11 @@
 import React from 'react';
-import { PageView, CartItem, UserInfo } from '../types';
+import { Link } from 'react-router-dom';
+import { CartItem, UserInfo } from '../types';
 
 interface CheckoutPaymentPageProps {
   cart: CartItem[];
   userInfo: UserInfo;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 const CheckoutPaymentPage: React.FC<CheckoutPaymentPageProps> = ({ cart, userInfo, onNavigate }) => {
@@ -17,9 +18,9 @@ const CheckoutPaymentPage: React.FC<CheckoutPaymentPageProps> = ({ cart, userInf
       <div className="flex flex-col md:flex-row w-full flex-1 gap-12 px-6 md:px-12 lg:px-20">
         <div className="flex-1 flex flex-col">
           <div className="flex flex-wrap gap-2 mb-6">
-            <button onClick={() => onNavigate('cart')} className="text-primary text-sm font-medium">Information</button>
+            <Link to="/cart" className="text-primary text-sm font-medium">Information</Link>
             <span className="text-slate-400 text-sm font-medium">/</span>
-            <button onClick={() => onNavigate('checkout-shipping')} className="text-primary text-sm font-medium">Shipping</button>
+            <Link to="/checkout-shipping" className="text-primary text-sm font-medium">Shipping</Link>
             <span className="text-slate-400 text-sm font-medium">/</span>
             <span className="text-slate-900 dark:text-white text-sm font-bold">Payment</span>
           </div>
@@ -35,10 +36,10 @@ const CheckoutPaymentPage: React.FC<CheckoutPaymentPageProps> = ({ cart, userInf
                   <p className="text-slate-500 dark:text-slate-400 text-xs">{userInfo.address || 'Address'} • Standard Shipping (Free)</p>
                 </div>
               </div>
-              <button onClick={() => onNavigate('checkout-shipping')} className="text-sm font-bold tracking-tight flex items-center gap-1 text-primary hover:underline">
+              <Link to="/checkout-shipping" className="text-sm font-bold tracking-tight flex items-center gap-1 text-primary hover:underline">
                 Edit
                 <span className="material-symbols-outlined text-sm">edit</span>
-              </button>
+              </Link>
             </div>
           </div>
           <div className="flex flex-col gap-6">

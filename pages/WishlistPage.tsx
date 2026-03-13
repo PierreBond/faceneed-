@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
-import { PageView, Product } from '../types';
+import { Link } from 'react-router-dom';
+import { Product } from '../types';
 
 interface WishlistPageProps {
   wishlist: string[];
   products: Product[];
   toggleWishlist: (id: string) => void;
   addToCart: (product: Product) => void;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
   onProductClick: (product: Product) => void;
 }
 
@@ -18,7 +19,7 @@ const WishlistPage: React.FC<WishlistPageProps> = ({
   onNavigate,
   onProductClick
 }) => {
-  const wishlistItems = products.filter(p => wishlist.includes(p.id));
+  const wishlistItems = useMemo(() => products.filter(p => wishlist.includes(p.id)), [products, wishlist]);
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-12 animate-fadeIn min-h-[60vh]">
@@ -82,12 +83,12 @@ const WishlistPage: React.FC<WishlistPageProps> = ({
           </div>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Your wishlist is empty</h2>
           <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-sm text-center">Heart items you love to save them here for later.</p>
-          <button 
-            onClick={() => onNavigate('shop')}
+          <Link 
+            to="/shop"
             className="bg-primary text-white px-8 py-3 rounded-full font-bold hover:bg-primary/90 transition-colors"
           >
             Start Shopping
-          </button>
+          </Link>
         </div>
       )}
     </div>

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { PageView, CartItem, UserInfo } from '../types';
+import { Link } from 'react-router-dom';
+import { CartItem, UserInfo } from '../types';
 
 interface CheckoutShippingPageProps {
   cart: CartItem[];
   userInfo: UserInfo;
   setUserInfo: React.Dispatch<React.SetStateAction<UserInfo>>;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userInfo, setUserInfo, onNavigate }) => {
@@ -49,7 +50,7 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
                 </div>
             </div>
             <div className="flex items-center gap-2 mt-6 text-sm">
-                <button onClick={() => onNavigate('cart')} className="text-[#507395] dark:text-gray-400 hover:text-primary">Cart</button>
+                <Link to="/cart" className="text-[#507395] dark:text-gray-400 hover:text-primary">Cart</Link>
                 <span className="text-[#507395] dark:text-gray-600">/</span>
                 <span className="text-[#0e141b] dark:text-white font-bold">Shipping</span>
                 <span className="text-[#507395] dark:text-gray-600">/</span>
@@ -126,9 +127,9 @@ const CheckoutShippingPage: React.FC<CheckoutShippingPageProps> = ({ cart, userI
                         Continue to Delivery
                         <span className="material-symbols-outlined">arrow_forward</span>
                     </button>
-                    <button onClick={() => onNavigate('cart')} className="w-full sm:w-auto px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14">
+                    <Link to="/cart" className="w-full sm:w-auto px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14 flex items-center justify-center">
                         Return to Cart
-                    </button>
+                    </Link>
                 </div>
             </div>
 

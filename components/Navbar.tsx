@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { PageView } from '../types';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
   cartCount: number;
-  onNavigate: (page: PageView) => void;
-  currentPage: PageView;
+  onNavigate: (path: string) => void;
+  currentPage: string;
   onSearch: (query: string) => void;
   searchQuery: string;
   wishlistCount?: number;
@@ -13,6 +13,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onSearch, searchQuery, wishlistCount = 0 }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,10 +33,16 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
     return () => { document.body.style.overflow = 'unset'; };
   }, [mobileMenuOpen]);
 
-  const handleMobileNavigate = (page: PageView) => {
-      onNavigate(page);
+  const handleMobileNavigate = (path: string) => {
+      navigate(path);
       setMobileMenuOpen(false);
   };
+
+  const navItems = [
+    { label: 'Shop', path: '/shop' },
+    { label: 'Skincare', path: '/skincare' },
+    { label: 'Makeup', path: '/makeup' }
+  ];
 
   return (
     <>
@@ -74,27 +81,31 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
 
           {/* Left Nav (Desktop) */}
           <nav className="hidden md:flex items-center gap-8">
-              {['Shop', 'Skincare', 'Makeup'].map((item) => (
-                  <button 
-                      key={item}
-                      onClick={() => onNavigate(item.toLowerCase() as PageView)} 
-                      className="text-xs font-semibold uppercase tracking-[0.15em] hover:text-primary transition-colors text-gray-900 dark:text-white btn-squish"
+              {navItems.map((item) => (
+                  <NavLink 
+                      key={item.label}
+                      to={item.path}
+                      className={({ isActive }) => 
+                        `text-xs font-semibold uppercase tracking-[0.15em] hover:text-primary transition-colors btn-squish ${
+                          isActive ? 'text-primary' : 'text-gray-900 dark:text-white'
+                        }`
+                      }
                   >
-                      {item}
-                  </button>
+                      {item.label}
+                  </NavLink>
               ))}
           </nav>
 
           {/* Center Logo */}
-          <div 
+          <Link 
+            to="/"
             className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 cursor-pointer group ${mobileMenuOpen ? 'opacity-0' : 'opacity-100'} transition-all duration-500`}
-            onClick={() => onNavigate('home')}
           >
             <span className={`material-symbols-outlined text-primary transition-all duration-500 ${scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>spa</span>
             <h2 className={`font-serif font-semibold tracking-tight text-gray-900 dark:text-white transition-all duration-500 ${scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'}`}>
               Faceneed
             </h2>
-          </div>
+          </Link>
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 md:gap-4 ml-auto md:ml-0">
@@ -110,46 +121,46 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
             </div>
 
             {/* Mobile Search Icon */}
-            <button 
+            <Link 
+              to="/shop"
               className="md:hidden p-2 text-gray-900 dark:text-white"
-              onClick={() => onNavigate('shop')}
             >
               <span className="material-symbols-outlined text-xl">search</span>
-            </button>
+            </Link>
 
             <div className="flex items-center gap-1">
               {/* Wishlist */}
-              <button 
+              <Link 
+                to="/wishlist"
                 className="btn-squish p-2 md:p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors relative text-gray-900 dark:text-white hidden sm:flex"
-                onClick={() => onNavigate('wishlist')}
               >
-                <span className={`material-symbols-outlined text-[20px] ${currentPage === 'wishlist' ? 'fill-icon text-primary' : ''}`}>favorite</span>
+                <span className={`material-symbols-outlined text-[20px] ${currentPage === '/wishlist' ? 'fill-icon text-primary' : ''}`}>favorite</span>
                 {wishlistCount > 0 && (
                   <span className="absolute top-1 right-1 bg-primary text-white text-[9px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
                     {wishlistCount}
                   </span>
                 )}
-              </button>
+              </Link>
 
-              <button 
+              <Link 
+                to="/cart"
                 className="btn-squish p-2 md:p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors relative text-gray-900 dark:text-white"
-                onClick={() => onNavigate('cart')}
               >
-                <span className="material-symbols-outlined text-[20px]">shopping_bag</span>
+                <span className={`material-symbols-outlined text-[20px] ${currentPage === '/cart' ? 'text-primary' : ''}`}>shopping_bag</span>
                 {cartCount > 0 && (
                   <span className="absolute top-0 right-0 md:top-1 md:right-1 bg-primary text-white text-[9px] w-3.5 h-3.5 flex items-center justify-center rounded-full font-bold">
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </Link>
               
               {/* Profile */}
-              <button 
+              <Link 
+                  to="/profile"
                   className="btn-squish p-2 md:p-2.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-gray-900 dark:text-white hidden sm:flex"
-                  onClick={() => onNavigate('profile')}
               >
-                <span className={`material-symbols-outlined text-[20px] ${currentPage === 'profile' ? 'fill-icon' : ''}`}>person</span>
-              </button>
+                <span className={`material-symbols-outlined text-[20px] ${currentPage === '/profile' ? 'fill-icon text-primary' : ''}`}>person</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -184,20 +195,27 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
               </div>
 
               <nav className="flex flex-col gap-6 overflow-y-auto">
-                  {['Home', 'Shop', 'Skincare', 'Makeup', 'Wishlist', 'Profile'].map((item) => (
+                  {[
+                    { label: 'Home', path: '/' },
+                    { label: 'Shop', path: '/shop' },
+                    { label: 'Skincare', path: '/skincare' },
+                    { label: 'Makeup', path: '/makeup' },
+                    { label: 'Wishlist', path: '/wishlist' },
+                    { label: 'Profile', path: '/profile' }
+                  ].map((item) => (
                       <button 
-                          key={item}
-                          onClick={() => handleMobileNavigate(item.toLowerCase() as PageView)}
+                          key={item.label}
+                          onClick={() => handleMobileNavigate(item.path)}
                           className="text-3xl font-serif text-left text-gray-900 dark:text-white hover:text-primary transition-colors flex justify-between items-center group py-2"
                       >
-                          {item}
+                          {item.label}
                           <span className="material-symbols-outlined opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-primary">arrow_forward</span>
                       </button>
                   ))}
               </nav>
 
               <div className="mt-auto pt-8 border-t border-gray-100 dark:border-gray-800 flex flex-wrap gap-6 text-sm text-gray-500 dark:text-gray-400">
-                  <button onClick={() => handleMobileNavigate('about')}>About Us</button>
+                  <button onClick={() => handleMobileNavigate('/about')}>About Us</button>
                   <button>Support</button>
                   <button>Instagram</button>
               </div>
@@ -207,4 +225,4 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onNavigate, currentPage, onS
   );
 };
 
-export default Navbar;
+export default Navbar;

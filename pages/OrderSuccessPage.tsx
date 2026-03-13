@@ -1,9 +1,10 @@
 import React from 'react';
-import { PageView, UserInfo } from '../types';
+import { Link } from 'react-router-dom';
+import { UserInfo } from '../types';
 
 interface OrderSuccessPageProps {
   userInfo: UserInfo;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ userInfo, onNavigate }) => {
@@ -49,13 +50,13 @@ const OrderSuccessPage: React.FC<OrderSuccessPageProps> = ({ userInfo, onNavigat
           </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-          <button 
-            onClick={() => onNavigate('shop')}
+          <Link 
+            to="/shop"
             className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white font-bold py-4 px-10 rounded-lg transition-all shadow-md active:scale-95"
           >
             Continue Shopping
             <span className="material-symbols-outlined">arrow_forward</span>
-          </button>
+          </Link>
           <button className="flex items-center justify-center gap-2 bg-white dark:bg-[#2c2818] hover:bg-background-light dark:hover:bg-[#3a3420] text-[#1c180d] dark:text-white font-bold py-4 px-10 rounded-lg border border-[#e5e5e0] dark:border-[#3a3420] transition-all shadow-sm">
             <span className="material-symbols-outlined">description</span>
             View Receipt

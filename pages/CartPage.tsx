@@ -1,11 +1,12 @@
 import React from 'react';
-import { PageView, CartItem } from '../types';
+import { Link } from 'react-router-dom';
+import { CartItem } from '../types';
 
 interface CartPageProps {
   cart: CartItem[];
   updateQuantity: (id: string, delta: number) => void;
   removeFromCart: (id: string) => void;
-  onNavigate: (page: PageView) => void;
+  onNavigate: (path: string) => void;
 }
 
 const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCart, onNavigate }) => {
@@ -21,7 +22,7 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
       {cart.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-xl text-gray-500 mb-6">Your bag is empty.</p>
-          <button onClick={() => onNavigate('shop')} className="bg-primary text-[#211a11] px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all">Start Shopping</button>
+          <Link to="/shop" className="bg-primary text-[#211a11] px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all inline-block">Start Shopping</Link>
         </div>
       ) : (
         <div className="flex flex-col md:flex-row gap-12 items-start">
@@ -80,20 +81,20 @@ const CartPage: React.FC<CartPageProps> = ({ cart, updateQuantity, removeFromCar
                 <span className="text-xl font-bold text-[#1b150e] dark:text-[#f8f7f6]">Total</span>
                 <span className="text-2xl font-black text-primary">${total.toFixed(2)}</span>
               </div>
-              <button 
-                onClick={() => onNavigate('checkout-shipping')}
+              <Link 
+                to="/checkout-shipping"
                 className="w-full bg-primary text-[#211a11] py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 mb-3"
               >
                 <span>Proceed to Checkout</span>
                 <span className="material-symbols-outlined">arrow_forward</span>
-              </button>
+              </Link>
               
-              <button 
-                onClick={() => onNavigate('shop')}
-                className="w-full text-[#97794e] dark:text-[#c4a67a] text-sm font-semibold hover:text-[#1b150e] dark:hover:text-[#f8f7f6] transition-colors py-2 mb-4"
+              <Link 
+                to="/shop"
+                className="w-full text-center text-[#97794e] dark:text-[#c4a67a] text-sm font-semibold hover:text-[#1b150e] dark:hover:text-[#f8f7f6] transition-colors py-2 mb-4 block"
               >
                 Shop Some More
-              </button>
+              </Link>
 
               <div className="flex flex-col gap-4 mt-6">
                 <div className="flex items-center gap-3 text-sm text-[#97794e] dark:text-[#c4a67a]">

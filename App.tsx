@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -12,7 +13,7 @@ import WishlistPage from './pages/WishlistPage';
 import CheckoutShippingPage from './pages/CheckoutShippingPage';
 import CheckoutPaymentPage from './pages/CheckoutPaymentPage';
 import OrderSuccessPage from './pages/OrderSuccessPage';
-import { PageView, CartItem, Product, UserInfo, Order, OrderStatus } from './types';
+import { CartItem, Product, UserInfo, Order, OrderStatus } from './types';
 import { INITIAL_PRODUCTS } from './data/products';
 
 const INITIAL_ORDERS: Order[] = [
@@ -50,7 +51,8 @@ const INITIAL_ORDERS: Order[] = [
 ];
 
 const App: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState<PageView>('home');
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
 
   // Persistence: Initialize state from localStorage if available
@@ -77,36 +79,24 @@ const App: React.FC = () => {
     phone: '(555) 123-4567'
   });
 
-  // Dynamic theme color based on page to match the screenshots provided
+  // Dynamic theme color based on current path
   useEffect(() => {
     const root = document.documentElement;
-    switch (currentPage) {
-      case 'home':
-      case 'shop':
-      case 'skincare':
-      case 'makeup':
-      case 'about':
-      case 'profile':
-      case 'admin':
-      case 'checkout-payment':
-      case 'wishlist':
+    const path = location.pathname;
+
+    if (path === '/' || path.startsWith('/shop') || path === '/about' || path === '/profile' || path === '/admin' || path === '/wishlist' || path === '/checkout-payment') {
         root.style.setProperty('--color-primary', '#ee2b6c'); // Pink
-        break;
-      case 'product':
+    } else if (path.startsWith('/product')) {
         root.style.setProperty('--color-primary', '#e6a219'); // Gold
-        break;
-      case 'cart':
-      case 'success':
+    } else if (path === '/cart' || path === '/success') {
         root.style.setProperty('--color-primary', '#eba747'); // Gold/Orange
-        break;
-      case 'checkout-shipping':
+    } else if (path === '/checkout-shipping') {
         root.style.setProperty('--color-primary', '#368ce2'); // Blue
-        break;
-      default:
+    } else {
         root.style.setProperty('--color-primary', '#ee2b6c');
     }
     window.scrollTo(0, 0);
-  }, [currentPage]);
+  }, [location.pathname]);
 
   // Persistence: Sync state to localStorage on changes
   useEffect(() => {
@@ -117,19 +107,10 @@ const App: React.FC = () => {
     localStorage.setItem('faceneed_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
-  const handleNavigate = (page: PageView) => {
-    setSearchQuery('');
-    setCurrentPage(page);
-  };
-
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     if (query.trim() !== '') {
-      if (currentPage !== 'shop' && currentPage !== 'skincare' && currentPage !== 'makeup') {
-        setCurrentPage('shop');
-      } else if (currentPage === 'skincare' || currentPage === 'makeup') {
-        setCurrentPage('shop');
-      }
+        navigate('/shop');
     }
   };
 
@@ -171,7 +152,7 @@ const App: React.FC = () => {
 
   const navigateToProduct = (product: Product) => {
     setSelectedProduct(product);
-    handleNavigate('product');
+    navigate(`/product/${product.id}`);
   };
 
   const handleUpdateProduct = (updatedProduct: Product) => {
@@ -190,88 +171,70 @@ const App: React.FC = () => {
     setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status } : o));
   };
 
-  const renderPage = () => {
-    switch (currentPage) {
-      case 'home':
-        return <HomePage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />;
-      case 'shop':
-        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="all" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />;
-      case 'skincare':
-        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="skincare" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />;
-      case 'makeup':
-        return <ShopPage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} category="makeup" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />;
-      case 'about':
-        return <AboutPage onNavigate={handleNavigate} />;
-      case 'profile':
-        return <ProfilePage userInfo={userInfo} setUserInfo={setUserInfo} onNavigate={handleNavigate} orders={orders} />;
-      case 'admin':
-        return <AdminPage
-          products={products}
-          orders={orders}
-          onUpdateProduct={handleUpdateProduct}
-          onAddProduct={handleAddProduct}
-          onDeleteProduct={handleDeleteProduct}
-          onUpdateOrderStatus={handleUpdateOrderStatus}
-          onNavigate={handleNavigate}
-        />;
-      case 'wishlist':
-        return <WishlistPage
-          wishlist={wishlist}
-          products={products}
-          toggleWishlist={toggleWishlist}
-          addToCart={addToCart}
-          onNavigate={handleNavigate}
-          onProductClick={navigateToProduct}
-        />;
-      case 'product':
-        return <ProductPage
-          product={selectedProduct}
-          onNavigate={handleNavigate}
-          addToCart={addToCart}
-          wishlist={wishlist}
-          toggleWishlist={toggleWishlist}
-        />;
-      case 'cart':
-        return <CartPage
-          cart={cart}
-          updateQuantity={updateQuantity}
-          removeFromCart={removeFromCart}
-          onNavigate={handleNavigate}
-        />;
-      case 'checkout-shipping':
-        return <CheckoutShippingPage
-          cart={cart}
-          userInfo={userInfo}
-          setUserInfo={setUserInfo}
-          onNavigate={handleNavigate}
-        />;
-      case 'checkout-payment':
-        return <CheckoutPaymentPage
-          cart={cart}
-          userInfo={userInfo}
-          onNavigate={handleNavigate}
-        />;
-      case 'success':
-        return <OrderSuccessPage userInfo={userInfo} onNavigate={handleNavigate} />;
-      default:
-        return <HomePage onNavigate={handleNavigate} onProductClick={navigateToProduct} addToCart={addToCart} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />;
-    }
-  };
-
-  const isCheckout = currentPage.startsWith('checkout') || currentPage === 'success' || currentPage === 'admin';
-  const isImmersiveHeader = currentPage === 'home' || currentPage === 'about';
+  const isCheckout = location.pathname.startsWith('/checkout') || location.pathname === '/success' || location.pathname === '/admin';
+  const isImmersiveHeader = location.pathname === '/' || location.pathname === '/about';
 
   return (
-    <div className={`relative min-h-screen flex flex-col ${currentPage === 'product' ? 'font-newsreader' : 'font-display'}`}>
-      {!isCheckout && <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} onNavigate={handleNavigate} currentPage={currentPage} onSearch={handleSearch} searchQuery={searchQuery} wishlistCount={wishlist.length} />}
+    <div className={`relative min-h-screen flex flex-col ${location.pathname.startsWith('/product') ? 'font-newsreader' : 'font-display'}`}>
+      {!isCheckout && <Navbar cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)} onNavigate={(path) => navigate(path)} currentPage={location.pathname} onSearch={handleSearch} searchQuery={searchQuery} wishlistCount={wishlist.length} />}
       <main className={`flex-1 ${!isCheckout && !isImmersiveHeader ? 'pt-32 md:pt-36' : ''}`}>
-        <div key={currentPage} className="animate-page">
-          {renderPage()}
+        <div key={location.pathname} className="animate-page">
+          <Routes>
+            <Route path="/" element={<HomePage onNavigate={navigate} onProductClick={navigateToProduct} addToCart={addToCart} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
+            <Route path="/shop" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} addToCart={addToCart} category="all" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
+            <Route path="/skincare" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} addToCart={addToCart} category="skincare" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
+            <Route path="/makeup" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} addToCart={addToCart} category="makeup" searchQuery={searchQuery} products={products} wishlist={wishlist} toggleWishlist={toggleWishlist} />} />
+            <Route path="/about" element={<AboutPage onNavigate={navigate} />} />
+            <Route path="/profile" element={<ProfilePage userInfo={userInfo} setUserInfo={setUserInfo} onNavigate={navigate} orders={orders} />} />
+            <Route path="/admin" element={<AdminPage
+              products={products}
+              orders={orders}
+              onUpdateProduct={handleUpdateProduct}
+              onAddProduct={handleAddProduct}
+              onDeleteProduct={handleDeleteProduct}
+              onUpdateOrderStatus={handleUpdateOrderStatus}
+              onNavigate={navigate}
+            />} />
+            <Route path="/wishlist" element={<WishlistPage
+              wishlist={wishlist}
+              products={products}
+              toggleWishlist={toggleWishlist}
+              addToCart={addToCart}
+              onNavigate={navigate}
+              onProductClick={navigateToProduct}
+            />} />
+            <Route path="/product/:id" element={<ProductPage
+              product={selectedProduct}
+              onNavigate={navigate}
+              addToCart={addToCart}
+              wishlist={wishlist}
+              toggleWishlist={toggleWishlist}
+            />} />
+            <Route path="/cart" element={<CartPage
+              cart={cart}
+              updateQuantity={updateQuantity}
+              removeFromCart={removeFromCart}
+              onNavigate={navigate}
+            />} />
+            <Route path="/checkout-shipping" element={<CheckoutShippingPage
+              cart={cart}
+              userInfo={userInfo}
+              setUserInfo={setUserInfo}
+              onNavigate={navigate}
+            />} />
+            <Route path="/checkout-payment" element={<CheckoutPaymentPage
+              cart={cart}
+              userInfo={userInfo}
+              onNavigate={navigate}
+            />} />
+            <Route path="/success" element={<OrderSuccessPage userInfo={userInfo} onNavigate={navigate} />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </main>
-      {!isCheckout && <Footer onNavigate={handleNavigate} />}
+      {!isCheckout && <Footer onNavigate={navigate} />}
     </div>
   );
 };
 
-export default App;
+export default App;
