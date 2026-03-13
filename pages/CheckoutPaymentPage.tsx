@@ -1,15 +1,78 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCartStore, useUserStore } from '../store';
+import { useCartStore, useUserStore, useOrderStore } from '../store';
+import { ApiService } from '../services/api';
 
 const CheckoutPaymentPage: React.FC<{
   onNavigate: (path: string) => void;
 }> = ({ onNavigate }) => {
-  const { cart } = useCartStore();
+  const { cart, cartId, clearCart } = useCartStore();
   const { userInfo } = useUserStore();
+  const { addOrder } = useOrderStore();
+  
+  const [paymentSessions, setPaymentSessions] = React.useState<any[]>([]);
+  const [selectedProvider, setSelectedProvider] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
+
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const tax = subtotal * 0.0825;
   const total = subtotal + tax;
+
+  // Initialize Payment Sessions
+  React.useEffect(() => {
+    const initPayment = async () => {
+        if (!cartId) return;
+        try {
+            const { cart: updatedCart } = await ApiService.cart.createPaymentSessions(cartId);
+            setPaymentSessions(updatedCart.payment_sessions || []);
+            if (updatedCart.payment_session) {
+                setSelectedProvider(updatedCart.payment_session.provider_id);
+            } else if (updatedCart.payment_sessions?.length > 0) {
+                setSelectedProvider(updatedCart.payment_sessions[0].provider_id);
+            }
+        } catch (err) {
+            console.error("Failed to initialize payment sessions:", err);
+        }
+    };
+    initPayment();
+  }, [cartId]);
+
+  const handleComplete = async () => {
+    if (!cartId || !selectedProvider) return;
+
+    setIsLoading(true);
+    setError(null);
+    try {
+        // Set selected session
+        await ApiService.cart.setPaymentSession(cartId, selectedProvider);
+
+        // Complete Cart
+        const { type, data: orderOrCart } = await ApiService.cart.complete(cartId);
+        
+        if (type === 'order') {
+            // Map Medusa order to internal Order type
+            const newOrder = {
+                id: orderOrCart.id,
+                date: new Date().toLocaleDateString(),
+                status: 'Processing' as any,
+                total: orderOrCart.total / 100,
+                items: orderOrCart.items.map((i: any) => i.thumbnail),
+                customerName: `${userInfo.firstName} ${userInfo.lastName}`
+            };
+            addOrder(newOrder);
+            clearCart();
+            onNavigate('success');
+        } else {
+            setError("The order process is incomplete. Please try again.");
+        }
+    } catch (err: any) {
+        console.error("Order completion failed:", err);
+        setError(err.message || "Something went wrong during the checkout ritual.");
+    } finally {
+        setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-1 justify-center py-8 font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
@@ -42,19 +105,30 @@ const CheckoutPaymentPage: React.FC<{
           </div>
           <div className="flex flex-col gap-6">
             <h2 className="text-slate-900 dark:text-white text-xl font-bold tracking-tight">Payment Method</h2>
-            <div className="grid grid-cols-2 gap-3">
-              <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 border-primary bg-primary/5 text-primary">
-                <span className="material-symbols-outlined">smartphone</span>
-                <span className="text-xs font-bold uppercase tracking-wider">Mobile Money</span>
-              </button>
-              <button className="flex flex-col items-center justify-center gap-2 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400 hover:border-primary/50 transition-colors">
-                <span className="material-symbols-outlined">payments</span>
-                <span className="text-xs font-bold uppercase tracking-wider">Cash on Delivery</span>
-              </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {paymentSessions.length > 0 ? paymentSessions.map(session => (
+                  <button 
+                    key={session.id}
+                    onClick={() => setSelectedProvider(session.provider_id)}
+                    className={`flex flex-col items-center justify-center gap-2 p-4 rounded-xl border-2 transition-all ${selectedProvider === session.provider_id ? 'border-primary bg-primary/5 text-primary' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 hover:border-primary/50'}`}
+                  >
+                    <span className="material-symbols-outlined">{session.provider_id === 'manual' ? 'payments' : 'credit_card'}</span>
+                    <span className="text-xs font-bold uppercase tracking-wider">{session.provider_id}</span>
+                  </button>
+              )) : (
+                <p className="text-slate-500 italic">Awakening the payment gateways...</p>
+              )}
             </div>
+
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
             <div className="space-y-4 pt-2">
               <div className="relative">
-                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Phone Number</label>
+                <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Confirm Phone Ritual</label>
                 <div className="relative">
                   <input className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg px-4 py-3 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all" placeholder="e.g. 050 123 4567" type="tel" defaultValue={userInfo.phone}/>
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -62,18 +136,16 @@ const CheckoutPaymentPage: React.FC<{
                   </div>
                 </div>
               </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 px-1">
-                You will receive a prompt on your mobile phone to authorize the transaction.
-              </p>
             </div>
           </div>
           <div className="mt-10 flex flex-col sm:flex-row items-center gap-4">
             <button 
-              onClick={() => onNavigate('success')}
-              className="w-full sm:w-auto px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center justify-center gap-2"
+              onClick={handleComplete}
+              disabled={isLoading || !selectedProvider}
+              className="w-full sm:w-auto px-8 py-4 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
             >
-              Complete Purchase
-              <span className="material-symbols-outlined">lock</span>
+              {isLoading ? 'Finalizing Ritual...' : 'Complete Purchase'}
+              {!isLoading && <span className="material-symbols-outlined">lock</span>}
             </button>
             <button onClick={() => onNavigate('checkout-shipping')} className="text-sm font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1">
               <span className="material-symbols-outlined text-base">arrow_back</span>

@@ -1,16 +1,36 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore, useUserStore } from '../store';
+import { ApiService } from '../services/api';
 
 const CheckoutShippingPage: React.FC<{
   onNavigate: (path: string) => void;
 }> = ({ onNavigate }) => {
-  const { cart } = useCartStore();
+  const { cart, cartId } = useCartStore();
   const { userInfo, setUserInfo } = useUserStore();
-  const [errors, setErrors] = useState<{ email?: string }>({});
+  const [shippingOptions, setShippingOptions] = useState<any[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [errors, setErrors] = useState<{ email?: string; shipping?: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const tax = subtotal * 0.0825; // 8.25%
+  const tax = subtotal * 0.0825;
   const total = subtotal + tax;
+
+  // Fetch shipping options when cartId is available
+  React.useEffect(() => {
+    const fetchOptions = async () => {
+        if (!cartId) return;
+        try {
+            const { shipping_options } = await ApiService.cart.listShippingOptions(cartId);
+            setShippingOptions(shipping_options);
+            if (shipping_options.length > 0) setSelectedOption(shipping_options[0].id);
+        } catch (err) {
+            console.error("Failed to fetch shipping options:", err);
+        }
+    };
+    fetchOptions();
+  }, [cartId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -24,12 +44,43 @@ const CheckoutShippingPage: React.FC<{
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     if (!userInfo.email || !validateEmail(userInfo.email)) {
-      setErrors({ email: 'Please enter a valid email address.' });
+      setErrors({ ...errors, email: 'Please enter a valid email address.' });
       return;
     }
-    onNavigate('checkout-payment');
+
+    if (!selectedOption) {
+        setErrors({ ...errors, shipping: 'Please select a delivery method.' });
+        return;
+    }
+
+    if (!cartId) return;
+
+    setIsLoading(true);
+    try {
+        // Update Address in Medusa
+        await ApiService.cart.updateAddress(cartId, {
+            first_name: userInfo.firstName,
+            last_name: userInfo.lastName,
+            address_1: userInfo.address,
+            city: userInfo.city,
+            province: userInfo.state,
+            postal_code: userInfo.zip,
+            phone: userInfo.phone,
+            country_code: 'us', // Defaulting for now
+            email: userInfo.email
+        });
+
+        // Add Shipping Method
+        await ApiService.cart.addShippingMethod(cartId, selectedOption);
+
+        onNavigate('checkout-payment');
+    } catch (err) {
+        console.error("Checkout update failed:", err);
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   return (
@@ -116,13 +167,42 @@ const CheckoutShippingPage: React.FC<{
                         </div>
                     </div>
                 </section>
+
+                <section className="animate-fadeIn">
+                    <h3 className="text-lg font-bold text-[#0e141b] dark:text-white mb-6">Delivery Method</h3>
+                    <div className="space-y-3">
+                        {shippingOptions.length > 0 ? shippingOptions.map(option => (
+                            <label key={option.id} className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedOption === option.id ? 'border-primary bg-primary/5' : 'border-[#e8edf3] dark:border-gray-800 hover:border-primary/30'}`}>
+                                <div className="flex items-center gap-4">
+                                    <input 
+                                        type="radio" 
+                                        name="shipping" 
+                                        checked={selectedOption === option.id} 
+                                        onChange={() => setSelectedOption(option.id)}
+                                        className="accent-primary h-5 w-5"
+                                    />
+                                    <div>
+                                        <p className="font-bold text-[#0e141b] dark:text-white">{option.name}</p>
+                                        <p className="text-sm text-[#507395] dark:text-gray-400">Estimated 3-5 business days</p>
+                                    </div>
+                                </div>
+                                <span className="font-bold text-[#0e141b] dark:text-white">${(option.amount / 100).toFixed(2)}</span>
+                            </label>
+                        )) : (
+                            <p className="text-[#507395] dark:text-gray-400 italic">Finding the best delivery routes for your rituals...</p>
+                        )}
+                        {errors.shipping && <p className="text-red-500 text-xs mt-1">{errors.shipping}</p>}
+                    </div>
+                </section>
+
                 <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-[#e8edf3] dark:border-gray-800">
                     <button 
                         onClick={handleContinue}
-                        className="w-full sm:flex-1 bg-primary text-white text-base font-bold h-14 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center gap-2"
+                        disabled={isLoading}
+                        className="w-full sm:flex-1 bg-primary text-white text-base font-bold h-14 rounded-xl hover:bg-opacity-90 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                     >
-                        Continue to Delivery
-                        <span className="material-symbols-outlined">arrow_forward</span>
+                        {isLoading ? 'Preparing Ritual...' : 'Continue to Payment'}
+                        {!isLoading && <span className="material-symbols-outlined">arrow_forward</span>}
                     </button>
                     <Link to="/cart" className="w-full sm:w-auto px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14 flex items-center justify-center">
                         Return to Cart

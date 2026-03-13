@@ -11,6 +11,27 @@ const ProfilePage: React.FC<{
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
   const [errors, setErrors] = useState<{ email?: string }>({});
 
+  // Auth Guard
+  React.useEffect(() => {
+    if (!userInfo.email) {
+      onNavigate('/auth');
+    }
+  }, [userInfo, onNavigate]);
+
+  const handleLogout = () => {
+    setUserInfo({
+      email: '',
+      firstName: '',
+      lastName: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: '',
+      phone: '',
+    });
+    onNavigate('/');
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setUserInfo(prev => ({ ...prev, [name]: value }));
@@ -230,7 +251,7 @@ const ProfilePage: React.FC<{
 
                     <div className="border-t border-gray-100 dark:border-gray-800 my-2 pt-2">
                         <button 
-                            onClick={() => onNavigate('home')}
+                            onClick={handleLogout}
                             className="w-full text-left px-4 py-3 rounded-lg font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-colors flex items-center gap-3"
                         >
                             <span className="material-symbols-outlined text-xl">logout</span>

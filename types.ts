@@ -10,7 +10,8 @@ export interface Product {
   reviews?: number;
   isNew?: boolean;
   isBestSeller?: boolean;
-  inStock?: boolean; // Added for admin management
+  inStock?: boolean;
+  variantId?: string; // Added for Medusa integration
 }
 
 export interface CartItem extends Product {
