@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Product } from '../types';
 import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
@@ -29,8 +30,10 @@ const ProductPage: React.FC<{
 
   const isWishlisted = wishlist.includes(product.id);
 
-  // Hardcoded images for gallery simulation
-  const images = [
+  // Use product images if available, otherwise fallback to mock gallery
+  const images = (product.images && product.images.length > 0) 
+    ? product.images 
+    : [
       product.image,
       'https://lh3.googleusercontent.com/aida-public/AB6AXuAkeeePlrD_gL8RIra75SZLP_CpLS6UdSOESBHFQ_wXoFa6fs2F74FmBzGeZeoVWnFHn2eQfGx7_x64hpYV60mujNlhjt1PwVR_cRERhWYheDO4vapxY-au0Yqw8IB9MraZ3GsVh_7HNXM8bOXuz3if-Lc825s8tcnUE5qB998suMVUc7MxjA6IoT5h4Lu7fOz-k28iwBnvHZVou-INoGLdamkxtUAGeC1b-gKFsapWSTfH5mg6UuWiuUnvqqsQCp7tE4zHCMk7M_s',
       'https://lh3.googleusercontent.com/aida-public/AB6AXuD_ndNtzKNopBXrBqewayISjSa2cr3XhNmqK3T6sB-MA6pFeBfb3Pgljs2R_KH_yhBGncAUrdlblfL8fj2p2UYynK0d3fdw6uIAC-xWqvFTJbgcvqVlPE0a54yL0feHnK0kpgg1xZxUXBUM9T1DBUC-91gGcRCkmbueU-8JC1Oi8DrLwxih37NF5gC5A5fFpNR8VUlyLsAvnewyum0Y-rXm1oyuXiS2F3nPHBPjvaELmdhIrlENmmdTvFVuNr7G3vw9aLnm9ItVHa4'
@@ -59,13 +62,18 @@ const ProductPage: React.FC<{
                     onClick={() => setActiveImage(img)}
                 >
                     <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${img}')` }}></div>
-                </div>
-            ))}
+                  </div>
+              ))}
+            </div>
+            <div className="flex-1 rounded-xl overflow-hidden aspect-[4/5] bg-[#f3efe7] dark:bg-[#3a3221] cursor-zoom-in">
+              <motion.div 
+                whileHover={{ scale: 1.15 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className="w-full h-full bg-cover bg-center origin-center" 
+                style={{ backgroundImage: `url('${activeImage}')` }}
+              ></motion.div>
+            </div>
           </div>
-          <div className="flex-1 rounded-xl overflow-hidden aspect-[4/5] bg-[#f3efe7] dark:bg-[#3a3221]">
-            <div className="w-full h-full bg-cover bg-center" style={{ backgroundImage: `url('${activeImage}')` }}></div>
-          </div>
-        </div>
 
         {/* Details */}
         <div className="md:col-span-5 space-y-8">
@@ -94,21 +102,32 @@ const ProductPage: React.FC<{
                         <button onClick={() => setQuantity(quantity + 1)} className="hover:text-primary"><span className="material-symbols-outlined">add</span></button>
                     </div>
                     <div className="flex gap-4 flex-1">
-                        <button onClick={handleAddToCart} className="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                        <motion.button 
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={handleAddToCart} 
+                            className="flex-1 bg-primary text-white py-4 rounded-xl font-bold hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                        >
                             <span className="material-symbols-outlined text-xl">shopping_cart</span>
                             Add to Bag
-                        </button>
-                        <button 
+                        </motion.button>
+                        <motion.button 
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={() => toggleWishlist(product.id)}
                             className={`p-4 rounded-xl border border-[#f3efe7] dark:border-[#3a3221] transition-colors flex items-center justify-center ${isWishlisted ? 'text-primary border-primary bg-primary/5' : 'text-[#1b170e] dark:text-white hover:bg-[#f3efe7] dark:hover:bg-[#3a3221]'}`}
                         >
                              <span className={`material-symbols-outlined text-xl ${isWishlisted ? 'fill-icon' : ''}`}>favorite</span>
-                        </button>
+                        </motion.button>
                     </div>
                 </div>
-                <button className="w-full border border-[#f3efe7] dark:border-[#3a3221] py-3 rounded-xl hover:bg-[#f3efe7] dark:hover:bg-[#3a3221] text-[#1b170e] dark:text-white transition-colors font-medium">
+                <motion.button 
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full border border-[#f3efe7] dark:border-[#3a3221] py-3 rounded-xl hover:bg-[#f3efe7] dark:hover:bg-[#3a3221] text-[#1b170e] dark:text-white transition-colors font-medium"
+                >
                     Buy Now
-                </button>
+                </motion.button>
             </div>
 
             {/* Accordion Details */}

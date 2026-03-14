@@ -239,6 +239,7 @@ export const useProductStore = create<ProductState>((set) => ({
         name: p.title,
         description: p.description || '',
         image: p.thumbnail || '',
+        images: p.images ? p.images.map((img: any) => img.url) : [],
         price: p.variants?.[0]?.prices?.[0]?.amount ? p.variants[0].prices[0].amount / 100 : 0,
         category: p.collection?.title || 'Uncategorized',
         rating: 5,

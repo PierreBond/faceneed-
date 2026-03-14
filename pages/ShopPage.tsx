@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { Product } from '../types';
 
 interface ShopPageProps {
@@ -148,15 +149,31 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
         {/* Product Grid */}
         <div className="flex-1">
           {displayedProducts.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 min-[1800px]:grid-cols-6 gap-x-6 gap-y-10">
+            <motion.div 
+              initial="hidden"
+              animate="visible"
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.1 }
+                }
+              }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 min-[1800px]:grid-cols-6 gap-x-6 gap-y-10"
+            >
               {displayedProducts.map(product => (
-                <div 
+                <motion.div 
                   key={product.id} 
-                  className="group product-card cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:scale-[1.01]" 
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 }
+                  }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group product-card cursor-pointer" 
                   onClick={() => onProductClick(product)}
                 >
                   <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4 shadow-sm transition-all duration-500 group-hover:shadow-2xl">
-                    <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
+                    <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
                     
                     {/* Wishlist Button */}
                     <button 
@@ -205,9 +222,9 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                       <p className="text-sm text-slate-400 line-through">${product.originalPrice.toFixed(2)}</p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           ) : (
             <div className="text-center py-20">
               <span className="material-symbols-outlined text-4xl text-slate-300 mb-4">search_off</span>
