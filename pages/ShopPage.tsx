@@ -196,6 +196,7 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                   ))}
                 </div>
               </div>
+            </div>
              {/* Promo Banner in Sidebar */}
              <div className="bg-primary/10 dark:bg-primary/20 p-6 rounded-xl border border-primary/20">
               <p className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Join Our Rewards</p>

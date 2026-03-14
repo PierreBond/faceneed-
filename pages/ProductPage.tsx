@@ -5,6 +5,26 @@ import { Helmet } from 'react-helmet-async';
 import { Product } from '../types';
 import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
+interface Review {
+  id: string;
+  authorName: string;
+  rating: number;
+  title: string;
+  body: string;
+  date: string;
+}
+
+const initialReviews: Review[] = [
+  {
+    id: 'r1',
+    authorName: 'Sarah M.',
+    rating: 5,
+    title: 'Finally found my holy grail!',
+    body: "I've been using this for just 10 days and the difference in my skin texture is incredible.",
+    date: 'Oct 12, 2023'
+  }
+];
+
 const ProductPage: React.FC<{
   product?: Product | null;
   onNavigate: (path: string) => void;
@@ -15,6 +35,29 @@ const ProductPage: React.FC<{
   const { addItem: addToCart } = useCartStore();
   const [quantity, setQuantity] = useState(1);
   const navigate = useNavigate();
+
+  const [reviews, setReviews] = useState<Review[]>(initialReviews);
+  const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+  const [newReview, setNewReview] = useState({ authorName: '', rating: 5, title: '', body: '' });
+
+  const averageRating = reviews.length > 0 
+    ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1) 
+    : '0.0';
+
+  const handleReviewSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newReview.authorName || !newReview.title || !newReview.body) return;
+    
+    const review: Review = {
+        id: `r_${Date.now()}`,
+        ...newReview,
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+    
+    setReviews([review, ...reviews]);
+    setIsReviewFormOpen(false);
+    setNewReview({ authorName: '', rating: 5, title: '', body: '' });
+  };
 
   // Prefer the prop if available (for fast transition), otherwise find by ID
   const product = propProduct || products.find(p => p.id === id);
@@ -93,9 +136,10 @@ const ProductPage: React.FC<{
                 <div className="flex items-center gap-4 mt-4">
                     <p className="text-2xl text-primary font-medium">${product.price.toFixed(2)}</p>
                     <div className="flex items-center gap-1 text-primary">
-                        {[1,2,3,4].map(i => <span key={i} className="material-symbols-outlined text-sm fill-icon">star</span>)}
-                        <span className="material-symbols-outlined text-sm fill-icon">star_half</span>
-                        <span className="text-sm text-[#977f4e] ml-2">(124 reviews)</span>
+                        {[1,2,3,4,5].map(i => (
+                            <span key={i} className={`material-symbols-outlined text-sm ${i <= Number(averageRating) ? 'fill-icon' : ''}`}>star</span>
+                        ))}
+                        <span className="text-sm text-[#977f4e] ml-2">({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})</span>
                     </div>
                 </div>
             </div>
@@ -172,32 +216,71 @@ const ProductPage: React.FC<{
             <div className="w-full md:w-1/3">
                 <div className="bg-[#f3efe7] dark:bg-[#3a3221] p-8 rounded-xl">
                     <div className="flex items-end gap-2 mb-2">
-                        <span className="text-5xl font-bold text-[#1b170e] dark:text-white">4.8</span>
+                        <span className="text-5xl font-bold text-[#1b170e] dark:text-white">{averageRating}</span>
                         <span className="text-lg text-[#977f4e] mb-1">out of 5</span>
                     </div>
-                    {/* Stars visual omitted for brevity, keeping it clean */}
+                    
                     <div className="text-primary flex gap-1 mb-6">
-                        {[1,2,3,4,5].map(i => <span key={i} className="material-symbols-outlined fill-icon">star</span>)}
+                        {[1,2,3,4,5].map(i => (
+                            <span key={i} className={`material-symbols-outlined ${i <= Math.round(Number(averageRating)) ? 'fill-icon' : ''}`}>star</span>
+                        ))}
                     </div>
-                    <button className="w-full mt-4 bg-[#1b170e] dark:bg-[#f8f7f6] text-white dark:text-[#1b170e] py-3 rounded-xl font-bold hover:opacity-90 transition-opacity">Write a Review</button>
+                    <button onClick={() => setIsReviewFormOpen(!isReviewFormOpen)} className="w-full mt-4 bg-[#1b170e] dark:bg-[#f8f7f6] text-white dark:text-[#1b170e] py-3 rounded-xl font-bold hover:opacity-90 transition-opacity">
+                        {isReviewFormOpen ? 'Cancel Review' : 'Write a Review'}
+                    </button>
+                    
+                    {isReviewFormOpen && (
+                        <form onSubmit={handleReviewSubmit} className="mt-6 space-y-4 animate-fadeIn">
+                            <div>
+                                <label className="block text-xs font-bold mb-1 text-[#1b170e] dark:text-white">Rating</label>
+                                <select 
+                                    className="w-full p-2 rounded border border-[#e0dad1] dark:border-[#524831] bg-white dark:bg-[#1a170e] outline-none"
+                                    value={newReview.rating}
+                                    onChange={(e) => setNewReview({...newReview, rating: Number(e.target.value)})}
+                                >
+                                    {[5,4,3,2,1].map(num => <option key={num} value={num}>{num} Stars</option>)}
+                                </select>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold mb-1 text-[#1b170e] dark:text-white">Your Name</label>
+                                <input required type="text" value={newReview.authorName} onChange={(e) => setNewReview({...newReview, authorName: e.target.value})} className="w-full p-2 rounded border border-[#e0dad1] dark:border-[#524831] bg-white dark:bg-[#1a170e] outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold mb-1 text-[#1b170e] dark:text-white">Review Title</label>
+                                <input required type="text" value={newReview.title} onChange={(e) => setNewReview({...newReview, title: e.target.value})} className="w-full p-2 rounded border border-[#e0dad1] dark:border-[#524831] bg-white dark:bg-[#1a170e] outline-none" />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold mb-1 text-[#1b170e] dark:text-white">Review</label>
+                                <textarea required rows={3} value={newReview.body} onChange={(e) => setNewReview({...newReview, body: e.target.value})} className="w-full p-2 rounded border border-[#e0dad1] dark:border-[#524831] bg-white dark:bg-[#1a170e] outline-none resize-none"></textarea>
+                            </div>
+                            <button type="submit" className="w-full bg-primary text-white py-2 rounded-lg font-bold">Submit Review</button>
+                        </form>
+                    )}
                 </div>
             </div>
             <div className="flex-1 space-y-8">
-                {/* Review Item */}
-                <div className="border-b border-[#f3efe7] dark:border-[#3a3221] pb-8">
-                    <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">SM</div>
-                            <div>
-                                <h4 className="font-bold text-[#1b170e] dark:text-white">Sarah M.</h4>
-                                <p className="text-xs text-[#977f4e]">Verified Buyer</p>
+                {reviews.map(review => (
+                    <div key={review.id} className="border-b border-[#f3efe7] dark:border-[#3a3221] pb-8 animate-fadeIn">
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold">
+                                    {review.authorName.charAt(0).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-[#1b170e] dark:text-white">{review.authorName}</h4>
+                                    <p className="text-xs text-[#977f4e]">{review.date} • Verified Buyer</p>
+                                </div>
+                            </div>
+                            <div className="flex text-primary">
+                                {[1,2,3,4,5].map(i => (
+                                    <span key={i} className={`material-symbols-outlined text-sm ${i <= review.rating ? 'fill-icon' : ''}`}>star</span>
+                                ))}
                             </div>
                         </div>
-                        <div className="flex text-primary"><span className="material-symbols-outlined text-sm fill-icon">star</span><span className="material-symbols-outlined text-sm fill-icon">star</span><span className="material-symbols-outlined text-sm fill-icon">star</span><span className="material-symbols-outlined text-sm fill-icon">star</span><span className="material-symbols-outlined text-sm fill-icon">star</span></div>
+                        <h5 className="font-bold text-lg mb-2 italic text-[#1b170e] dark:text-white">"{review.title}"</h5>
+                        <p className="text-[#1b170e]/70 dark:text-[#f8f7f6]/70 leading-relaxed">{review.body}</p>
                     </div>
-                    <h5 className="font-bold text-lg mb-2 italic text-[#1b170e] dark:text-white">"Finally found my holy grail!"</h5>
-                    <p className="text-[#1b170e]/70 dark:text-[#f8f7f6]/70 leading-relaxed">I've been using this for just 10 days and the difference in my skin texture is incredible.</p>
-                </div>
+                ))}
             </div>
         </div>
       </section>
