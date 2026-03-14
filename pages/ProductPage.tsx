@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Product } from '../types';
 import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
@@ -43,6 +44,16 @@ const ProductPage: React.FC<{
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-8 font-newsreader">
+      <Helmet>
+        <title>{`${product.name} | Faceneed Skincare`}</title>
+        <meta name="description" content={product.description} />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:image" content={images[0]} />
+        <meta property="product:price:amount" content={product.price.toString()} />
+        <meta property="product:price:currency" content="USD" />
+      </Helmet>
+
       <nav className="flex items-center gap-2 text-sm text-[#977f4e] mb-12">
         <Link to="/" className="hover:underline">Home</Link>
         <span className="material-symbols-outlined text-xs">chevron_right</span>

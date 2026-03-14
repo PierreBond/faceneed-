@@ -1,5 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { Product } from '../types';
 
@@ -33,6 +34,17 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
   const { wishlist, toggleWishlist } = useWishlistStore();
   const { addItem: addToCart } = useCartStore();
   
+  const [maxPrice, setMaxPrice] = useState<number>(200);
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+
+  const AVAILABLE_INGREDIENTS = ['Vitamin C', 'Hyaluronic Acid', 'Niacinamide', 'Peptides', 'Retinol'];
+
+  const toggleIngredient = (ingredient: string) => {
+    setSelectedIngredients(prev => 
+      prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient]
+    );
+  };
+  
   const displayedProducts = useMemo(() => {
     let filtered = products;
     
@@ -50,9 +62,20 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
         p.category.toLowerCase().includes(lowerQuery)
       );
     }
+
+    // Filter by Price
+    filtered = filtered.filter(p => p.price <= maxPrice);
+
+    // Filter by Ingredients (simulated by checking description)
+    if (selectedIngredients.length > 0) {
+      filtered = filtered.filter(p => {
+        const descLower = p.description.toLowerCase();
+        return selectedIngredients.some(ing => descLower.includes(ing.toLowerCase()));
+      });
+    }
     
     return filtered;
-  }, [category, searchQuery, products]);
+  }, [category, searchQuery, products, maxPrice, selectedIngredients]);
 
   let pageTitle = '';
   let pageDescription = '';
@@ -71,6 +94,13 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
 
   return (
     <div className="w-full px-6 md:px-12 lg:px-20 py-8 animate-fadeIn">
+      <Helmet>
+        <title>{`Faceneed Shop | ${pageTitle}`}</title>
+        <meta name="description" content={pageDescription} />
+        <meta property="og:title" content={`Shop ${category === 'all' ? 'All Products' : category} | Faceneed`} />
+        <meta property="og:description" content={pageDescription} />
+      </Helmet>
+
       {/* Breadcrumbs & Title */}
       <div className="mb-8">
         <nav className="flex text-sm text-slate-500 mb-4 gap-2">
@@ -129,14 +159,43 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                   <span className="material-symbols-outlined">expand_more</span>
                 </button>
                 <div className="mt-4">
-                  <input type="range" className="w-full accent-primary" />
+                  <input 
+                    type="range" 
+                    min="0"
+                    max="200"
+                    step="5"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(Number(e.target.value))}
+                    className="w-full accent-primary cursor-pointer" 
+                  />
                   <div className="flex items-center justify-between mt-2 text-xs font-bold text-slate-500">
                     <span>$0</span>
+                    <span className="text-primary">${maxPrice}</span>
                     <span>$200+</span>
                   </div>
                 </div>
               </div>
-            </div>
+
+              {/* Filter Group: Key Ingredients */}
+              <div className="border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
+                <button className="flex items-center justify-between w-full text-left font-semibold text-slate-800 dark:text-slate-200 py-2">
+                  <span>Key Ingredients</span>
+                  <span className="material-symbols-outlined">expand_more</span>
+                </button>
+                <div className="mt-2 space-y-2">
+                  {AVAILABLE_INGREDIENTS.map(ing => (
+                    <label key={ing} className="flex items-center gap-3 cursor-pointer group">
+                      <input 
+                        type="checkbox" 
+                        checked={selectedIngredients.includes(ing)}
+                        onChange={() => toggleIngredient(ing)}
+                        className="rounded border-slate-300 text-primary focus:ring-primary w-5 h-5 cursor-pointer"
+                      />
+                      <span className="text-sm text-slate-600 dark:text-slate-400 group-hover:text-primary transition-colors">{ing}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
              {/* Promo Banner in Sidebar */}
              <div className="bg-primary/10 dark:bg-primary/20 p-6 rounded-xl border border-primary/20">
               <p className="text-xs font-bold text-primary uppercase tracking-wider mb-2">Join Our Rewards</p>

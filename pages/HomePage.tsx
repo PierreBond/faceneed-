@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Product } from '../types';
 import { useProductStore, useWishlistStore, useCartStore } from '../store';
 
@@ -25,6 +26,13 @@ const HomePage: React.FC<{
 
   return (
     <div className="pt-28 md:pt-36 pb-12 px-6 md:px-12 lg:px-20 w-full space-y-8 md:space-y-12">
+      <Helmet>
+        <title>Faceneed | Clean & Clinical Skincare</title>
+        <meta name="description" content="Experience the intersection of clinical precision and botanical soul. Skincare designed for the modern minimalist." />
+        <meta property="og:title" content="Faceneed | Elevate Your Ritual" />
+        <meta property="og:description" content="Clean, potent, sustainable luxury skincare." />
+        <meta property="og:image" content={heroProduct.image} />
+      </Helmet>
       
       {/* SECTION 1: Antigravity Hero */}
       <section className="relative rounded-4xl md:rounded-5xl overflow-hidden bg-[#F3F1EF] dark:bg-[#1A1A1A] ambient-shadow min-h-[85vh] flex items-center">

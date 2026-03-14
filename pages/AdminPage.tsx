@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  LineChart, Line, PieChart, Pie, Cell, 
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
 import { Product, Order, OrderStatus } from '../types';
+
+const mockRevenueData = [
+  { name: 'Mon', value: 400 },
+  { name: 'Tue', value: 850 },
+  { name: 'Wed', value: 600 },
+  { name: 'Thu', value: 1200 },
+  { name: 'Fri', value: 1800 },
+  { name: 'Sat', value: 1400 },
+  { name: 'Sun', value: 950 },
+];
+
+const mockCategoryData = [
+  { name: 'Skincare', value: 65, color: '#368ce2' },
+  { name: 'Makeup', value: 25, color: '#ee2b6c' },
+  { name: 'Accessories', value: 10, color: '#e6a219' },
+];
 
 interface AdminPageProps {
   products: Product[];
@@ -251,6 +271,52 @@ const AdminPage: React.FC<{
                     <div>
                         <p className="text-2xl font-bold text-gray-900 dark:text-white">{products.length}</p>
                         <p className="text-sm text-gray-500">Total Products</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Charts Section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-6">Revenue Overview</h3>
+                    <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <LineChart data={mockRevenueData}>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} tickFormatter={(val) => `$${val}`} />
+                                <Tooltip 
+                                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                    formatter={(value: number) => [`$${value}`, 'Revenue']}
+                                />
+                                <Line type="monotone" dataKey="value" stroke="#ee2b6c" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
+                            </LineChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+                
+                <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-6 shadow-sm">
+                    <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-6">Sales by Category</h3>
+                    <div className="h-64">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={mockCategoryData}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={60}
+                                    outerRadius={80}
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {mockCategoryData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={entry.color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip formatter={(value: number) => [`${value}%`, 'Share']} />
+                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                            </PieChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>

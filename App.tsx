@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import { HelmetProvider } from 'react-helmet-async';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -80,40 +81,42 @@ const App: React.FC = () => {
   const isImmersiveHeader = location.pathname === '/' || location.pathname === '/about';
 
   return (
-    <div className={`relative min-h-screen flex flex-col ${location.pathname.startsWith('/product') ? 'font-newsreader' : 'font-display'}`}>
-      {!isCheckout && <Navbar onSearch={handleSearch} searchQuery={searchQuery} />}
-      <main className={`flex-1 ${!isCheckout && !isImmersiveHeader ? 'pt-32 md:pt-36' : ''}`}>
-        <AnimatePresence mode="wait">
-          <motion.div 
-            key={location.pathname} 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="w-full h-full"
-          >
-            <Routes location={location} key={location.pathname}>
-              <Route path="/" element={<HomePage onNavigate={navigate} onProductClick={navigateToProduct} />} />
-              <Route path="/shop" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="all" searchQuery={searchQuery} />} />
-              <Route path="/skincare" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="skincare" searchQuery={searchQuery} />} />
-              <Route path="/makeup" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="makeup" searchQuery={searchQuery} />} />
-              <Route path="/about" element={<AboutPage onNavigate={navigate} />} />
-              <Route path="/profile" element={<ProfilePage onNavigate={navigate} />} />
-              <Route path="/admin" element={<AdminPage onNavigate={navigate} />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/wishlist" element={<WishlistPage onNavigate={navigate} onProductClick={navigateToProduct} />} />
-              <Route path="/product/:id" element={<ProductPage onNavigate={navigate} />} />
-              <Route path="/cart" element={<CartPage onNavigate={navigate} />} />
-              <Route path="/checkout-shipping" element={<CheckoutShippingPage onNavigate={navigate} />} />
-              <Route path="/checkout-payment" element={<CheckoutPaymentPage onNavigate={navigate} />} />
-              <Route path="/success" element={<OrderSuccessPage onNavigate={navigate} />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
-      </main>
-      {!isCheckout && <Footer onNavigate={navigate} />}
-    </div>
+    <HelmetProvider>
+      <div className={`relative min-h-screen flex flex-col ${location.pathname.startsWith('/product') ? 'font-newsreader' : 'font-display'}`}>
+        {!isCheckout && <Navbar onSearch={handleSearch} searchQuery={searchQuery} />}
+        <main className={`flex-1 ${!isCheckout && !isImmersiveHeader ? 'pt-32 md:pt-36' : ''}`}>
+          <AnimatePresence mode="wait">
+            <motion.div 
+              key={location.pathname} 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="w-full h-full"
+            >
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<HomePage onNavigate={navigate} onProductClick={navigateToProduct} />} />
+                <Route path="/shop" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="all" searchQuery={searchQuery} />} />
+                <Route path="/skincare" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="skincare" searchQuery={searchQuery} />} />
+                <Route path="/makeup" element={<ShopPage onNavigate={navigate} onProductClick={navigateToProduct} category="makeup" searchQuery={searchQuery} />} />
+                <Route path="/about" element={<AboutPage onNavigate={navigate} />} />
+                <Route path="/profile" element={<ProfilePage onNavigate={navigate} />} />
+                <Route path="/admin" element={<AdminPage onNavigate={navigate} />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/wishlist" element={<WishlistPage onNavigate={navigate} onProductClick={navigateToProduct} />} />
+                <Route path="/product/:id" element={<ProductPage onNavigate={navigate} />} />
+                <Route path="/cart" element={<CartPage onNavigate={navigate} />} />
+                <Route path="/checkout-shipping" element={<CheckoutShippingPage onNavigate={navigate} />} />
+                <Route path="/checkout-payment" element={<CheckoutPaymentPage onNavigate={navigate} />} />
+                <Route path="/success" element={<OrderSuccessPage onNavigate={navigate} />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </main>
+        {!isCheckout && <Footer onNavigate={navigate} />}
+      </div>
+    </HelmetProvider>
   );
 };
 
