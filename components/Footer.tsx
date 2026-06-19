@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useThemeStore } from '../store';
 
 const Footer: React.FC = () => {
+  const { darkMode, toggleDarkMode } = useThemeStore();
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (darkMode) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [darkMode]);
   return (
     <footer className="bg-white dark:bg-background-dark border-t border-gray-100 dark:border-gray-800 py-16">
       <div className="w-full px-6 md:px-12 lg:px-20">
@@ -16,7 +27,13 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-4">
               <a className="text-gray-400 hover:text-primary transition-colors" href="#"><span className="material-symbols-outlined">public</span></a>
-              <a className="text-gray-400 hover:text-primary transition-colors" href="#"><span className="material-symbols-outlined">camera</span></a>
+              <button
+                className="text-gray-400 hover:text-primary transition-colors"
+                onClick={toggleDarkMode}
+                aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+              >
+                <span className="material-symbols-outlined">{darkMode ? 'light_mode' : 'dark_mode'}</span>
+              </button>
               <a className="text-gray-400 hover:text-primary transition-colors" href="#"><span className="material-symbols-outlined">alternate_email</span></a>
             </div>
           </div>

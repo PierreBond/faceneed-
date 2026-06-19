@@ -1,106 +1,132 @@
-import Medusa from "@medusajs/medusa-js";
-
-// Use environment variable or default to local Medusa server
 const MEDUSA_URL = import.meta.env.VITE_MEDUSA_BACKEND_URL || "http://localhost:9000";
 
-export const medusa = new Medusa({ 
-  baseUrl: MEDUSA_URL, 
-  maxRetries: 3 
-});
+async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+  const url = `${MEDUSA_URL}${path}`;
+  const response = await fetch(url, {
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+    credentials: 'include',
+  });
 
-/**
- * API Service Layer to abstract Medusa calls.
- * This provides a single point of interaction for the frontend components.
- */
+  if (!response.ok) {
+    throw new Error(`Medusa API error: ${response.status} ${response.statusText}`);
+  }
+
+  return response.json();
+}
+
 export const ApiService = {
   // Products
   products: {
-    list: async (params = {}) => {
-      return await medusa.products.list(params);
+    list: async (params: Record<string, any> = {}) => {
+      const qs = new URLSearchParams(
+        Object.entries(params)
+          .filter(([, v]) => v !== undefined && v !== null)
+          .map(([k, v]) => [k, String(v)])
+      ).toString();
+      return request(`/store/products${qs ? `?${qs}` : ''}`);
     },
     retrieve: async (id: string) => {
-      return await medusa.products.retrieve(id);
+      return request(`/store/products/${id}`);
     },
     listCategories: async () => {
-      return await medusa.productCategories.list();
+      return request('/store/product-categories');
     }
   },
 
   // Collections
   collections: {
     list: async () => {
-        return await medusa.collections.list();
+      return request('/store/collections');
     }
   },
 
   // Cart
   cart: {
     create: async () => {
-      return await medusa.carts.create();
+      return request('/store/carts', { method: 'POST' });
     },
     retrieve: async (cartId: string) => {
-      return await medusa.carts.retrieve(cartId);
+      return request(`/store/carts/${cartId}`);
     },
     addItem: async (cartId: string, variantId: string, quantity: number) => {
-      return await medusa.carts.lineItems.create(cartId, {
-        variant_id: variantId,
-        quantity
+      return request(`/store/carts/${cartId}/line-items`, {
+        method: 'POST',
+        body: JSON.stringify({ variant_id: variantId, quantity })
       });
     },
     updateItem: async (cartId: string, lineId: string, quantity: number) => {
-        return await medusa.carts.lineItems.update(cartId, lineId, {
-            quantity
-        });
+      return request(`/store/carts/${cartId}/line-items/${lineId}`, {
+        method: 'POST',
+        body: JSON.stringify({ quantity })
+      });
     },
     removeItem: async (cartId: string, lineId: string) => {
-        return await medusa.carts.lineItems.delete(cartId, lineId);
+      return request(`/store/carts/${cartId}/line-items/${lineId}`, {
+        method: 'DELETE'
+      });
     },
     updateAddress: async (cartId: string, address: any) => {
-        return await medusa.carts.update(cartId, {
-            shipping_address: address,
-            billing_address: address
-        });
+      return request(`/store/carts/${cartId}`, {
+        method: 'POST',
+        body: JSON.stringify({
+          shipping_address: address,
+          billing_address: address
+        })
+      });
     },
     listShippingOptions: async (cartId: string) => {
-        return await medusa.shippingOptions.listCartOptions(cartId);
+      return request(`/store/shipping-options/${cartId}`);
     },
     addShippingMethod: async (cartId: string, optionId: string) => {
-        return await medusa.carts.addShippingMethod(cartId, {
-            option_id: optionId
-        });
+      return request(`/store/carts/${cartId}/shipping-methods`, {
+        method: 'POST',
+        body: JSON.stringify({ option_id: optionId })
+      });
     },
     createPaymentSessions: async (cartId: string) => {
-        return await medusa.carts.createPaymentSessions(cartId);
+      return request(`/store/carts/${cartId}/payment-sessions`, {
+        method: 'POST'
+      });
     },
     setPaymentSession: async (cartId: string, providerId: string) => {
-        return await medusa.carts.setPaymentSession(cartId, {
-            provider_id: providerId
-        });
+      return request(`/store/carts/${cartId}/payment-session`, {
+        method: 'POST',
+        body: JSON.stringify({ provider_id: providerId })
+      });
     },
     complete: async (cartId: string) => {
-        return await medusa.carts.complete(cartId);
+      return request(`/store/carts/${cartId}/complete`, {
+        method: 'POST'
+      });
     }
   },
 
   // Customers
   customers: {
     login: async (email: string, password: string) => {
-      return await medusa.auth.authenticate({
-        email,
-        password
+      return request('/store/auth', {
+        method: 'POST',
+        body: JSON.stringify({ email, password })
       });
     },
     register: async (customerData: any) => {
-      return await medusa.customers.create(customerData);
+      return request('/store/customers', {
+        method: 'POST',
+        body: JSON.stringify(customerData)
+      });
     },
     getCurrent: async () => {
-      return await medusa.auth.getSession();
+      return request('/store/auth');
     },
     retrieve: async () => {
-      return await medusa.customers.retrieve();
+      return request('/store/customers/me');
     },
     logout: async () => {
-      return await medusa.auth.deleteSession();
+      return request('/store/auth', { method: 'DELETE' });
     }
   }
 };

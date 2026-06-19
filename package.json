@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@medusajs/medusa-js": "^6.1.10",
     "framer-motion": "^12.36.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",

@@ -144,11 +144,16 @@ interface ThemeState {
   toggleDarkMode: () => void;
 }
 
-export const useThemeStore = create<ThemeState>((set) => ({
-  darkMode: false,
-  setDarkMode: (dark) => set({ darkMode: dark }),
-  toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
-}));
+export const useThemeStore = create<ThemeState>()(
+  persist(
+    (set) => ({
+      darkMode: false,
+      setDarkMode: (dark) => set({ darkMode: dark }),
+      toggleDarkMode: () => set((state) => ({ darkMode: !state.darkMode })),
+    }),
+    { name: 'faceneed-theme' }
+  )
+);
 
 // --- User Store ---
 interface UserState {
