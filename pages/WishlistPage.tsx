@@ -70,7 +70,7 @@ const WishlistPage: React.FC<Pick<WishlistPageProps, 'onNavigate' | 'onProductCl
               <div>
                 <div className="flex justify-between items-start mb-1">
                     <h3 className="text-lg font-medium font-serif text-gray-900 dark:text-white group-hover:text-primary transition-colors">{product.name}</h3>
-                    <p className="text-primary font-bold">${product.price.toFixed(2)}</p>
+                    <p className="text-primary font-bold">₵{product.price.toFixed(2)}</p>
                 </div>
                 <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-1">{product.description}</p>
               </div>

@@ -34,7 +34,7 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
   const { wishlist, toggleWishlist } = useWishlistStore();
   const { addItem: addToCart } = useCartStore();
   
-  const [maxPrice, setMaxPrice] = useState<number>(200);
+  const [maxPrice, setMaxPrice] = useState<number>(500);
   const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
 
   const AVAILABLE_INGREDIENTS = ['Vitamin C', 'Hyaluronic Acid', 'Niacinamide', 'Peptides', 'Retinol'];
@@ -162,16 +162,16 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                   <input 
                     type="range" 
                     min="0"
-                    max="200"
-                    step="5"
+                    max="500"
+                    step="10"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(Number(e.target.value))}
                     className="w-full accent-primary cursor-pointer" 
                   />
                   <div className="flex items-center justify-between mt-2 text-xs font-bold text-slate-500">
-                    <span>$0</span>
-                    <span className="text-primary">${maxPrice}</span>
-                    <span>$200+</span>
+                    <span>₵0</span>
+                    <span className="text-primary">₵{maxPrice}</span>
+                    <span>₵500+</span>
                   </div>
                 </div>
               </div>
@@ -233,7 +233,12 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                   onClick={() => onProductClick(product)}
                 >
                   <div className="relative aspect-[4/5] bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden mb-4 shadow-sm transition-all duration-500 group-hover:shadow-2xl">
-                    <div className="w-full h-full bg-cover bg-center transition-transform duration-500 group-hover:scale-105" style={{backgroundImage: `url('${product.image || 'https://lh3.googleusercontent.com/aida-public/AB6AXuAA1uG98aJzTz-eJ5Y0_q9X2m2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3C0q9p2C0d9T0p3'}'})`}}></div>
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
                     
                     {/* Wishlist Button */}
                     <button 
@@ -277,9 +282,9 @@ const ShopPage: React.FC<Pick<ShopPageProps, 'onNavigate' | 'onProductClick' | '
                   <h3 className="font-bold text-lg mb-1 group-hover:text-primary transition-colors text-gray-900 dark:text-white">{product.name}</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm mb-2 line-clamp-1">{product.description}</p>
                   <div className="flex items-center gap-2">
-                    <p className="font-black text-slate-900 dark:text-white">${product.price.toFixed(2)}</p>
+                    <p className="font-black text-slate-900 dark:text-white">₵{product.price.toFixed(2)}</p>
                     {product.originalPrice && (
-                      <p className="text-sm text-slate-400 line-through">${product.originalPrice.toFixed(2)}</p>
+                      <p className="text-sm text-slate-400 line-through">₵{product.originalPrice.toFixed(2)}</p>
                     )}
                   </div>
                 </motion.div>

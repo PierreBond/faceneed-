@@ -255,7 +255,7 @@ const AdminPage: React.FC<{
                 <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6 rounded-xl flex items-center gap-4 shadow-sm">
                     <div className="bg-green-100 dark:bg-green-900/30 p-3 rounded-full text-green-600 dark:text-green-400"><span className="material-symbols-outlined">payments</span></div>
                     <div>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">${totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">₵{totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                         <p className="text-sm text-gray-500">Total Revenue</p>
                     </div>
                 </div>
@@ -284,10 +284,10 @@ const AdminPage: React.FC<{
                             <LineChart data={mockRevenueData}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} />
-                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} tickFormatter={(val) => `$${val}`} />
+                                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#6B7280' }} tickFormatter={(val) => `₵${val}`} />
                                 <Tooltip 
                                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                    formatter={(value: number) => [`$${value}`, 'Revenue']}
+                                    formatter={(value: number) => [`₵${value}`, 'Revenue']}
                                 />
                                 <Line type="monotone" dataKey="value" stroke="#ee2b6c" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
                             </LineChart>
@@ -330,7 +330,7 @@ const AdminPage: React.FC<{
                      {orders.slice(0, 3).map((order, i) => (
                         <div key={order.id} className="flex items-center gap-4 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                            <p className="text-sm text-gray-600 dark:text-gray-300 flex-1">New order #{order.id} from {order.customerName} (${order.total})</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-300 flex-1">New order #{order.id} from {order.customerName} (₵{order.total})</p>
                             <span className="text-xs text-gray-400">{order.date}</span>
                         </div>
                      ))}
@@ -372,7 +372,7 @@ const AdminPage: React.FC<{
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{product.category}</td>
-                                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">${product.price.toFixed(2)}</td>
+                                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">₵{product.price.toFixed(2)}</td>
                                         <td className="px-6 py-4">
                                             <button 
                                                 onClick={() => toggleStock(product)}
@@ -433,7 +433,7 @@ const AdminPage: React.FC<{
                                         <td className="px-6 py-4 font-bold text-primary">{order.id}</td>
                                         <td className="px-6 py-4 text-gray-600 dark:text-gray-400">{order.date}</td>
                                         <td className="px-6 py-4 text-gray-900 dark:text-white font-medium">{order.customerName}</td>
-                                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">${order.total.toFixed(2)}</td>
+                                        <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">₵{order.total.toFixed(2)}</td>
                                         <td className="px-6 py-4">
                                              <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide 
                                                 ${order.status === 'Delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' 

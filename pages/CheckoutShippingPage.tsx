@@ -186,7 +186,7 @@ const CheckoutShippingPage: React.FC<{
                                         <p className="text-sm text-[#507395] dark:text-gray-400">Estimated 3-5 business days</p>
                                     </div>
                                 </div>
-                                <span className="font-bold text-[#0e141b] dark:text-white">${(option.amount / 100).toFixed(2)}</span>
+                                <span className="font-bold text-[#0e141b] dark:text-white">₵{(option.amount / 100).toFixed(2)}</span>
                             </label>
                         )) : (
                             <p className="text-[#507395] dark:text-gray-400 italic">Finding the best delivery routes for your rituals...</p>
@@ -224,7 +224,7 @@ const CheckoutShippingPage: React.FC<{
                                 <div className="flex flex-col justify-center">
                                     <p className="text-sm font-bold text-[#0e141b] dark:text-white">{item.name}</p>
                                     <p className="text-xs text-[#507395] dark:text-gray-400">Standard Edition</p>
-                                    <p className="text-sm font-semibold mt-1 text-[#0e141b] dark:text-white">${item.price.toFixed(2)}</p>
+                                    <p className="text-sm font-semibold mt-1 text-[#0e141b] dark:text-white">₵{item.price.toFixed(2)}</p>
                                 </div>
                             </div>
                         ))}
@@ -232,7 +232,7 @@ const CheckoutShippingPage: React.FC<{
                     <div className="space-y-4 pt-8 border-t border-[#e8edf3] dark:border-gray-800">
                         <div className="flex justify-between items-center text-sm">
                             <span className="text-[#507395] dark:text-gray-400">Subtotal</span>
-                            <span className="font-bold text-[#0e141b] dark:text-white">${subtotal.toFixed(2)}</span>
+                            <span className="font-bold text-[#0e141b] dark:text-white">₵{subtotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
                             <span className="text-[#507395] dark:text-gray-400">Shipping</span>
@@ -240,11 +240,11 @@ const CheckoutShippingPage: React.FC<{
                         </div>
                         <div className="flex justify-between items-center text-sm">
                             <span className="text-[#507395] dark:text-gray-400">Estimated Tax</span>
-                            <span className="font-bold text-[#0e141b] dark:text-white">${tax.toFixed(2)}</span>
+                            <span className="font-bold text-[#0e141b] dark:text-white">₵{tax.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center pt-4 mt-2 border-t border-[#e8edf3] dark:border-gray-800">
                             <span className="text-lg font-black text-[#0e141b] dark:text-white">Total</span>
-                            <span className="text-2xl font-black text-primary">${total.toFixed(2)}</span>
+                            <span className="text-2xl font-black text-primary">₵{total.toFixed(2)}</span>
                         </div>
                     </div>
                     <div className="mt-8 flex gap-2">

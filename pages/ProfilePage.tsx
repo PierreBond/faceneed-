@@ -76,7 +76,7 @@ const ProfilePage: React.FC<{
                 <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-6 rounded-xl flex items-center gap-4">
                     <div className="bg-primary/10 p-3 rounded-full text-primary"><span className="material-symbols-outlined">payments</span></div>
                     <div>
-                        <p className="text-2xl font-bold text-gray-900 dark:text-white">${orders.reduce((acc, curr) => acc + curr.total, 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
+                        <p className="text-2xl font-bold text-gray-900 dark:text-white">₵{orders.reduce((acc, curr) => acc + curr.total, 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</p>
                         <p className="text-sm text-gray-500">Total Spent</p>
                     </div>
                 </div>
@@ -111,7 +111,7 @@ const ProfilePage: React.FC<{
                                             : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
                                             {order.status}
                                         </span>
-                                        <p className="font-bold text-gray-900 dark:text-white">${order.total.toFixed(2)}</p>
+                                        <p className="font-bold text-gray-900 dark:text-white">₵{order.total.toFixed(2)}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">

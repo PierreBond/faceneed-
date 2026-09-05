@@ -166,7 +166,7 @@ const HomePage: React.FC<{
                           <div className="flex flex-col justify-center">
                               <p className="text-sm font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">{product.name}</p>
                               <p className="text-xs text-gray-500 mb-2">{product.category}</p>
-                              <p className="text-xs font-bold text-gray-900 dark:text-white">${product.price}</p>
+                              <p className="text-xs font-bold text-gray-900 dark:text-white">₵{product.price}</p>
                           </div>
                       </div>
                   ))}

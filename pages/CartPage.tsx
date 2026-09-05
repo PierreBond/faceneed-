@@ -35,7 +35,7 @@ const CartPage: React.FC<{
                     <div className="flex flex-col gap-1">
                       <p className="text-xl font-semibold leading-normal text-[#1b150e] dark:text-[#f8f7f6]">{item.name}</p>
                       <p className="text-[#97794e] dark:text-[#c4a67a] text-sm font-normal">Size: 30ml</p> {/* Hardcoded for demo match */}
-                      <p className="text-lg font-medium mt-2 text-[#1b150e] dark:text-[#f8f7f6]">${item.price.toFixed(2)}</p>
+                      <p className="text-lg font-medium mt-2 text-[#1b150e] dark:text-[#f8f7f6]">₵{item.price.toFixed(2)}</p>
                     </div>
                   </div>
                   <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-4">
@@ -63,7 +63,7 @@ const CartPage: React.FC<{
               <div className="space-y-4 mb-6 border-b border-[#f3eee7] dark:border-[#3a2f21] pb-6">
                 <div className="flex justify-between text-base">
                   <span className="text-[#97794e] dark:text-[#c4a67a]">Subtotal</span>
-                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">${subtotal.toFixed(2)}</span>
+                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">₵{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-base">
                   <span className="text-[#97794e] dark:text-[#c4a67a]">Estimated Shipping</span>
@@ -71,12 +71,12 @@ const CartPage: React.FC<{
                 </div>
                 <div className="flex justify-between text-base">
                   <span className="text-[#97794e] dark:text-[#c4a67a]">Delivery Cost</span>
-                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">${delivery}</span>
+                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">₵{delivery}</span>
                 </div>
               </div>
               <div className="flex justify-between items-center mb-8">
                 <span className="text-xl font-bold text-[#1b150e] dark:text-[#f8f7f6]">Total</span>
-                <span className="text-2xl font-black text-primary">${total.toFixed(2)}</span>
+                <span className="text-2xl font-black text-primary">₵{total.toFixed(2)}</span>
               </div>
               <Link 
                 to="/checkout-shipping"

@@ -134,7 +134,7 @@ const ProductPage: React.FC<{
             <div>
                 <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-[#1b170e] dark:text-[#f8f7f6]">{product.name}</h2>
                 <div className="flex items-center gap-4 mt-4">
-                    <p className="text-2xl text-primary font-medium">${product.price.toFixed(2)}</p>
+                    <p className="text-2xl text-primary font-medium">₵{product.price.toFixed(2)}</p>
                     <div className="flex items-center gap-1 text-primary">
                         {[1,2,3,4,5].map(i => (
                             <span key={i} className={`material-symbols-outlined text-sm ${i <= Number(averageRating) ? 'fill-icon' : ''}`}>star</span>
