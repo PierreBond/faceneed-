@@ -60,13 +60,13 @@ const AuthPage: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[70vh] flex items-center justify-center px-6 py-12 font-newsreader">
-            <div className="w-full max-w-md bg-white dark:bg-[#1a150e] p-10 rounded-3xl shadow-2xl border border-[#f3eee7] dark:border-[#3a2f21] animate-fadeIn">
+        <div className="min-h-[70vh] flex items-center justify-center px-6 py-12 font-display">
+            <div className="w-full max-w-md bg-white dark:bg-gray-900 p-10 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-800 animate-fadeIn">
                 <div className="text-center mb-10">
-                    <h1 className="text-4xl font-bold text-[#1b150e] dark:text-[#f8f7f6] mb-3">
+                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
                         {isLogin ? 'Welcome Back' : 'Join the Club'}
                     </h1>
-                    <p className="text-[#97794e] dark:text-[#c4a67a]">
+                    <p className="text-gray-500 dark:text-gray-400">
                         {isLogin ? 'Login to your Faceneed account' : 'Create an account for personalized rituals'}
                     </p>
                 </div>
@@ -81,47 +81,47 @@ const AuthPage: React.FC = () => {
                     {!isLogin && (
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-[#97794e]">First Name</label>
+                                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">First Name</label>
                                 <input 
                                     type="text" 
                                     required 
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
-                                    className="w-full bg-[#fcfaf7] dark:bg-[#2a2217] border border-[#f3eee7] dark:border-[#3a2f21] rounded-xl px-4 py-3 outline-none focus:border-primary text-[#1b150e] dark:text-[#f8f7f6]"
+                                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-900 dark:text-white"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-xs font-bold uppercase tracking-widest text-[#97794e]">Last Name</label>
+                                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Last Name</label>
                                 <input 
                                     type="text" 
                                     required 
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
-                                    className="w-full bg-[#fcfaf7] dark:bg-[#2a2217] border border-[#f3eee7] dark:border-[#3a2f21] rounded-xl px-4 py-3 outline-none focus:border-primary text-[#1b150e] dark:text-[#f8f7f6]"
+                                    className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-900 dark:text-white"
                                 />
                             </div>
                         </div>
                     )}
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-[#97794e]">Email Address</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Email Address</label>
                         <input 
                             type="email" 
                             required 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className="w-full bg-[#fcfaf7] dark:bg-[#2a2217] border border-[#f3eee7] dark:border-[#3a2f21] rounded-xl px-4 py-3 outline-none focus:border-primary text-[#1b150e] dark:text-[#f8f7f6]"
+                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-900 dark:text-white"
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="text-xs font-bold uppercase tracking-widest text-[#97794e]">Password</label>
+                        <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Password</label>
                         <input 
                             type="password" 
                             required 
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full bg-[#fcfaf7] dark:bg-[#2a2217] border border-[#f3eee7] dark:border-[#3a2f21] rounded-xl px-4 py-3 outline-none focus:border-primary text-[#1b150e] dark:text-[#f8f7f6]"
+                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-800 rounded-xl px-4 py-3 outline-none focus:border-primary text-gray-900 dark:text-white"
                         />
                     </div>
 
@@ -137,7 +137,7 @@ const AuthPage: React.FC = () => {
                 <div className="mt-8 text-center">
                     <button 
                         onClick={() => setIsLogin(!isLogin)}
-                        className="text-[#97794e] hover:text-primary transition-colors font-semibold"
+                        className="text-gray-500 hover:text-primary transition-colors font-semibold"
                     >
                         {isLogin ? "Don't have an account? Join here" : "Already a member? Sign in"}
                     </button>

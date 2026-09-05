@@ -113,3 +113,35 @@ body {
 .delay-300 {
     animation-delay: 300ms;
 }
+
+/* Background Tokens */
+.bg-background-light {
+    background-color: #FAFAF9;
+}
+
+.bg-background-dark {
+    background-color: #121212;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Shake Animation */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-4px); }
+    40% { transform: translateX(4px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.animate-shake {
+    animation: shake 0.4s ease-in-out;
+}

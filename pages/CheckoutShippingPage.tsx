@@ -84,25 +84,25 @@ const CheckoutShippingPage: React.FC<{
   };
 
   return (
-    <div className="flex-1 px-6 md:px-12 lg:px-20 py-8 lg:py-12 bg-background-light dark:bg-background-dark font-display text-[#0e141b] dark:text-gray-100">
+    <div className="flex-1 px-6 md:px-12 lg:px-20 py-8 lg:py-12 bg-background-light dark:bg-background-dark font-display text-gray-900 dark:text-gray-100">
       <div className="w-full">
         {/* Progress */}
         <div className="mb-12">
             <div className="flex flex-col gap-3 max-w-[600px]">
                 <div className="flex gap-6 justify-between">
-                    <p className="text-[#0e141b] dark:text-white text-sm font-semibold uppercase tracking-wider">Shipping Details</p>
-                    <p className="text-[#0e141b] dark:text-white text-sm font-medium">Step 1 of 3</p>
+                    <p className="text-gray-900 dark:text-white text-sm font-semibold uppercase tracking-wider">Shipping Details</p>
+                    <p className="text-gray-900 dark:text-white text-sm font-medium">Step 1 of 3</p>
                 </div>
-                <div className="rounded-full bg-[#d1dbe6] dark:bg-gray-800 h-2 overflow-hidden">
+                <div className="rounded-full bg-gray-200 dark:bg-gray-800 h-2 overflow-hidden">
                     <div className="h-full bg-primary" style={{ width: '33.33%' }}></div>
                 </div>
             </div>
             <div className="flex items-center gap-2 mt-6 text-sm">
-                <Link to="/cart" className="text-[#507395] dark:text-gray-400 hover:text-primary">Cart</Link>
-                <span className="text-[#507395] dark:text-gray-600">/</span>
-                <span className="text-[#0e141b] dark:text-white font-bold">Shipping</span>
-                <span className="text-[#507395] dark:text-gray-600">/</span>
-                <span className="text-[#507395] dark:text-gray-400">Payment</span>
+                <Link to="/cart" className="text-gray-500 dark:text-gray-400 hover:text-primary">Cart</Link>
+                <span className="text-gray-500 dark:text-gray-600">/</span>
+                <span className="text-gray-900 dark:text-white font-bold">Shipping</span>
+                <span className="text-gray-500 dark:text-gray-600">/</span>
+                <span className="text-gray-500 dark:text-gray-400">Payment</span>
             </div>
         </div>
 
@@ -110,16 +110,16 @@ const CheckoutShippingPage: React.FC<{
             {/* Form */}
             <div className="md:col-span-7 flex flex-col gap-10">
                 <section>
-                    <h1 className="text-[#0e141b] dark:text-white text-3xl font-black mb-8">Shipping Information</h1>
+                    <h1 className="text-gray-900 dark:text-white text-3xl font-black mb-8">Shipping Information</h1>
                     <div className="space-y-4 mb-8">
-                        <h3 className="text-lg font-bold text-[#0e141b] dark:text-white">Contact Info</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Contact Info</h3>
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-[#507395] dark:text-gray-400">Email Address</label>
+                            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</label>
                             <input 
                                 name="email" 
                                 value={userInfo.email} 
                                 onChange={handleChange} 
-                                className={`w-full rounded-lg bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all ${errors.email ? 'border border-red-500 focus:border-red-500' : 'border border-[#d1dbe6] dark:border-gray-700 focus:border-primary'}`} 
+                                className={`w-full rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all ${errors.email ? 'border border-red-500 focus:border-red-500' : 'border border-gray-200 dark:border-gray-700 focus:border-primary'}`} 
                                 placeholder="email@example.com" 
                                 type="email"
                             />
@@ -127,29 +127,29 @@ const CheckoutShippingPage: React.FC<{
                         </div>
                     </div>
                     <div className="space-y-4">
-                        <h3 className="text-lg font-bold text-[#0e141b] dark:text-white">Shipping Address</h3>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">Shipping Address</h3>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="flex flex-col gap-2">
-                                <label className="text-sm font-medium text-[#507395] dark:text-gray-400">First Name</label>
-                                <input name="firstName" value={userInfo.firstName} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="John" type="text"/>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">First Name</label>
+                                <input name="firstName" value={userInfo.firstName} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="John" type="text"/>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <label className="text-sm font-medium text-[#507395] dark:text-gray-400">Last Name</label>
-                                <input name="lastName" value={userInfo.lastName} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="Doe" type="text"/>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Last Name</label>
+                                <input name="lastName" value={userInfo.lastName} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="Doe" type="text"/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-[#507395] dark:text-gray-400">Address</label>
-                            <input name="address" value={userInfo.address} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="123 Beauty Lane" type="text"/>
+                            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Address</label>
+                            <input name="address" value={userInfo.address} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="123 Beauty Lane" type="text"/>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                             <div className="flex flex-col gap-2 col-span-1">
-                                <label className="text-sm font-medium text-[#507395] dark:text-gray-400">City</label>
-                                <input name="city" value={userInfo.city} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="New York" type="text"/>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">City</label>
+                                <input name="city" value={userInfo.city} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="New York" type="text"/>
                             </div>
                             <div className="flex flex-col gap-2 col-span-1">
-                                <label className="text-sm font-medium text-[#507395] dark:text-gray-400">State</label>
-                                <select name="state" value={userInfo.state} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all">
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">State</label>
+                                <select name="state" value={userInfo.state} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all">
                                     <option value="">Select</option>
                                     <option value="NY">NY</option>
                                     <option value="CA">CA</option>
@@ -157,22 +157,22 @@ const CheckoutShippingPage: React.FC<{
                                 </select>
                             </div>
                             <div className="flex flex-col gap-2 col-span-1">
-                                <label className="text-sm font-medium text-[#507395] dark:text-gray-400">ZIP Code</label>
-                                <input name="zip" value={userInfo.zip} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="10001" type="text"/>
+                                <label className="text-sm font-medium text-gray-500 dark:text-gray-400">ZIP Code</label>
+                                <input name="zip" value={userInfo.zip} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="10001" type="text"/>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium text-[#507395] dark:text-gray-400">Phone</label>
-                            <input name="phone" value={userInfo.phone} onChange={handleChange} className="w-full rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-white dark:bg-gray-800 text-[#0e141b] dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
+                            <label className="text-sm font-medium text-gray-500 dark:text-gray-400">Phone</label>
+                            <input name="phone" value={userInfo.phone} onChange={handleChange} className="w-full rounded-lg border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12 px-4 outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
                         </div>
                     </div>
                 </section>
 
                 <section className="animate-fadeIn">
-                    <h3 className="text-lg font-bold text-[#0e141b] dark:text-white mb-6">Delivery Method</h3>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Delivery Method</h3>
                     <div className="space-y-3">
                         {shippingOptions.length > 0 ? shippingOptions.map(option => (
-                            <label key={option.id} className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedOption === option.id ? 'border-primary bg-primary/5' : 'border-[#e8edf3] dark:border-gray-800 hover:border-primary/30'}`}>
+                            <label key={option.id} className={`flex items-center justify-between p-4 rounded-xl border-2 cursor-pointer transition-all ${selectedOption === option.id ? 'border-primary bg-primary/5' : 'border-gray-100 dark:border-gray-800 hover:border-primary/30'}`}>
                                 <div className="flex items-center gap-4">
                                     <input 
                                         type="radio" 
@@ -182,20 +182,20 @@ const CheckoutShippingPage: React.FC<{
                                         className="accent-primary h-5 w-5"
                                     />
                                     <div>
-                                        <p className="font-bold text-[#0e141b] dark:text-white">{option.name}</p>
-                                        <p className="text-sm text-[#507395] dark:text-gray-400">Estimated 3-5 business days</p>
+                                        <p className="font-bold text-gray-900 dark:text-white">{option.name}</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400">Estimated 3-5 business days</p>
                                     </div>
                                 </div>
-                                <span className="font-bold text-[#0e141b] dark:text-white">₵{(option.amount / 100).toFixed(2)}</span>
+                                <span className="font-bold text-gray-900 dark:text-white">₵{(option.amount / 100).toFixed(2)}</span>
                             </label>
                         )) : (
-                            <p className="text-[#507395] dark:text-gray-400 italic">Finding the best delivery routes for your rituals...</p>
+                            <p className="text-gray-500 dark:text-gray-400 italic">Finding the best delivery routes for your rituals...</p>
                         )}
                         {errors.shipping && <p className="text-red-500 text-xs mt-1">{errors.shipping}</p>}
                     </div>
                 </section>
 
-                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-[#e8edf3] dark:border-gray-800">
+                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                     <button 
                         onClick={handleContinue}
                         disabled={isLoading}
@@ -204,7 +204,7 @@ const CheckoutShippingPage: React.FC<{
                         {isLoading ? 'Preparing Ritual...' : 'Continue to Payment'}
                         {!isLoading && <span className="material-symbols-outlined">arrow_forward</span>}
                     </button>
-                    <Link to="/cart" className="w-full sm:w-auto px-8 text-[#507395] dark:text-gray-400 font-bold hover:text-[#0e141b] dark:hover:text-white transition-all h-14 flex items-center justify-center">
+                    <Link to="/cart" className="w-full sm:w-auto px-8 text-gray-500 dark:text-gray-400 font-bold hover:text-gray-900 dark:hover:text-white transition-all h-14 flex items-center justify-center">
                         Return to Cart
                     </Link>
                 </div>
@@ -212,44 +212,44 @@ const CheckoutShippingPage: React.FC<{
 
             {/* Summary */}
             <div className="md:col-span-5 sticky top-24">
-                <div className="bg-white dark:bg-gray-900 rounded-xl p-8 border border-[#e8edf3] dark:border-gray-800 shadow-sm">
-                    <h2 className="text-xl font-black mb-8 text-[#0e141b] dark:text-white">Order Summary</h2>
+                <div className="bg-white dark:bg-gray-900 rounded-xl p-8 border border-gray-100 dark:border-gray-800 shadow-sm">
+                    <h2 className="text-xl font-black mb-8 text-gray-900 dark:text-white">Order Summary</h2>
                     <div className="space-y-6 mb-8">
                         {cart.map(item => (
                             <div key={item.id} className="flex gap-4">
-                                <div className="relative size-20 flex-shrink-0 bg-background-light dark:bg-gray-800 rounded-lg border border-[#e8edf3] dark:border-gray-700 overflow-hidden">
+                                <div className="relative size-20 flex-shrink-0 bg-background-light dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
                                     <img alt={item.name} className="w-full h-full object-cover" src={item.image}/>
                                     <span className="absolute -top-1 -right-1 bg-primary text-white text-[10px] font-bold h-5 w-5 rounded-full flex items-center justify-center">{item.quantity}</span>
                                 </div>
                                 <div className="flex flex-col justify-center">
-                                    <p className="text-sm font-bold text-[#0e141b] dark:text-white">{item.name}</p>
-                                    <p className="text-xs text-[#507395] dark:text-gray-400">Standard Edition</p>
-                                    <p className="text-sm font-semibold mt-1 text-[#0e141b] dark:text-white">₵{item.price.toFixed(2)}</p>
+                                    <p className="text-sm font-bold text-gray-900 dark:text-white">{item.name}</p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Standard Edition</p>
+                                    <p className="text-sm font-semibold mt-1 text-gray-900 dark:text-white">₵{item.price.toFixed(2)}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="space-y-4 pt-8 border-t border-[#e8edf3] dark:border-gray-800">
+                    <div className="space-y-4 pt-8 border-t border-gray-100 dark:border-gray-800">
                         <div className="flex justify-between items-center text-sm">
-                            <span className="text-[#507395] dark:text-gray-400">Subtotal</span>
-                            <span className="font-bold text-[#0e141b] dark:text-white">₵{subtotal.toFixed(2)}</span>
+                            <span className="text-gray-500 dark:text-gray-400">Subtotal</span>
+                            <span className="font-bold text-gray-900 dark:text-white">₵{subtotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
-                            <span className="text-[#507395] dark:text-gray-400">Shipping</span>
+                            <span className="text-gray-500 dark:text-gray-400">Shipping</span>
                             <span className="text-primary font-bold">Free</span>
                         </div>
                         <div className="flex justify-between items-center text-sm">
-                            <span className="text-[#507395] dark:text-gray-400">Estimated Tax</span>
-                            <span className="font-bold text-[#0e141b] dark:text-white">₵{tax.toFixed(2)}</span>
+                            <span className="text-gray-500 dark:text-gray-400">Estimated Tax</span>
+                            <span className="font-bold text-gray-900 dark:text-white">₵{tax.toFixed(2)}</span>
                         </div>
-                        <div className="flex justify-between items-center pt-4 mt-2 border-t border-[#e8edf3] dark:border-gray-800">
-                            <span className="text-lg font-black text-[#0e141b] dark:text-white">Total</span>
+                        <div className="flex justify-between items-center pt-4 mt-2 border-t border-gray-100 dark:border-gray-800">
+                            <span className="text-lg font-black text-gray-900 dark:text-white">Total</span>
                             <span className="text-2xl font-black text-primary">₵{total.toFixed(2)}</span>
                         </div>
                     </div>
                     <div className="mt-8 flex gap-2">
-                        <input className="flex-1 rounded-lg border-[#d1dbe6] dark:border-gray-700 bg-background-light dark:bg-gray-800 text-sm px-4 outline-none" placeholder="Promo code" type="text"/>
-                        <button className="bg-[#e8edf3] dark:bg-gray-800 text-[#0e141b] dark:text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-[#d1dbe6] transition-colors">Apply</button>
+                        <input className="flex-1 rounded-lg border-gray-200 dark:border-gray-700 bg-background-light dark:bg-gray-800 text-sm px-4 outline-none" placeholder="Promo code" type="text"/>
+                        <button className="bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-200 transition-colors">Apply</button>
                     </div>
                 </div>
             </div>

@@ -13,40 +13,40 @@ const CartPage: React.FC<{
   const total = subtotal + shipping + delivery;
 
   return (
-    <div className="w-full px-6 md:px-12 lg:px-20 py-12 font-newsreader">
-      <h1 className="text-[#1b150e] dark:text-[#f8f7f6] text-4xl font-bold leading-tight tracking-[-0.033em] mb-10">Your Shopping Bag</h1>
+    <div className="w-full px-6 md:px-12 lg:px-20 py-12 font-display">
+      <h1 className="text-gray-900 dark:text-white text-4xl font-bold leading-tight tracking-[-0.033em] mb-10">Your Shopping Bag</h1>
       
       {cart.length === 0 ? (
         <div className="text-center py-20">
           <p className="text-xl text-gray-500 mb-6">Your bag is empty.</p>
-          <Link to="/shop" className="bg-primary text-[#211a11] px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all inline-block">Start Shopping</Link>
+          <Link to="/shop" className="bg-primary text-gray-900 px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all inline-block">Start Shopping</Link>
         </div>
       ) : (
         <div className="flex flex-col md:flex-row gap-12 items-start">
           <div className="flex-1 w-full space-y-8">
             {cart.map(item => (
-              <div key={item.id} className="flex flex-col border-b border-[#f3eee7] dark:border-[#3a2f21] pb-8">
+              <div key={item.id} className="flex flex-col border-b border-gray-100 dark:border-gray-800 pb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 justify-between">
                   <div className="flex items-center gap-4 sm:gap-6">
                     <div 
-                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 md:size-32 bg-[#f3eee7] shrink-0" 
+                        className="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-24 md:size-32 bg-gray-100 shrink-0" 
                         style={{ backgroundImage: `url("${item.image}")` }}
                     ></div>
                     <div className="flex flex-col gap-1">
-                      <p className="text-xl font-semibold leading-normal text-[#1b150e] dark:text-[#f8f7f6]">{item.name}</p>
-                      <p className="text-[#97794e] dark:text-[#c4a67a] text-sm font-normal">Size: 30ml</p> {/* Hardcoded for demo match */}
-                      <p className="text-lg font-medium mt-2 text-[#1b150e] dark:text-[#f8f7f6]">₵{item.price.toFixed(2)}</p>
+                      <p className="text-xl font-semibold leading-normal text-gray-900 dark:text-white">{item.name}</p>
+                      <p className="text-gray-500 dark:text-gray-400 text-sm font-normal">Size: 30ml</p> {/* Hardcoded for demo match */}
+                      <p className="text-lg font-medium mt-2 text-gray-900 dark:text-white">₵{item.price.toFixed(2)}</p>
                     </div>
                   </div>
                   <div className="flex flex-row sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-4">
                     <div className="shrink-0">
-                      <div className="flex items-center gap-3 bg-[#f3eee7] dark:bg-[#3a2f21] px-3 py-1.5 rounded-full">
-                        <button onClick={() => updateQuantity(item.id, -1)} className="text-lg font-bold flex h-6 w-6 items-center justify-center rounded-full hover:text-primary transition-colors text-[#1b150e] dark:text-[#f8f7f6]">-</button>
-                        <span className="text-sm font-bold w-6 text-center text-[#1b150e] dark:text-[#f8f7f6]">{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, 1)} className="text-lg font-bold flex h-6 w-6 items-center justify-center rounded-full hover:text-primary transition-colors text-[#1b150e] dark:text-[#f8f7f6]">+</button>
+                      <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800 px-3 py-1.5 rounded-full">
+                        <button onClick={() => updateQuantity(item.id, -1)} className="text-lg font-bold flex h-6 w-6 items-center justify-center rounded-full hover:text-primary transition-colors text-gray-900 dark:text-white">-</button>
+                        <span className="text-sm font-bold w-6 text-center text-gray-900 dark:text-white">{item.quantity}</span>
+                        <button onClick={() => updateQuantity(item.id, 1)} className="text-lg font-bold flex h-6 w-6 items-center justify-center rounded-full hover:text-primary transition-colors text-gray-900 dark:text-white">+</button>
                       </div>
                     </div>
-                    <button onClick={() => removeFromCart(item.id)} className="flex items-center text-[#97794e] hover:text-red-500 transition-colors text-sm font-semibold gap-1">
+                    <button onClick={() => removeFromCart(item.id)} className="flex items-center text-gray-500 hover:text-red-500 transition-colors text-sm font-semibold gap-1">
                       <span className="material-symbols-outlined text-lg">delete</span>
                       <span>Remove</span>
                     </button>
@@ -58,29 +58,29 @@ const CartPage: React.FC<{
 
           {/* Summary Sidebar */}
           <aside className="w-full md:w-80 lg:w-96 sticky top-32">
-            <div className="bg-white dark:bg-[#2a2217] p-8 rounded-2xl shadow-sm border border-[#f3eee7] dark:border-[#3a2f21]">
-              <h3 className="text-2xl font-bold mb-6 text-[#1b150e] dark:text-[#f8f7f6]">Order Summary</h3>
-              <div className="space-y-4 mb-6 border-b border-[#f3eee7] dark:border-[#3a2f21] pb-6">
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800">
+              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Order Summary</h3>
+              <div className="space-y-4 mb-6 border-b border-gray-100 dark:border-gray-800 pb-6">
                 <div className="flex justify-between text-base">
-                  <span className="text-[#97794e] dark:text-[#c4a67a]">Subtotal</span>
-                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">₵{subtotal.toFixed(2)}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Subtotal</span>
+                  <span className="font-medium text-gray-900 dark:text-white">₵{subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-base">
-                  <span className="text-[#97794e] dark:text-[#c4a67a]">Estimated Shipping</span>
-                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">Free</span>
+                  <span className="text-gray-500 dark:text-gray-400">Estimated Shipping</span>
+                  <span className="font-medium text-gray-900 dark:text-white">Free</span>
                 </div>
                 <div className="flex justify-between text-base">
-                  <span className="text-[#97794e] dark:text-[#c4a67a]">Delivery Cost</span>
-                  <span className="font-medium text-[#1b150e] dark:text-[#f8f7f6]">₵{delivery}</span>
+                  <span className="text-gray-500 dark:text-gray-400">Delivery Cost</span>
+                  <span className="font-medium text-gray-900 dark:text-white">₵{delivery}</span>
                 </div>
               </div>
               <div className="flex justify-between items-center mb-8">
-                <span className="text-xl font-bold text-[#1b150e] dark:text-[#f8f7f6]">Total</span>
+                <span className="text-xl font-bold text-gray-900 dark:text-white">Total</span>
                 <span className="text-2xl font-black text-primary">₵{total.toFixed(2)}</span>
               </div>
               <Link 
                 to="/checkout-shipping"
-                className="w-full bg-primary text-[#211a11] py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 mb-3"
+                className="w-full bg-primary text-gray-900 py-4 rounded-xl font-bold text-lg hover:brightness-110 transition-all flex items-center justify-center gap-2 mb-3"
               >
                 <span>Proceed to Checkout</span>
                 <span className="material-symbols-outlined">arrow_forward</span>
@@ -88,17 +88,17 @@ const CartPage: React.FC<{
               
               <Link 
                 to="/shop"
-                className="w-full text-center text-[#97794e] dark:text-[#c4a67a] text-sm font-semibold hover:text-[#1b150e] dark:hover:text-[#f8f7f6] transition-colors py-2 mb-4 block"
+                className="w-full text-center text-gray-500 dark:text-gray-400 text-sm font-semibold hover:text-gray-900 dark:hover:text-white transition-colors py-2 mb-4 block"
               >
                 Shop Some More
               </Link>
 
               <div className="flex flex-col gap-4 mt-6">
-                <div className="flex items-center gap-3 text-sm text-[#97794e] dark:text-[#c4a67a]">
+                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                   <span className="material-symbols-outlined text-primary">verified_user</span>
                   <span>Secure encrypted payment.</span>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-[#97794e] dark:text-[#c4a67a]">
+                <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
                   <span className="material-symbols-outlined text-primary">local_shipping</span>
                   <span>Free standard shipping on all orders.</span>
                 </div>
