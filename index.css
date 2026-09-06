@@ -1,5 +1,20 @@
-:root {
-    --color-primary: #ee2b6c;
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/container-queries";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-primary: #ee2b6c;
+  --color-background-light: #FAFAF9;
+  --color-background-dark: #121212;
+
+  --font-display: "Manrope", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-newsreader: "Newsreader", serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
 }
 
 html {
@@ -112,15 +127,6 @@ body {
 
 .delay-300 {
     animation-delay: 300ms;
-}
-
-/* Background Tokens */
-.bg-background-light {
-    background-color: #FAFAF9;
-}
-
-.bg-background-dark {
-    background-color: #121212;
 }
 
 /* Fade In Animation */

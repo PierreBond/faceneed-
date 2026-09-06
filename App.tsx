@@ -37,32 +37,11 @@ const App: React.FC = () => {
   const { initUser } = useUserStore();
 
   // Initial Data Fetch
-  useEffect(() => {
+useEffect(() => {
     fetchProducts();
     initCart();
     initUser();
   }, [fetchProducts, initCart, initUser]);
-
-  // Dynamic theme color based on current path
-  useEffect(() => {
-    const root = document.documentElement;
-    const path = location.pathname;
-
-    if (path === '/' || path.startsWith('/shop') || path === '/about' || path === '/profile' || path === '/admin' || path === '/wishlist' || path === '/checkout-payment') {
-        root.style.setProperty('--color-primary', '#ee2b6c'); // Pink
-    } else if (path.startsWith('/product')) {
-        root.style.setProperty('--color-primary', '#e6a219'); // Gold
-    } else if (path === '/cart' || path === '/success') {
-        root.style.setProperty('--color-primary', '#eba747'); // Gold/Orange
-    } else if (path === '/checkout-shipping') {
-        root.style.setProperty('--color-primary', '#368ce2'); // Blue
-    } else {
-        root.style.setProperty('--color-primary', '#ee2b6c');
-    }
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-
-
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);

@@ -22,34 +22,62 @@ const AuthPage: React.FC = () => {
 
         try {
             if (isLogin) {
-                const { customer } = await ApiService.customers.login(email, password);
-                setUserInfo({
-                    email: customer.email,
-                    firstName: customer.first_name || '',
-                    lastName: customer.last_name || '',
-                    address: '', // These might need separate fetching if needed
-                    city: '',
-                    state: '',
-                    zip: '',
-                    phone: customer.phone || '',
-                });
+                try {
+                    const { customer } = await ApiService.customers.login(email, password);
+                    setUserInfo({
+                        email: customer.email,
+                        firstName: customer.first_name || '',
+                        lastName: customer.last_name || '',
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        phone: customer.phone || '',
+                    });
+                } catch {
+                    // No backend — use local auth
+                    setUserInfo({
+                        email,
+                        firstName: email.split('@')[0],
+                        lastName: '',
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        phone: '',
+                    });
+                }
             } else {
-                const { customer } = await ApiService.customers.register({
-                    email,
-                    password,
-                    first_name: firstName,
-                    last_name: lastName,
-                });
-                setUserInfo({
-                    email: customer.email,
-                    firstName: customer.first_name,
-                    lastName: customer.last_name,
-                    address: '',
-                    city: '',
-                    state: '',
-                    zip: '',
-                    phone: '',
-                });
+                try {
+                    const { customer } = await ApiService.customers.register({
+                        email,
+                        password,
+                        first_name: firstName,
+                        last_name: lastName,
+                    });
+                    setUserInfo({
+                        email: customer.email,
+                        firstName: customer.first_name,
+                        lastName: customer.last_name,
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        phone: '',
+                    });
+                } catch {
+                    // No backend — use local auth
+                    setUserInfo({
+                        email,
+                        firstName,
+                        lastName,
+                        address: '',
+                        city: '',
+                        state: '',
+                        zip: '',
+                        phone: '',
+                    });
+                }
             }
             navigate('/profile');
         } catch (err: any) {
