@@ -182,13 +182,15 @@ export class Scroll {
       this.camera.position.z = nextCameraZ;
     }
 
-    // Check bounds — when at last plane, release scroll down to page
-    // When at first plane, release scroll up to page
-    const tolerance = 0.5;
-    const maxScroll = this.scrollFromCameraZ(this.minCameraZ);
-    const minScroll = this.scrollFromCameraZ(this.maxCameraZ);
-    this.isAtEndBound = this.scrollCurrent >= maxScroll - tolerance;
-    this.isAtStartBound = this.scrollCurrent <= minScroll + tolerance;
+    // Check bounds via camera position — more reliable than lerped scroll
+    const camZ = this.camera.position.z;
+    const camAtStart = camZ >= this.maxCameraZ - 0.1;
+    const camAtEnd = camZ <= this.minCameraZ + 0.1;
+
+    // Scrolling up at start bound → release
+    this.isAtStartBound = camAtStart;
+    // Scrolling down at end bound → release
+    this.isAtEndBound = camAtEnd;
   }
 
   getVelocity() {
