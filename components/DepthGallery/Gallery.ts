@@ -9,8 +9,8 @@ export class Gallery {
   private texturesBySource = new Map<string, THREE.Texture>();
   private useTextures = true;
   private planeGap = 5;
-  private desktopPlaneScale = 1;
-  private mobilePlaneScale = 0.65;
+  private desktopPlaneScale = 0.8;
+  private mobilePlaneScale = 0.55;
   private mobileXSpreadFactor = 0.25;
   private mobileBreakpoint = 768;
   private planeConfig = galleryPlaneData;
