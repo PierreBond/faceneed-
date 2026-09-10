@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Product } from '../types';
 import { useProductStore, useWishlistStore, useCartStore } from '../store';
+import DepthGallery from '../components/DepthGallery/DepthGallery';
 
 const HomePage: React.FC<{
   onNavigate: (path: string) => void;
@@ -25,7 +26,7 @@ const HomePage: React.FC<{
   ];
 
   return (
-    <div className="pt-28 md:pt-36 pb-12 px-6 md:px-12 lg:px-20 w-full space-y-8 md:space-y-12">
+    <div className="pb-12 w-full space-y-8 md:space-y-12">
       <Helmet>
         <title>Faceneed | Clean & Clinical Skincare</title>
         <meta name="description" content="Experience the intersection of clinical precision and botanical soul. Skincare designed for the modern minimalist." />
@@ -34,62 +35,13 @@ const HomePage: React.FC<{
         <meta property="og:image" content={heroProduct.image} />
       </Helmet>
       
-      {/* SECTION 1: Antigravity Hero */}
-      <section className="relative rounded-4xl md:rounded-5xl overflow-hidden bg-[#F3F1EF] dark:bg-[#1A1A1A] ambient-shadow min-h-[85vh] flex items-center">
-         {/* Background Subtle Gradient */}
-         <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-primary/5 pointer-events-none"></div>
-
-         <div className="w-full h-full grid lg:grid-cols-2 gap-12 items-center p-8 md:p-16 relative z-10">
-            {/* Typography */}
-            <div className="flex flex-col items-center lg:items-start text-center lg:text-left space-y-8 order-2 lg:order-1">
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-transparent dark:border-transparent bg-transparent dark:bg-black/20 backdrop-blur-sm animate-slideUp">
-                   <span className="text-[10px] font-bold tracking-[0.25em] uppercase text-gray-600 dark:text-gray-300">The 2026 Collection</span>
-                </div>
-                
-                <h1 className="animate-slideUp delay-100 font-serif font-medium text-6xl md:text-8xl lg:text-9xl leading-[0.9] text-gray-900 dark:text-white tracking-tighter">
-                   Elevate <br/>
-                   <span className="italic font-light text-primary">Your Ritual.</span>
-                </h1>
-
-                <p className="animate-slideUp delay-200 text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-md font-light leading-relaxed">
-                   Experience the intersection of clinical precision and botanical soul. Skincare designed for the modern minimalist.
-                </p>
-
-                <div className="animate-slideUp delay-300 pt-4 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                    <Link 
-                        to="/shop"
-                        className="btn-squish bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs inline-block text-center"
-                    >
-                        Shop The Collection
-                    </Link>
-                    <Link 
-                        to="/about"
-                        className="btn-squish border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gray-50 dark:hover:bg-white/5 inline-block text-center"
-                    >
-                        Our Philosophy
-                    </Link>
-                </div>
-            </div>
-
-            {/* Antigravity Asset */}
-            <div className="relative h-[50vh] lg:h-full w-full flex items-center justify-center order-1 lg:order-2">
-                 {/* Decorative Circle */}
-                 <div className="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full border border-gray-900/5 dark:border-white/5 animate-[spin_60s_linear_infinite]"></div>
-                 <div className="absolute w-[280px] h-[280px] md:w-[480px] md:h-[480px] rounded-full border border-gray-900/5 dark:border-white/5 animate-[spin_40s_linear_infinite_reverse]"></div>
-                 
-                 {/* Floating Image */}
-                 <img 
-                    src={heroProduct.image} 
-                    alt="Hero Product" 
-                    className="relative z-10 w-auto h-[80%] max-h-[600px] object-contain drop-shadow-2xl animate-float"
-                    style={{ filter: 'drop-shadow(0 25px 25px rgba(0,0,0,0.15))' }}
-                 />
-            </div>
-         </div>
+      {/* SECTION 1: Depth Gallery Hero */}
+      <section>
+        <DepthGallery />
       </section>
 
       {/* SECTION 2: Bento Grid 2.0 */}
-      <section className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 min-h-0 md:min-h-[900px]">
+      <section className="px-6 md:px-12 lg:px-20 grid grid-cols-1 md:grid-cols-4 md:grid-rows-3 gap-4 md:gap-6 min-h-0 md:min-h-[900px]">
           
           {/* Card 1: Feature Product (Large) */}
           <div 
@@ -227,7 +179,7 @@ const HomePage: React.FC<{
       </section>
 
       {/* SECTION 1.5: Minimalist Infinite Marquee */}
-      <div className="relative border-y border-gray-900/5 dark:border-white/5 bg-transparent py-4 -mx-6 md:-mx-12 lg:-mx-20 overflow-hidden hover-pause z-20">
+      <div className="relative border-y border-gray-900/5 dark:border-white/5 bg-transparent py-4 overflow-hidden hover-pause z-20">
           <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
           <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#FAFAF9] dark:from-[#121212] to-transparent z-10 pointer-events-none"></div>
           
@@ -249,7 +201,7 @@ const HomePage: React.FC<{
       </div>
 
       {/* Footer Minimalist Note */}
-      <div className="text-center py-12">
+      <div className="text-center py-12 px-6 md:px-12 lg:px-20">
           <span className="material-symbols-outlined text-gray-300 dark:text-gray-700 text-3xl mb-4">spa</span>
           <p className="text-xs text-gray-400 uppercase tracking-[0.3em]">Faceneed © 2026</p>
       </div>

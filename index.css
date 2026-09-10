@@ -151,3 +151,269 @@ body {
 .animate-shake {
     animation: shake 0.4s ease-in-out;
 }
+
+/* Depth Gallery — exact Codrops canvas.css port */
+.depth-gallery-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    touch-action: none;
+}
+
+.webgl {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    touch-action: none;
+    z-index: 0;
+}
+
+.plane-label-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 80;
+    pointer-events: none;
+    transition: opacity 260ms ease, transform 260ms ease;
+    color: rgba(30, 30, 30, 0.92);
+}
+
+.plane-label-overlay--transitioning {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.plane-label-overlay__left {
+    position: absolute;
+    left: clamp(2.5rem, 8vw, 12rem);
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    gap: 0.75rem;
+}
+
+.plane-label-overlay__index {
+    margin: 0;
+    font-size: 9px;
+    font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.plane-label-overlay__chip {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.14);
+}
+
+.plane-label-overlay__right {
+    position: absolute;
+    right: clamp(2.5rem, 7vw, 10rem);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.plane-label-card {
+    width: min(28vw, 360px);
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: start;
+    pointer-events: none;
+    opacity: 1;
+    color: inherit;
+    font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+}
+
+.plane-label-card__word {
+    margin: 0;
+    font-size: clamp(9px, 0.78vw, 11px);
+    white-space: nowrap;
+}
+
+.plane-label-product-name {
+    margin: 0 0 0.75rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+}
+
+.plane-label-product-desc {
+    margin: 0 0 0.5rem 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: none;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    opacity: 0.7;
+    max-width: 280px;
+}
+
+.plane-label-product-price {
+    margin: 0 0 1.5rem 0;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.plane-label-product-actions {
+    display: flex;
+    gap: 1rem;
+    pointer-events: auto;
+}
+
+.plane-label-btn-primary {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.plane-label-btn-secondary {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #1a1a1a;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.plane-label-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.depth-gallery-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 80;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0.6;
+    pointer-events: none;
+    animation: fadeIn 1s ease-out 1.5s forwards;
+    font-family: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    color: rgba(30, 30, 30, 0.6);
+}
+
+.depth-gallery-scroll-line {
+    width: 1px;
+    height: 2rem;
+    background: rgba(30, 30, 30, 0.3);
+    animation: scrollPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+}
+
+@keyframes loaderBar {
+    0% {
+        transform: scaleX(0);
+        transform-origin: 0% 50%;
+    }
+    50% {
+        transform: scaleX(1);
+        transform-origin: 0% 50%;
+    }
+    50.1% {
+        transform: scaleX(1);
+        transform-origin: 100% 50%;
+    }
+    100% {
+        transform: scaleX(0);
+        transform-origin: 100% 50%;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .plane-label-overlay {
+        inset: auto 0 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        padding: 0 1rem;
+    }
+
+    .plane-label-overlay__left {
+        position: static;
+        transform: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .plane-label-overlay__right {
+        position: static;
+        transform: none;
+    }
+
+    .plane-label-card {
+        width: 100%;
+    }
+
+    .plane-label-card__word {
+        font-size: 10px;
+    }
+
+    .plane-label-product-name {
+        font-size: 1.5rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .plane-label-product-desc {
+        font-size: 11px;
+        max-width: none;
+        margin-bottom: 0.25rem;
+    }
+
+    .plane-label-product-price {
+        margin-bottom: 0.75rem;
+    }
+
+    .plane-label-product-actions {
+        flex-direction: row;
+        gap: 0.75rem;
+    }
+
+    .plane-label-btn-primary,
+    .plane-label-btn-secondary {
+        padding: 0.625rem 1.25rem;
+        font-size: 9px;
+    }
+}
