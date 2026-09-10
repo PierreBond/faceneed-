@@ -11,6 +11,7 @@ import CartPage from './pages/CartPage';
 import AboutPage from './pages/AboutPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
+import AdminProductsPage from './pages/AdminProductsPage';
 import WishlistPage from './pages/WishlistPage';
 import CheckoutShippingPage from './pages/CheckoutShippingPage';
 import CheckoutPaymentPage from './pages/CheckoutPaymentPage';
@@ -26,7 +27,6 @@ import {
 } from './store';
 
 
-
 const App: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,7 +37,7 @@ const App: React.FC = () => {
   const { initUser } = useUserStore();
 
   // Initial Data Fetch
-useEffect(() => {
+  useEffect(() => {
     fetchProducts();
     initCart();
     initUser();
@@ -53,7 +53,6 @@ useEffect(() => {
   const navigateToProduct = (product: Product) => {
     navigate(`/product/${product.id}`);
   };
-
 
 
   const isCheckout = location.pathname.startsWith('/checkout') || location.pathname === '/success' || location.pathname === '/admin';
@@ -81,6 +80,9 @@ useEffect(() => {
                 <Route path="/about" element={<AboutPage onNavigate={navigate} />} />
                 <Route path="/profile" element={<ProfilePage onNavigate={navigate} />} />
                 <Route path="/admin" element={<AdminPage onNavigate={navigate} />} />
+                <Route path="/admin/products" element={<AdminProductsPage />} />
+                <Route path="/admin/products/new" element={<AdminProductsPage />} />
+                <Route path="/admin/products/:id/edit" element={<AdminProductsPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/wishlist" element={<WishlistPage onNavigate={navigate} onProductClick={navigateToProduct} />} />
                 <Route path="/product/:id" element={<ProductPage onNavigate={navigate} />} />
@@ -99,4 +101,4 @@ useEffect(() => {
   );
 };
 
-export default App;
+export default App;

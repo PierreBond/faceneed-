@@ -5,7 +5,7 @@ import { ApiService } from '../services/api';
 
 const CheckoutPaymentPage: React.FC<{
   onNavigate: (path: string) => void;
-}> = ({ onNavigate }) => {
+  }> = ({ onNavigate }) => {
   const { cart, cartId, clearCart } = useCartStore();
   const { userInfo } = useUserStore();
   const { addOrder } = useOrderStore();
@@ -169,7 +169,7 @@ const CheckoutPaymentPage: React.FC<{
                     <p className="text-sm font-bold text-slate-900 dark:text-white">{item.name}</p>
                     <p className="text-xs text-slate-500">Standard Edition</p>
                   </div>
-                  <p className="text-sm font-bold text-slate-900 dark:text-white">₵{item.price.toFixed(2)}</p>
+                  <p className="text-sm font-bold text-slate-900 dark:text-white">${item.price.toFixed(2)}</p>
                 </div>
               ))}
             </div>
@@ -181,7 +181,7 @@ const CheckoutPaymentPage: React.FC<{
             <div className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-slate-500">Subtotal</span>
-                <span className="font-medium text-slate-900 dark:text-white">₵{subtotal.toFixed(2)}</span>
+                <span className="font-medium text-slate-900 dark:text-white">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-500">Shipping</span>
@@ -189,11 +189,11 @@ const CheckoutPaymentPage: React.FC<{
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-slate-500">Taxes (Estimated)</span>
-                <span className="font-medium text-slate-900 dark:text-white">₵{tax.toFixed(2)}</span>
+                <span className="font-medium text-slate-900 dark:text-white">${tax.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-lg font-extrabold pt-3 border-t border-slate-100 dark:border-slate-800">
                 <span className="text-slate-900 dark:text-white uppercase tracking-tight">Total</span>
-                <span className="text-slate-900 dark:text-white">₵{total.toFixed(2)}</span>
+                <span className="text-slate-900 dark:text-white">${total.toFixed(2)}</span>
               </div>
             </div>
             <div className="mt-6 flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium uppercase tracking-widest">

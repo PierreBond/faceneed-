@@ -81,6 +81,10 @@ export const ApiService = {
     listShippingOptions: async (cartId: string) => {
       return request(`/store/shipping-options/${cartId}`);
     },
+    // New: Get shipping options by district
+    getShippingOptionsByDistrict: async (district: string) => {
+      return request(`/store/shipping-options?district=${encodeURIComponent(district)}`);
+    },
     addShippingMethod: async (cartId: string, optionId: string) => {
       return request(`/store/carts/${cartId}/shipping-methods`, {
         method: 'POST',
@@ -103,6 +107,19 @@ export const ApiService = {
         method: 'POST'
       });
     }
+  },
+
+  // Shipping Windows (Store API)
+  shipping: {
+    getOptionsByDistrict: async (district: string) => {
+      return request(`/store/shipping-options?district=${encodeURIComponent(district)}`);
+    },
+    getWindowStatus: async (district: string) => {
+      return request(`/store/shipping-windows/${encodeURIComponent(district)}`);
+    },
+    getOrderWindowInfo: async (orderId: string) => {
+      return request(`/store/orders/${orderId}/shipping-window`);
+    },
   },
 
   // Customers
@@ -128,5 +145,81 @@ export const ApiService = {
     logout: async () => {
       return request('/store/auth', { method: 'DELETE' });
     }
-  }
+  },
+
+  // Admin Products (requires admin auth)
+  admin: {
+    products: {
+      list: async (params: Record<string, any> = {}) => {
+        const qs = new URLSearchParams(
+          Object.entries(params)
+            .filter(([, v]) => v !== undefined && v !== null)
+            .map(([k, v]) => [k, String(v)])
+        ).toString();
+        return request(`/admin/products${qs ? `?${qs}` : ''}`);
+      },
+      retrieve: async (id: string) => {
+        return request(`/admin/products/${id}`);
+      },
+      create: async (data: any) => {
+        return request('/admin/products', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        });
+      },
+      update: async (id: string, data: any) => {
+        return request(`/admin/products/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify(data)
+        });
+      },
+      delete: async (id: string) => {
+        return request(`/admin/products/${id}`, {
+          method: 'DELETE'
+        });
+      },
+      getUploadUrls: async (id: string, files: Array<{ filename: string; content_type: string }>) => {
+        return request(`/admin/products/${id}/images`, {
+          method: 'POST',
+          body: JSON.stringify({ files })
+        });
+      },
+    },
+    categories: {
+      list: async () => {
+        return request('/admin/categories');
+      },
+    },
+    shipping: {
+      listWindows: async (params: Record<string, any> = {}) => {
+        const qs = new URLSearchParams(
+          Object.entries(params)
+            .filter(([, v]) => v !== undefined && v !== null)
+            .map(([k, v]) => [k, String(v)])
+        ).toString();
+        return request(`/admin/shipping-windows${qs ? `?${qs}` : ''}`);
+      },
+      createDistrict: async (data: any) => {
+        return request('/admin/shipping-districts', {
+          method: 'POST',
+          body: JSON.stringify(data)
+        });
+      },
+      getWindow: async (id: string) => {
+        return request(`/admin/shipping-windows/${id}`);
+      },
+      closeWindow: async (id: string) => {
+        return request(`/admin/shipping-windows/${id}`, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'close' })
+        });
+      },
+      recalculateWindow: async (id: string) => {
+        return request(`/admin/shipping-windows/${id}`, {
+          method: 'POST',
+          body: JSON.stringify({ action: 'recalculate' })
+        });
+      },
+    },
+  },
 };

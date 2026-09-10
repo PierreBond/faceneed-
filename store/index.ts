@@ -182,7 +182,7 @@ export const useUserStore = create<UserState>()(
         set((state) => ({
           userInfo: typeof info === 'function' ? info(state.userInfo) : info,
         })),
-        
+      
       initUser: async () => {
         try {
             const { customer } = await ApiService.customers.retrieve();
@@ -196,6 +196,7 @@ export const useUserStore = create<UserState>()(
                     state: customer.billing_address?.province || '',
                     zip: customer.billing_address?.postal_code || '',
                     phone: customer.phone || '',
+                    metadata: customer.metadata || {},
                 }});
             }
         } catch (err) {
@@ -269,6 +270,82 @@ export const useProductStore = create<ProductState>((set) => ({
     set((state) => ({ products: state.products.filter((p) => p.id !== id) })),
 }));
 
+// --- Admin Product Store ---
+interface AdminProductState {
+  products: any[];
+  isLoading: boolean;
+  error: string | null;
+  fetchProducts: (params?: Record<string, any>) => Promise<void>;
+  createProduct: (data: any) => Promise<any>;
+  updateProduct: (id: string, data: any) => Promise<void>;
+  deleteProduct: (id: string) => Promise<void>;
+  getUploadUrls: (files: Array<{ filename: string; content_type: string }>) => Promise<any>;
+}
+
+export const useAdminProductStore = create<AdminProductState>((set) => ({
+  products: [],
+  isLoading: false,
+  error: null,
+  fetchProducts: async (params = {}) => {
+    set({ isLoading: true, error: null });
+    try {
+      const { products } = await ApiService.admin.products.list(params);
+      set({ products, isLoading: false });
+    } catch (err: any) {
+      console.error("Failed to fetch admin products:", err);
+      set({ error: err.message, isLoading: false, products: [] });
+    }
+  },
+  createProduct: async (data) => {
+    set({ isLoading: true });
+    try {
+      const { product } = await ApiService.admin.products.create(data);
+      set((state) => ({ products: [product, ...state.products], isLoading: false }));
+      return product;
+    } catch (err: any) {
+      console.error("Failed to create product:", err);
+      set({ error: err.message, isLoading: false });
+      throw err;
+    }
+  },
+  updateProduct: async (id, data) => {
+    set({ isLoading: true });
+    try {
+      await ApiService.admin.products.update(id, data);
+      set((state) => ({
+        products: state.products.map((p) => (p.id === id ? { ...p, ...data } : p)),
+        isLoading: false,
+      }));
+    } catch (err: any) {
+      console.error("Failed to update product:", err);
+      set({ error: err.message, isLoading: false });
+      throw err;
+    }
+  },
+  deleteProduct: async (id) => {
+    set({ isLoading: true });
+    try {
+      await ApiService.admin.products.delete(id);
+      set((state) => ({
+        products: state.products.filter((p) => p.id !== id),
+        isLoading: false,
+      }));
+    } catch (err: any) {
+      console.error("Failed to delete product:", err);
+      set({ error: err.message, isLoading: false });
+      throw err;
+    }
+  },
+  getUploadUrls: async (files) => {
+    try {
+      return await ApiService.admin.products.getUploadUrls('temp', files);
+    } catch (err) {
+      console.error("Failed to get upload URLs:", err);
+      throw err;
+    }
+  },
+}));
+
 // --- Order Store ---
 interface OrderState {
   orders: Order[];
@@ -284,4 +361,68 @@ export const useOrderStore = create<OrderState>((set) => ({
     })),
   addOrder: (order) =>
     set((state) => ({ orders: [order, ...state.orders] })),
+}));
+
+// --- Admin Shipping Store ---
+interface AdminShippingState {
+  windows: any[];
+  districts: any[];
+  isLoading: boolean;
+  fetchWindows: (params?: Record<string, any>) => Promise<void>;
+  fetchDistricts: () => Promise<void>;
+  createDistrict: (data: any) => Promise<void>;
+  closeWindow: (id: string) => Promise<void>;
+  recalculateWindow: (id: string) => Promise<void>;
+}
+
+export const useAdminShippingStore = create<AdminShippingState>((set) => ({
+  windows: [],
+  districts: [],
+  isLoading: false,
+  fetchWindows: async (params = {}) => {
+    set({ isLoading: true });
+    try {
+      const { windows } = await ApiService.admin.shipping.listWindows(params);
+      set({ windows, isLoading: false });
+    } catch (err: any) {
+      console.error("Failed to fetch shipping windows:", err);
+      set({ isLoading: false });
+    }
+  },
+  fetchDistricts: async () => {
+    try {
+      const { districts } = await ApiService.admin.shipping.listWindows({}); // Would need a districts endpoint
+      set({ districts });
+    } catch (err) {
+      console.error("Failed to fetch districts:", err);
+    }
+  },
+  createDistrict: async (data) => {
+    try {
+      await ApiService.admin.shipping.createDistrict(data);
+      // Refresh districts
+    } catch (err) {
+      console.error("Failed to create district:", err);
+      throw err;
+    }
+  },
+  closeWindow: async (id) => {
+    try {
+      await ApiService.admin.shipping.closeWindow(id);
+      set((state) => ({
+        windows: state.windows.map(w => w.id === id ? { ...w, status: 'completed' } : w),
+      }));
+    } catch (err) {
+      console.error("Failed to close window:", err);
+      throw err;
+    }
+  },
+  recalculateWindow: async (id) => {
+    try {
+      await ApiService.admin.shipping.recalculateWindow(id);
+    } catch (err) {
+      console.error("Failed to recalculate window:", err);
+      throw err;
+    }
+  },
 }));

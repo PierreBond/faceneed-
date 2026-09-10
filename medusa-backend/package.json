@@ -1,0 +1,31 @@
+{
+  "name": "faceneed-medusa-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "medusa develop",
+    "build": "medusa build",
+    "start": "medusa start",
+    "db:migrate": "medusa db:migrate",
+    "db:generate": "medusa db:generate",
+    "seed": "medusa exec ./scripts/seed.ts"
+  },
+  "dependencies": {
+    "@medusajs/framework": "^2.0.0",
+    "@medusajs/medusa": "^2.0.0",
+    "@medusajs/admin": "^2.0.0",
+    "@mikro-orm/core": "^6.0.0",
+    "@mikro-orm/postgresql": "^6.0.0",
+    "@mikro-orm/migrations": "^6.0.0",
+    "pg": "^8.11.0",
+    "ioredis": "^5.3.0",
+    "resend": "^3.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "medusa": "^2.0.0"
+  }
+}

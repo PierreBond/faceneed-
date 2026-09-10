@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: faceneed
+      POSTGRES_USER: faceneed
+      POSTGRES_PASSWORD: faceneed_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U faceneed -d faceneed"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  medusa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      DATABASE_URL: postgresql://faceneed:faceneed_dev_password@postgres:5432/faceneed
+      REDIS_URL: redis://redis:6379
+      STORE_CORS: http://localhost:3000
+      ADMIN_CORS: http://localhost:9000
+      AUTH_CORS: http://localhost:3000
+      JWT_SECRET: dev-jwt-secret-change-in-production-64chars
+      COOKIE_SECRET: dev-cookie-secret-change-in-production-64chars
+      NODE_ENV: development
+      MEDUSA_ADMIN_ONBOARDING_TYPE: minimal
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+      - ./medusa-config.ts:/app/medusa-config.ts
+
+volumes:
+  postgres_data:
+  redis_data:
