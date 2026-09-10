@@ -2,6 +2,14 @@
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/container-queries";
 
+/* Hide scrollbar */
+html, body {
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+    display: none;
+}
+
 @variant dark (&:where(.dark, .dark *));
 
 @theme {
