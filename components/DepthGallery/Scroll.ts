@@ -31,6 +31,8 @@ export class Scroll {
 
   // Viewport
   private isHeroInView = false;
+  private heroEnteredView = false;
+  private hasBeenOutOfView = false;
   private touchY = 0;
   private totalPlanes = 4;
 
@@ -43,6 +45,12 @@ export class Scroll {
 
   private onWheel = (event: WheelEvent) => {
     if (!this.isHeroInView) return;
+
+    // Gallery just entered view and camera is at a bound → release to page
+    if (this.heroEnteredView && (this.isAtStartBound || this.isAtEndBound)) {
+      this.heroEnteredView = false;
+      return;
+    }
 
     const isScrollingDown = event.deltaY > 0;
     const isScrollingUp = event.deltaY < 0;
@@ -63,6 +71,12 @@ export class Scroll {
 
   private onTouchMove = (event: TouchEvent) => {
     if (!this.isHeroInView) return;
+
+    // Gallery just entered view and camera is at a bound → release to page
+    if (this.heroEnteredView && (this.isAtStartBound || this.isAtEndBound)) {
+      this.heroEnteredView = false;
+      return;
+    }
 
     const currentTouchY = event.touches[0]?.clientY ?? this.touchY;
     const deltaY = this.touchY - currentTouchY;
@@ -106,6 +120,12 @@ export class Scroll {
   }
 
   setHeroInView(inView: boolean) {
+    if (inView && !this.isHeroInView && this.hasBeenOutOfView) {
+      this.heroEnteredView = true;
+    }
+    if (!inView) {
+      this.hasBeenOutOfView = true;
+    }
     this.isHeroInView = inView;
   }
 

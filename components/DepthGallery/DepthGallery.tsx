@@ -32,9 +32,9 @@ const DepthGallery: React.FC = () => {
 
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
-        engine.setHeroInView(entry.isIntersecting && entry.intersectionRatio > 0.3);
+        engine.setHeroInView(entry.isIntersecting);
       },
-      { threshold: [0, 0.3, 0.5, 1] },
+      { threshold: 0 },
     );
     observerRef.current.observe(containerRef.current);
 
